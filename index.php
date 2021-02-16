@@ -1,14 +1,22 @@
 <?php 
 
+// Autoload needed classes
 require_once('lib/autoload.php');
+
+// Init a database connection if it doesn't exist
 $pdo = \Database::getPdo();
 
-// Test for database connection
-// $query = $pdo->prepare("SELECT * FROM roles WHERE id = :id");
-// $query->execute(['id' => 1]);
-// $item = $query->fetch();
-//
-// var_dump($item);
+// Call session_start() once
+\Session::getInstance();
+
+// Destroy current session
+if (isset($_GET['logout'])) 
+{
+    session_destroy();
+    Http::redirect($_SERVER['PHP_SELF']);
+}
+
+// var_dump($_SESSION);
 
 $type = 'front';
 $page = 'index';
