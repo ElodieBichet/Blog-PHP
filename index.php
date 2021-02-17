@@ -16,16 +16,17 @@ if (isset($_GET['logout']))
     Http::redirect($_SERVER['PHP_SELF']);
 }
 
-// var_dump($_SESSION);
-
 $type = 'front';
 $page = 'index';
 $variables = [];
 
 if (isset($_GET['admin']))
 {
-    $type = 'admin';
-    // A faire : si pas connecté, renvoyer vers la page de connexion ($page=login)
+    if (!isset($_SESSION['connection']) OR $_SESSION['connection'] == false) {
+        Http::redirect($_SERVER['PHP_SELF'] . '?page=login');
+    } else {
+        $type = 'admin';
+    }
 }
 
 if (!empty($_GET['page']))

@@ -2,7 +2,6 @@
 
 class Renderer
 {
-
     public static function render(string $type, string $path, array $variables =[]) {
         extract($variables);
         ob_start();
