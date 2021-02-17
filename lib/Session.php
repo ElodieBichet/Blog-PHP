@@ -16,4 +16,9 @@ class Session {
         session_start();
     }
 
+    static function logout(){
+        session_destroy();
+        Http::redirect($_SERVER['PHP_SELF']);
+    }
+
 }

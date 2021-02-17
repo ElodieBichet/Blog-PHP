@@ -1,10 +1,11 @@
 <?php 
 
 // Autoload needed classes
-require_once('lib/autoload.php');
+require_once('../vendor/autoload.php');
+require_once('../lib/autoload.php');
 
 // Init a database connection if it doesn't exist
-$pdo = \Database::getPdo();
+// $pdo = \Database::getPdo();
 
 // Call session_start() once
 \Session::getInstance();
@@ -12,8 +13,7 @@ $pdo = \Database::getPdo();
 // Destroy current session
 if (isset($_GET['logout'])) 
 {
-    session_destroy();
-    Http::redirect($_SERVER['PHP_SELF']);
+    \Session::logout();
 }
 
 $type = 'front';

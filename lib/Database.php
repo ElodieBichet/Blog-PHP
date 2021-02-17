@@ -1,5 +1,11 @@
 <?php 
 
+use Symfony\Component\Dotenv\Dotenv;
+use PDO;
+
+$dotenv = new Dotenv();
+// $dotenv->load(__DIR__.'/.env');
+
 class Database
 {
 
