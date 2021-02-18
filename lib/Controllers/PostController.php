@@ -1,10 +1,10 @@
 <?php
 
-namespace Controllers;
+namespace App\Controllers;
 
 class PostController extends Controller
 {
 
-    protected $modelName = \Models\Post::class;
+    protected $modelName = \App\Models\Post::class;
 
 }

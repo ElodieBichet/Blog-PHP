@@ -4,7 +4,8 @@ namespace App;
 
 class Renderer
 {
-    public static function render(string $type, string $path, array $variables =[]) {
+    public static function render(string $type='front', string $path, array $variables=[])
+    {
         extract($variables);
         ob_start();
         require('../templates/' . $type . '/' . $path . '.html.php');

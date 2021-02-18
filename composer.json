@@ -1,4 +1,6 @@
 {
+    "name": "ebichet/my_blog",
+    "description": "My PHP blog for the OpenClassrooms project",
     "require": {
         "symfony/dotenv": "^5.2"
     },

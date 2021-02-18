@@ -1,10 +1,10 @@
 <?php
 
-namespace Controllers;
+namespace App\Controllers;
 
 class UserController extends Controller
 {
 
-    protected $modelName = \Models\User::class;
+    protected $modelName = \App\Models\User::class;
 
 }

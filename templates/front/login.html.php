@@ -1,5 +1,4 @@
 <?php 
-    $pageTitle = 'Connexion au backoffice';
     $_SESSION['connection'] = true;
 ?>
 

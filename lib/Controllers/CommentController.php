@@ -1,10 +1,10 @@
 <?php
 
-namespace Controllers;
+namespace App\Controllers;
 
 class CommentController extends Controller
 {
 
-    protected $modelName = \Models\Comment::class;
+    protected $modelName = \App\Models\Comment::class;
 
 }

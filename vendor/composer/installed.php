@@ -6,19 +6,19 @@
     'aliases' => 
     array (
     ),
-    'reference' => '039cfba074411e56b339985e905f3e6a1a822150',
-    'name' => '__root__',
+    'reference' => 'cd3fd88cd735b589880a50088cae2d868fcd2aba',
+    'name' => 'ebichet/my_blog',
   ),
   'versions' => 
   array (
-    '__root__' => 
+    'ebichet/my_blog' => 
     array (
       'pretty_version' => 'dev-main',
       'version' => 'dev-main',
       'aliases' => 
       array (
       ),
-      'reference' => '039cfba074411e56b339985e905f3e6a1a822150',
+      'reference' => 'cd3fd88cd735b589880a50088cae2d868fcd2aba',
     ),
     'symfony/deprecation-contracts' => 
     array (

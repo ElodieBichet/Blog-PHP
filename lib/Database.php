@@ -3,10 +3,6 @@
 namespace App;
 
 use PDO;
-use Symfony\Component\Dotenv\Dotenv;
-
-$dotenv = new Dotenv();
-// $dotenv->load(__DIR__.'/.env');
 
 class Database
 {
@@ -27,7 +23,8 @@ class Database
      */
     public static function getPdo(): PDO
     {
-        if(self::$instance === null) {
+        if(self::$instance === null)
+        {
             self::$instance = new PDO("mysql:host=".self::DB_HOST.";dbname=".self::DB_NAME.";charset=".self::DB_CHARSET, self::DB_USERNAME, self::DB_PASSWORD, [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
