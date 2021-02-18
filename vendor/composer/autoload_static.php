@@ -11,24 +11,24 @@ class ComposerStaticInit8250f8eca1a17b7a6bcc8f1a976414f8
     );
 
     public static $prefixLengthsPsr4 = array (
-        '\\' => 
-        array (
-            '\\' => 1,
-        ),
         'S' => 
         array (
             'Symfony\\Component\\Dotenv\\' => 25,
         ),
+        'A' => 
+        array (
+            'App\\' => 4,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
-        '\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/lib',
-        ),
         'Symfony\\Component\\Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/dotenv',
+        ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/lib',
         ),
     );
 

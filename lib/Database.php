@@ -1,7 +1,9 @@
 <?php 
 
-use Symfony\Component\Dotenv\Dotenv;
+namespace App;
+
 use PDO;
+use Symfony\Component\Dotenv\Dotenv;
 
 $dotenv = new Dotenv();
 // $dotenv->load(__DIR__.'/.env');

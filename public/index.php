@@ -1,19 +1,23 @@
-<?php 
+<?php
 
-// Autoload needed classes
+// Composer autoloader
 require_once('../vendor/autoload.php');
-require_once('../lib/autoload.php');
+
+use App\Database;
+use App\Session;
+use App\Http;
+use App\Renderer;
 
 // Init a database connection if it doesn't exist
-// $pdo = \Database::getPdo();
+$pdo = Database::getPdo();
 
 // Call session_start() once
-\Session::getInstance();
+Session::getInstance();
 
 // Destroy current session
 if (isset($_GET['logout'])) 
 {
-    \Session::logout();
+    Session::logout();
 }
 
 $type = 'front';
@@ -34,4 +38,4 @@ if (!empty($_GET['page']))
     $page = $_GET['page'];
 }
 
-\Renderer::render($type, $page, $variables);
+Renderer::render($type, $page, $variables);

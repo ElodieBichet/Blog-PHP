@@ -1,5 +1,7 @@
 <?php
 
+namespace App;
+
 class Renderer
 {
     public static function render(string $type, string $path, array $variables =[]) {

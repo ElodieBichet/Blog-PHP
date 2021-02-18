@@ -1,5 +1,7 @@
 <?php
 
+namespace App;
+
 class Session {
 
     // Singleton pattern

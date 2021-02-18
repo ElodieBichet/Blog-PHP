@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '96e4721b9dc0f4a515899ff410a18e2e0f841590',
+    'reference' => '039cfba074411e56b339985e905f3e6a1a822150',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '96e4721b9dc0f4a515899ff410a18e2e0f841590',
+      'reference' => '039cfba074411e56b339985e905f3e6a1a822150',
     ),
     'symfony/deprecation-contracts' => 
     array (
