@@ -3,15 +3,13 @@
 namespace App;
 
 use PDO;
+use Symfony\Component\Dotenv\Dotenv;
+
+$dotenv = new Dotenv();
+$dotenv->load(__DIR__.'/../.env', __DIR__.'/../.env.local');
 
 class Database
 {
-
-    const DB_HOST = 'localhost';
-    const DB_NAME = 'my_blog';
-    const DB_CHARSET = 'utf8';
-    const DB_USERNAME = 'root';
-    const DB_PASSWORD = '';
 
     // Singleton pattern
     private static $instance = null;
@@ -25,7 +23,7 @@ class Database
     {
         if(self::$instance === null)
         {
-            self::$instance = new PDO("mysql:host=".self::DB_HOST.";dbname=".self::DB_NAME.";charset=".self::DB_CHARSET, self::DB_USERNAME, self::DB_PASSWORD, [
+            self::$instance = new PDO("mysql:host=".$_ENV['DB_HOST'].";dbname=".$_ENV['DB_NAME'].";charset=".$_ENV['DB_CHARSET'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
             ]);
