@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'cd3fd88cd735b589880a50088cae2d868fcd2aba',
+    'reference' => 'fcab6d4ac60cee58dc551b948d0124676ef8842a',
     'name' => 'ebichet/my_blog',
   ),
   'versions' => 
@@ -42,7 +42,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'cd3fd88cd735b589880a50088cae2d868fcd2aba',
+      'reference' => 'fcab6d4ac60cee58dc551b948d0124676ef8842a',
     ),
     'symfony/deprecation-contracts' => 
     array (
