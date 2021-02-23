@@ -1,2 +1,2 @@
 
-<p>Le contenu de l'admin par défaut</p>
+<p>Le contenu de l'admin par défaut.</p>
