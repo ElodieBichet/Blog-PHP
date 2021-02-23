@@ -6,7 +6,15 @@ class Renderer
 {
     public static function render(string $type='front', string $path, array $variables=[])
     {
+        
         extract($variables);
+        
+        // Force connection if an admin page is requested (temporary feature while waiting for a real authentication system)
+        if (($type=='admin') AND (!isset($_SESSION['connection']) OR $_SESSION['connection'] == false)) {
+            $type = 'front';
+            $path = 'login';
+            $pageTitle = 'Connexion à l\'admin';
+        }
 
         $bodyClass = 'container';
         $mainClass = '';
