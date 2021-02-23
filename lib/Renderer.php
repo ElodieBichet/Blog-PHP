@@ -6,16 +6,26 @@ class Renderer
 {
     public static function render(string $type='front', string $path, array $variables=[])
     {
+        // variables initialization
+        $pageTitle = 'Page sans titre';
+        $bodyClass = 'container';
+        $pageSidebar = '';
+        $mainClass = '';
+        $alert = '';
+        
         extract($variables);
 
-        $bodyClass = 'container';
-        $mainClass = '';
+        // Force connection if an admin page is requested (temporary feature while waiting for a real authentication system)
+        if (($type=='admin') AND (!isset($_SESSION['connection']) OR $_SESSION['connection'] == false)) {
+            $type = 'front';
+            $path = 'login';
+            $pageTitle = 'Connexion à l\'admin';
+        }
 
         ob_start();
         require('../templates/'.$type.'/inc/header.html.php');
         $pageHeader = ob_get_clean();
 
-        $pageSidebar = '';
 
         if ($type=='admin') {
             $bodyClass = 'container-fluid p-0';
