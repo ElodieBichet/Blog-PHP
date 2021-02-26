@@ -72,7 +72,7 @@ class PostController extends Controller
         $message = '';
         $post = $this->model;
 
-        if(!isset($_GET['id']) OR empty($_GET['id']))
+        if(!isset($_GET['id']) OR empty($_GET['id'])) // if no ID
         {
             $template = 'index';
             $style = 'warning';
@@ -80,7 +80,7 @@ class PostController extends Controller
         }
         else
         {
-            $DBpost = $this->model->find($_GET['id']); // search the post with this id in database and get it if it exists
+            $DBpost = $post->find($_GET['id']); // search the post with this id in database and get it if it exists
             if (!$DBpost)
             { // if not found
                 $pageTitle = 'Ajouter un post';
@@ -97,30 +97,51 @@ class PostController extends Controller
                 if (!empty($_POST))
                 {
                     
-                    if (isset($_POST['update']))
+                    if (isset($_POST['delete'])) // click on delete button
                     {
-                        $message = 'Le post a bien été mis à jour.';
-                        $post->status = self::STATUS_APPROVED;
+                        $pageTitle = 'Suppression du post #'.$post->id;
+                        
+                        $post->delete();
+
+                        if (!$post->find($post->id)) {
+                            $template = 'index';
+                            $style = 'success';
+                            $message = 'Le post #' . $post->id . ' a bien été supprimé.';
+                        } else {
+                            $template = 'editPost';
+                            $style = 'warning';
+                            $message = 'Le post #' . $post->id . ' n\'a pas pu être supprimé.';
+                        }
+
                     }
-                    if (isset($_POST['updateAsDraft']))
+                    elseif ( isset($_POST['update']) OR isset($_POST['udateAsDraft']) ) // it's just an update
                     {
-                        $message = 'Le brouillon a bien mis à jour.';
-                        $post->status = self::STATUS_DRAFT;
-                    }
-                    
-                    $post->title = htmlspecialchars($_POST['title']);
-                    // slugify the title
-                    $slugify = new Slugify();
-                    $post->slug = $slugify->slugify($post->title);
-                    $post->intro = htmlspecialchars($_POST['intro']);
-                    $post->content = htmlspecialchars($_POST['content']);
-                    if (!empty($_POST['date'])) {
-                        $post->publication_date = date('Y-m-d h:i:s', strtotime($_POST['date']));
-                    } else {
-                        $post->publication_date = date('Y-m-d h:i:s');
-                    }
-                    
-                    if ($post->update()) $style = 'success';
+
+                        if (isset($_POST['update']))
+                        {
+                            $message = 'Le post a bien été mis à jour.';
+                            $post->status = self::STATUS_APPROVED;
+                        }
+                        if (isset($_POST['updateAsDraft']))
+                        {
+                            $message = 'Le brouillon a bien mis à jour.';
+                            $post->status = self::STATUS_DRAFT;
+                        }
+                        
+                        $post->title = htmlspecialchars($_POST['title']);
+                        // slugify the title
+                        $slugify = new Slugify();
+                        $post->slug = $slugify->slugify($post->title);
+                        $post->intro = htmlspecialchars($_POST['intro']);
+                        $post->content = htmlspecialchars($_POST['content']);
+                        if (!empty($_POST['date'])) {
+                            $post->publication_date = date('Y-m-d h:i:s', strtotime($_POST['date']));
+                        } else {
+                            $post->publication_date = date('Y-m-d h:i:s');
+                        }
+                        
+                        if ($post->update()) $style = 'success';
+                    }                 
         
                 }
             }
