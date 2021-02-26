@@ -16,6 +16,7 @@ class PostController extends Controller
 
         $pageTitle = 'Ajouter un post';
         $message = '';
+        $template = 'newPost';
         $post = $this->model;
         
         if (!empty($_POST)) {
@@ -51,6 +52,8 @@ class PostController extends Controller
             } else {
                 $message .= ' sous l\'identifiant #'.$post->id.'.';
                 $style = 'success';
+                $pageTitle = 'Modifier le post #'.$post->id;
+                $template = 'editPost';
             }
 
         }
@@ -61,7 +64,7 @@ class PostController extends Controller
             $alert = '';
         }
         
-        Renderer::render('admin', 'newPost', compact('pageTitle','alert','post'));
+        Renderer::render('admin', $template, compact('pageTitle','alert','post'));
 
     }
 
