@@ -18,6 +18,7 @@ class PostController extends Controller
         $message = '';
         $template = 'newPost';
         $post = $this->model;
+        $post->publication_date = date('Y-m-d H:i:s');
         
         if (!empty($_POST)) {
             
@@ -39,11 +40,9 @@ class PostController extends Controller
             $post->slug = $slugify->slugify($post->title);
             $post->intro = htmlspecialchars($_POST['intro']);
             $post->content = htmlspecialchars($_POST['content']);
-            if (!empty($_POST['date'])) {
-                $post->publication_date = date('Y-m-d h:i:s', strtotime($_POST['date']));
-            } else {
-                $post->publication_date = date('Y-m-d h:i:s');
-            }
+            $date = (!empty($_POST['date'])) ? $_POST['date'] : date('Y-m-d');
+            $time = (!empty($_POST['time'])) ? $_POST['time'] : date('H:i:s');
+            $post->publication_date = $date.' '.$time;
             
             $post->id = $post->insert();
 
@@ -137,11 +136,9 @@ class PostController extends Controller
                         $post->slug = $slugify->slugify($post->title);
                         $post->intro = htmlspecialchars($_POST['intro']);
                         $post->content = htmlspecialchars($_POST['content']);
-                        if (!empty($_POST['date'])) {
-                            $post->publication_date = date('Y-m-d h:i:s', strtotime($_POST['date']));
-                        } else {
-                            $post->publication_date = date('Y-m-d h:i:s');
-                        }
+                        $date = (!empty($_POST['date'])) ? $_POST['date'] : date('Y-m-d');
+                        $time = (!empty($_POST['time'])) ? $_POST['time'] : date('H:i:s');
+                        $post->publication_date = $date.' '.$time;
                         
                         if ($post->update()) $style = 'success';
                     }                 

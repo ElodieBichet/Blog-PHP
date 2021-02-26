@@ -14,6 +14,10 @@
         </div>
 
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" name="date" id="date" placeholder="Date et heure de publication" value="<?= $post->publication_date ?>">
-            <label for="date">Date et heure de publication</label>
+            <input type="date" class="form-control" name="date" id="date" placeholder="Date de publication" value="<?= substr($post->publication_date, 0, 10) ?>" pattern="^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$">
+            <label for="date">Date de publication</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="time" id="time" placeholder="Heure de publication ('H:i:s')" value="<?= substr($post->publication_date, -8) ?>" pattern="^[0-2][0-9]:[0-5][0-9]:[0-5][0-9]$">
+            <label for="time">Heure de publication ('H:i:s')</label>
         </div>
