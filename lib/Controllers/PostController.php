@@ -80,7 +80,7 @@ class PostController extends Controller
         }
         else
         {
-            $DBpost = $this->model->find($_GET['id']); // get the post in database
+            $DBpost = $this->model->find($_GET['id']); // search the post with this id in database and get it if it exists
             if (!$DBpost)
             { // if not found
                 $pageTitle = 'Ajouter un post';

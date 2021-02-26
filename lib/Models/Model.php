@@ -40,14 +40,17 @@ abstract class Model
     }
 
     /**
-     * Find the item in the database thanks to its id and return it
+     * Find the item in the database thanks to a value of any column, and return it (return the first one if several rows found)
+     * 
+     * @param          $value  searched value in the database
+     * @param   string $name   name of the column in the table
      * 
      * @return object
      */
-    public function find(int $id)
+    public function find($value, string $name='id')
     {
-        $query = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE id = :id");
-        $query->execute(['id' => $id]);
+        $query = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE {$name} = :{$name}");
+        $query->execute([':'.$name => $value]);
         $item = $query->fetchObject();
 
         return $item;
