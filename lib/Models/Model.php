@@ -9,9 +9,9 @@ abstract class Model
     protected $pdo;
     protected $table;
     protected $status;
-    protected $creationDate;
-    protected $lastUpdateDate;
-    protected $publicationDate;
+    protected $creation_date;
+    protected $last_update_date;
+    protected $publication_date;
 
     function __construct()
     {
@@ -27,7 +27,18 @@ abstract class Model
     public function __get($attr) {
         return $this->$attr;
     }
-    
+
+    /**
+     * Delete the item in the database
+     * 
+     * @return object
+     */
+    public function delete() : void
+    {
+        $query = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = :id");
+        $query->execute(['id' => $this->id]);
+    }
+
     /**
      * Find the item in the database thanks to its id and return it
      * 
