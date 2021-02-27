@@ -55,4 +55,18 @@ abstract class Model
 
         return $item;
     }
+
+    /**
+     * Find the item in the database thanks to a value of any column, and return it (return the first one if several rows found)
+     * 
+     * @return 
+     */
+    public function findAll()
+    {
+        $query = $this->pdo->prepare("SELECT * FROM {$this->table}");
+        $query->execute();
+        $result = $query->fetchAll();
+
+        return $result;
+    }
 }

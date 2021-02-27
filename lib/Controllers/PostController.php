@@ -11,6 +11,26 @@ class PostController extends Controller
     
     protected $modelName = \App\Models\Post::class;
     
+    /**
+     * Display post lists
+     * 
+     */
+    public function showList() : void
+    {
+        $type = 'front';
+        $path = 'posts-list';
+        $pageTitle = 'Posts';
+        $posts = $this->model->findAll();
+        // var_dump($posts);
+
+        Renderer::render($type, $path, compact('pageTitle','posts'));
+    }
+
+
+    /**
+     * Display post creation form
+     * 
+     */
     public function add() : void
     {
 
@@ -67,6 +87,10 @@ class PostController extends Controller
 
     }
 
+    /**
+     * Display post edition form
+     * 
+     */
     public function edit() : void
     {
         $pageTitle = 'Modifier un post';
