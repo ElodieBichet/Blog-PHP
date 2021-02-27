@@ -38,4 +38,10 @@ class PageController extends Controller
         Renderer::render($type, $page, compact('pageTitle'));
     }
 
+    public function show404()
+    {
+        $pageTitle = 'Erreur 404';
+        Renderer::render('front', '404-error', compact('pageTitle'));   
+    }
+
 }

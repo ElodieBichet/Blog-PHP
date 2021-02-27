@@ -4,7 +4,7 @@ namespace App;
 
 class Renderer
 {
-    public static function render(string $type='front', string $path = '404-error', array $variables=[])
+    public static function render(string $type='front', string $path = 'index', array $variables=[])
     {
         // variables initialization
         $pageTitle = 'Page sans titre';
