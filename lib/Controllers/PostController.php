@@ -116,7 +116,7 @@ class PostController extends Controller
                         }
 
                     }
-                    elseif ( isset($_POST['update']) OR isset($_POST['udateAsDraft']) ) // it's just an update
+                    elseif ( isset($_POST['update']) OR isset($_POST['updateAsDraft']) ) // it's just an update
                     {
 
                         if (isset($_POST['update']))
