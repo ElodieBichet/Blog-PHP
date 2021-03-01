@@ -62,9 +62,9 @@ abstract class Model
      * 
      * @return 
      */
-    public function findAll()
+    public function findAll(string $condition = '1 = 1', string $order = 'last_update_date DESC')
     {
-        $query = $this->pdo->prepare("SELECT * FROM {$this->table}");
+        $query = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE " . $condition . " ORDER BY " . $order);
         $query->execute();
         $result = $query->fetchAll(PDO::FETCH_CLASS, get_class($this));
 
