@@ -17,11 +17,10 @@ class PostController extends Controller
      */
     public function showList() : void
     {
-        $type = 'front';
+        $type = (isset($_GET['admin'])) ? 'admin' : 'front';
         $path = 'posts-list';
         $pageTitle = 'Posts';
         $posts = $this->model->findAll();
-        // var_dump($posts);
 
         Renderer::render($type, $path, compact('pageTitle','posts'));
     }

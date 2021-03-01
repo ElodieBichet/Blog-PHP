@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Database;
+use PDO;
 
 abstract class Model
 {    
@@ -65,7 +66,7 @@ abstract class Model
     {
         $query = $this->pdo->prepare("SELECT * FROM {$this->table}");
         $query->execute();
-        $result = $query->fetchAll();
+        $result = $query->fetchAll(PDO::FETCH_CLASS, get_class($this));
 
         return $result;
     }

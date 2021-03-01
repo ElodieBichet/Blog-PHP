@@ -2,12 +2,12 @@
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index.php?admin">
+            <a class="nav-link" aria-current="page" href="index.php?admin">
               Tableau de bord
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="index.php?admin&controller=post&task=showList">
               Posts
             </a>
           </li>
