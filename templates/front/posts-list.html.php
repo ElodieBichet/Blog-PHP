@@ -1,9 +1,10 @@
 
 <p>Liste des posts en front.</p>
 
-<?php foreach ($posts as $post) : ?>
+<ul>
+    <?php foreach ($posts as $post) : ?>
 
-    <?= $post->title ?>
+        <li><?= $post->title ?></li>
 
-<?php endforeach; ?>
-<?php var_dump($posts); ?>
+    <?php endforeach; ?>
+</ul>
