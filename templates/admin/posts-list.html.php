@@ -1,5 +1,10 @@
+<p>
+    <form method="post">
+        <button type="submit" class="btn btn-primary" formaction="index.php?controller=post&task=add">Créer un nouveau post</button>
+    </form>
+</p>
 
-<table class="table table-striped">
+<table class="table table-striped table-responsive">
     <thead class="table-light">
         <tr>
             <td>ID</td>

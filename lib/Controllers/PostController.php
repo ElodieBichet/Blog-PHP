@@ -53,15 +53,7 @@ class PostController extends Controller
             }
 
             $post->author = 1; // default author
-            $post->title = htmlspecialchars($_POST['title']);
-            // slugify the title
-            $slugify = new Slugify();
-            $post->slug = $slugify->slugify($post->title);
-            $post->intro = htmlspecialchars($_POST['intro']);
-            $post->content = htmlspecialchars($_POST['content']);
-            $date = (!empty($_POST['date'])) ? $_POST['date'] : date('Y-m-d');
-            $time = (!empty($_POST['time'])) ? $_POST['time'] : date('H:i:s');
-            $post->publication_date = $date.' '.$time;
+            $this->dataTransform($post, $_POST);
             
             $post->id = $post->insert();
 
@@ -129,7 +121,7 @@ class PostController extends Controller
                         $post->delete();
 
                         if (!$post->find($post->id)) {
-                            $template = 'index';
+                            $template = 'posts-list';
                             $style = 'success';
                             $message = 'Le post #' . $post->id . ' a bien été supprimé.';
                         } else {
@@ -153,15 +145,7 @@ class PostController extends Controller
                             $post->status = self::STATUS_DRAFT;
                         }
                         
-                        $post->title = htmlspecialchars($_POST['title']);
-                        // slugify the title
-                        $slugify = new Slugify();
-                        $post->slug = $slugify->slugify($post->title);
-                        $post->intro = htmlspecialchars($_POST['intro']);
-                        $post->content = htmlspecialchars($_POST['content']);
-                        $date = (!empty($_POST['date'])) ? $_POST['date'] : date('Y-m-d');
-                        $time = (!empty($_POST['time'])) ? $_POST['time'] : date('H:i:s');
-                        $post->publication_date = $date.' '.$time;
+                        $this->dataTransform($post, $_POST);
                         
                         if ($post->update()) $style = 'success';
                     }                 
@@ -178,6 +162,22 @@ class PostController extends Controller
 
         Renderer::render('admin', $template, compact('pageTitle','alert','post'));
 
+    }
+
+    /**
+     * Check all the $_POST data from an add or update form
+     * 
+     */
+    public function dataTransform(object $post, array $formdata) : void {
+        $post->title = htmlspecialchars($formdata['title']);
+        // slugify the title
+        $slugify = new Slugify();
+        $post->slug = $slugify->slugify($post->title);
+        $post->intro = htmlspecialchars($formdata['intro']);
+        $post->content = htmlspecialchars($formdata['content']);
+        $date = (!empty($formdata['date'])) ? $formdata['date'] : date('Y-m-d');
+        $time = (!empty($formdata['time'])) ? $formdata['time'] : date('H:i:s');
+        $post->publication_date = $date.' '.$time;
     }
 
 }

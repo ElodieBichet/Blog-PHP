@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Cocur\Slugify\Slugify;
+
 class Post extends Model
 {
     protected $table = "posts";
@@ -41,7 +43,7 @@ class Post extends Model
     public function update() : bool
     {
         $query = $this->pdo->prepare('UPDATE '.$this->table.' SET status = :status, author = :author, title = :title, slug = :slug, intro = :intro, content = :content, publication_date = :publication_date, last_update_date = NOW() WHERE id = :id'); 
-        $query->execute(array(
+        $return = $query->execute(array(
             ':status' => $this->status,
             ':author' => $this->author,
             ':title' => $this->title,
@@ -52,6 +54,7 @@ class Post extends Model
             ':id' => $this->id
         ));
 
-        return true;
+        return $return;
     }
+
 }
