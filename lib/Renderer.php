@@ -9,13 +9,14 @@ class Renderer
         // variables initialization
         $pageTitle = 'Page sans titre';
         $alert = '';
+        $isConnected = Session::isConnected();
         
         extract($variables);
 
         // Force connection if an admin page is requested (temporary feature while waiting for a real authentication system)
         if ($type=='admin')
         {
-            if ( !isset($_SESSION['connection']) OR $_SESSION['connection'] == false )
+            if(!$isConnected)
             {
                 $type = 'front';
                 $path = 'login';

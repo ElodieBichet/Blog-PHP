@@ -19,7 +19,7 @@
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <?php if (!isset($_SESSION['connection']) OR $_SESSION['connection'] == false) : ?>
+                        <?php if(!$isConnected) : ?>
                         <a class="nav-link" href="index.php?page=login">Connexion</a>
                         <?php else : ?>
                         <a class="nav-link" href="<?=$_SERVER['PHP_SELF'] ?>?logout">Déconnexion</a>

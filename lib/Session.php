@@ -18,9 +18,16 @@ class Session {
         session_start();
     }
 
-    static function logout(){
+    static function logout() : void{
         session_destroy();
         Http::redirect($_SERVER['PHP_SELF']);
     }
 
+    static function isConnected() : bool{
+        if(empty($_SESSION)) {
+            return false;
+        } else {
+            return $_SESSION['connection'];
+        }
+    }
 }
