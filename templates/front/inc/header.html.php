@@ -1,5 +1,6 @@
-<header>
-    <nav class="navbar navbar-expand-md sticky-top navbar-light bg-light">
+<header class="pt-3">
+    <nav class="navbar navbar-expand-md fixed-top navbar-light bg-light">
+
         <div class="container-fluid">
             <a class="navbar-brand" href="index.php">My Blog</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,20 +12,25 @@
                         <a class="nav-link active" aria-current="page" href="index.php">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">News</a>
+                        <a class="nav-link" href="index.php?controller=post&task=showList">News</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
+                    <?php if(!$isConnected) : ?>
                     <li class="nav-item">
-                        <?php if (!isset($_SESSION['connection']) OR $_SESSION['connection'] == false) : ?>
                         <a class="nav-link" href="index.php?page=login">Connexion</a>
-                        <?php else : ?>
-                        <a class="nav-link" href="<?=$_SERVER['PHP_SELF'] ?>?logout">Déconnexion</a>
-                        <?php endif; ?>
                     </li>
+                    <?php else : ?>
+                    <li class="nav-item">
+                        <a class="btn btn-primary" href="index.php?admin">Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?=$_SERVER['PHP_SELF'] ?>?logout">Déconnexion</a>
+                    </li>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
