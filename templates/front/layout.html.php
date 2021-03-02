@@ -9,7 +9,7 @@
     <title><?= $pageTitle ?> - My Blog</title>
 
 </head>
-<body class="container">
+<body class="container pt-5">
 
     <?= $pageHeader ?>
 

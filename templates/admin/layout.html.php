@@ -11,11 +11,11 @@
     <title>[Admin] <?= $pageTitle ?> - My Blog</title>
 
 </head>
-<body class="container-fluid p-0">
+<body class="container-fluid p-0 pt-5">
 
     <?= $pageHeader ?>
 
-    <div class="container-fluid">
+    <div class="container-fluid pt-3">
         <div class="row">
 
             <?= $pageSidebar ?>

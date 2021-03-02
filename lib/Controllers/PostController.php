@@ -20,12 +20,13 @@ class PostController extends Controller
     {
         $type = (isset($_GET['admin'])) ? 'admin' : 'front';
         $path = 'posts-list';
-        $pageTitle = 'Posts';
-
+        
         if ($type == 'front') {
+            $pageTitle = 'News';
             $condition = 'status = 2 AND publication_date <= NOW()'; // only approved and published posts
             $order = 'publication_date DESC';
         } else {
+            $pageTitle = 'Gérer les posts';
             $condition = '1 = 1';
             $order = 'last_update_date DESC';
         }
