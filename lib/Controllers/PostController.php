@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Cocur\Slugify\Slugify;
 use App\Renderer;
 
+use function PHPSTORM_META\type;
 
 class PostController extends Controller
 {
@@ -20,7 +21,16 @@ class PostController extends Controller
         $type = (isset($_GET['admin'])) ? 'admin' : 'front';
         $path = 'posts-list';
         $pageTitle = 'Posts';
-        $posts = $this->model->findAll();
+
+        if ($type == 'front') {
+            $condition = 'status = 2 AND publication_date <= NOW()'; // only approved and published posts
+            $order = 'publication_date DESC';
+        } else {
+            $condition = '1 = 1';
+            $order = 'last_update_date DESC';
+        }
+
+        $posts = $this->model->findAll($condition, $order);
 
         Renderer::render($type, $path, compact('pageTitle','posts'));
     }
@@ -121,7 +131,7 @@ class PostController extends Controller
                         $post->delete();
 
                         if (!$post->find($post->id)) {
-                            $template = 'posts-list';
+                            $template = 'index';
                             $style = 'success';
                             $message = 'Le post #' . $post->id . ' a bien été supprimé.';
                         } else {
