@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Controllers\PageController;
 use App\Session;
 
 class Application
@@ -23,8 +24,13 @@ class Application
         }
 
         $controllerName = "\App\Controllers\\" . $controllerName . "Controller";
-
-        $controller = new $controllerName();
-        $controller->$task();
+        
+        if (method_exists ( $controllerName, $task )) {
+            $controller = new $controllerName();
+            $controller->$task();
+        } else {
+            $controller = new PageController();
+            $controller->show404();
+        }
     }
 }

@@ -23,27 +23,25 @@ class PageController extends Controller
             Session::logout();
         }
         
-        // Force connection if an admin page is requested
-        if (isset($_GET['admin']))
-        {
-            if (!isset($_SESSION['connection']) OR $_SESSION['connection'] == false)
-            {
-                $page = 'login';
-                $pageTitle = 'Connexion à l\'admin';
-            } 
-            else
-            {
-                $type = 'admin';
-                $pageTitle = 'Tableau de bord';
-            }
-        }
-
         if (!empty($_GET['page']))
         {
             $page = $_GET['page'];
         }
-
+        
+        // Connection test currently in the render function (temporary)
+        if (isset($_GET['admin']))
+        {
+            $type = 'admin';
+            $pageTitle = 'Tableau de bord';
+        }
+        
         Renderer::render($type, $page, compact('pageTitle'));
+    }
+
+    public function show404()
+    {
+        $pageTitle = 'Erreur 404';
+        Renderer::render('front', '404-error', compact('pageTitle'));   
     }
 
 }
