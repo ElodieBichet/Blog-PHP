@@ -30,4 +30,5 @@ class Session {
             return $_SESSION['connection'];
         }
     }
+
 }
