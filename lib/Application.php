@@ -15,15 +15,17 @@ class Application
 
         $controllerName = "Page";
         $task = "show";
+        $getArray = filter_input_array(INPUT_GET, array(
+            'controller' => FILTER_SANITIZE_STRING,
+            'task' => FILTER_SANITIZE_STRING
+        ));
 
-        if(!empty($_GET['controller'])) {
-            $controllerName = filter_input(INPUT_GET, 'controller', FILTER_SANITIZE_STRING);
-            $controllerName = ucfirst($controllerName);
+        if(!empty($getArray['controller'])) {
+            $controllerName = ucfirst($getArray['controller']);
         }
 
-        if(!empty($_GET['task'])) {
-            $task = filter_input(INPUT_GET, 'task', FILTER_SANITIZE_STRING);
-            $task = Controller::filter_string($task);
+        if(!empty($getArray['task'])) {
+            $task = ucfirst($getArray['task']);
         }
 
         $controllerName = "\App\Controllers\\" . $controllerName . "Controller";
