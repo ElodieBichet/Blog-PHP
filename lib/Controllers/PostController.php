@@ -18,7 +18,8 @@ class PostController extends Controller
      */
     public function showList() : void
     {
-        $type = (isset($_GET['admin'])) ? 'admin' : 'front';
+        $admin = filter_input(INPUT_GET, 'admin');
+        $type = (isset($admin)) ? 'admin' : 'front';
         $path = 'posts-list';
 
         switch($type)
@@ -53,22 +54,23 @@ class PostController extends Controller
         $template = 'newPost';
         $post = $this->model;
         $post->publication_date = date('Y-m-d H:i:s');
+        $postArray = filter_input_array(INPUT_POST); // collect global $_POST data
         
-        if (!empty($_POST)) {
+        if (!empty($postArray)) {
             
-            if (isset($_POST['save']))
+            if (isset($postArray['save']))
             {
                 $message = 'Le post a bien été enregistré en base';
                 $post->status = self::STATUS_APPROVED;
             }
-            if (isset($_POST['saveAsDraft']))
+            if (isset($postArray['saveAsDraft']))
             {
                 $message = 'Le brouillon a bien été enregistré en base';
                 $post->status = self::STATUS_DRAFT;
             }
 
             $post->author = 1; // default author
-            $this->dataTransform($post, $_POST);
+            $this->dataTransform($post, $postArray);
             
             $post->id = $post->insert();
 
@@ -102,17 +104,19 @@ class PostController extends Controller
         $template = 'editPost';
         $alert = '';
         $post = $this->model;
+        $getArray = filter_input_array(INPUT_GET); // collect global $_GET data
+        $postArray = filter_input_array(INPUT_POST); // collect global $_POST data
 
-        if(empty($_GET['id'])) // if no ID
+        if(empty($getArray['id'])) // if no ID
         {
             $template = 'index';
             $style = 'warning';
             $message = 'Vous devez spécifier l\'identifiant du post que vous souhaitez modifier.';
         }
 
-        if(!empty($_GET['id']))
+        if(!empty($getArray['id']))
         {
-            $getId = (int) $_GET['id'];
+            $getId = (int) $getArray['id'];
             $DBpost = $post->find($getId); // search the post with this id in database and get it if it exists
 
             if (!$DBpost) // if post not found in database
@@ -129,29 +133,29 @@ class PostController extends Controller
 
                 $pageTitle = 'Modifier le post #'.$post->id;
 
-                if (!empty($_POST)) // if the form is submitted
+                if (!empty($postArray)) // if the form is submitted
                 {
 
-                    if ( isset($_POST['update']) OR isset($_POST['updateAsDraft']) ) // if submit with update button
+                    if ( isset($postArray['update']) OR isset($postArray['updateAsDraft']) ) // if submit with update button
                     {
 
-                        if (isset($_POST['update']))
+                        if (isset($postArray['update']))
                         {
                             $message = 'Le post a bien été mis à jour.';
                             $post->status = self::STATUS_APPROVED;
                         }
-                        if (isset($_POST['updateAsDraft']))
+                        if (isset($postArray['updateAsDraft']))
                         {
                             $message = 'Le brouillon a bien mis à jour.';
                             $post->status = self::STATUS_DRAFT;
                         }
                         
-                        $this->dataTransform($post, $_POST);
+                        $this->dataTransform($post, $postArray);
                         
                         if ($post->update()) $style = 'success';
                     }
                     
-                    if (isset($_POST['delete'])) // if submit with delete button
+                    if (isset($postArray['delete'])) // if submit with delete button
                     {
                         $pageTitle = 'Suppression du post #'.$post->id;
                         
@@ -181,18 +185,20 @@ class PostController extends Controller
     }
 
     /**
-     * Check all the $_POST data from an add or update form
+     * Check all the $_POST data before adding or updating a post
      * 
      */
     public function dataTransform(object $post, array $formdata) : void {
-        $post->title = self::filter_string($formdata['title']);
+        // sanitize string var
+        $post->title = filter_var($formdata['title'], FILTER_SANITIZE_STRING);
+        $post->intro = filter_var($formdata['intro'], FILTER_SANITIZE_STRING);
+        $post->content = filter_var($formdata['content'], FILTER_SANITIZE_STRING);
         // slugify the title
         $slugify = new Slugify();
         $post->slug = $slugify->slugify($post->title);
-        $post->intro = self::filter_string($formdata['intro']);
-        $post->content = self::filter_string($formdata['content']);
-        $date = (!empty($formdata['date'])) ? self::filter_string($formdata['date']) : date('Y-m-d');
-        $time = (!empty($formdata['time'])) ? self::filter_string($formdata['time']) : date('H:i:s');
+        // publication date format
+        $date = (!empty($formdata['date'])) ? filter_var($formdata['date'], FILTER_SANITIZE_STRING) : date('Y-m-d');
+        $time = (!empty($formdata['time'])) ? filter_var($formdata['time'], FILTER_SANITIZE_STRING) : date('H:i:s');
         $post->publication_date = $date.' '.$time;
     }
 

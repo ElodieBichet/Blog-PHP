@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Controllers\Controller;
 use App\Controllers\PageController;
 use App\Session;
 
@@ -15,10 +14,7 @@ class Application
 
         $controllerName = "Page";
         $task = "show";
-        $getArray = filter_input_array(INPUT_GET, array(
-            'controller' => FILTER_SANITIZE_STRING,
-            'task' => FILTER_SANITIZE_STRING
-        ));
+        $getArray = filter_input_array(INPUT_GET);
 
         if(!empty($getArray['controller'])) {
             $controllerName = ucfirst($getArray['controller']);

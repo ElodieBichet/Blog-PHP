@@ -18,12 +18,4 @@ abstract class Controller
         $this->model = new $this->modelName();
     }
 
-    public static function filter_string($data) {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-
-        return $data;
-    }
-
 }
