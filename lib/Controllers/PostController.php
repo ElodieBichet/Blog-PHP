@@ -20,15 +20,19 @@ class PostController extends Controller
     {
         $type = (isset($_GET['admin'])) ? 'admin' : 'front';
         $path = 'posts-list';
-        
-        if ($type == 'front') {
-            $pageTitle = 'News';
-            $condition = 'status = 2 AND publication_date <= NOW()'; // only approved and published posts
-            $order = 'publication_date DESC';
-        } else {
-            $pageTitle = 'Gérer les posts';
-            $condition = '1 = 1';
-            $order = 'last_update_date DESC';
+
+        switch($type)
+        {
+            case 'front':
+                $pageTitle = 'News';
+                $condition = 'status = 2 AND publication_date <= NOW()'; // only approved and published posts
+                $order = 'publication_date DESC';
+                break;
+            case 'admin':
+                $pageTitle = 'Gérer les posts';
+                $condition = '1 = 1';
+                $order = 'last_update_date DESC';
+                break;
         }
 
         $posts = $this->model->findAll($condition, $order);
@@ -45,7 +49,7 @@ class PostController extends Controller
     {
 
         $pageTitle = 'Ajouter un post';
-        $message = '';
+        $alert = '';
         $template = 'newPost';
         $post = $this->model;
         $post->publication_date = date('Y-m-d H:i:s');
@@ -70,7 +74,8 @@ class PostController extends Controller
 
             if($post->id == 0) {
                 $message = 'Une erreur est survenu, le post n\'a pas pu être inséré dans la base de données.';
-            } else {
+            } 
+            if($post->id !== 0) {
                 $message .= ' sous l\'identifiant #'.$post->id.'.';
                 $style = 'success';
                 $pageTitle = 'Modifier le post #'.$post->id;
@@ -79,10 +84,8 @@ class PostController extends Controller
 
         }
 
-        if($message !== '') {
+        if(!empty($message)) {
             $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
-        } else {
-            $alert = '';
         }
         
         Renderer::render('admin', $template, compact('pageTitle','alert','post'));
@@ -97,52 +100,39 @@ class PostController extends Controller
     {
         $pageTitle = 'Modifier un post';
         $template = 'editPost';
-        $message = '';
+        $alert = '';
         $post = $this->model;
 
-        if(!isset($_GET['id']) OR empty($_GET['id'])) // if no ID
+        if(empty($_GET['id'])) // if no ID
         {
             $template = 'index';
             $style = 'warning';
             $message = 'Vous devez spécifier l\'identifiant du post que vous souhaitez modifier.';
         }
-        else
+
+        if(!empty($_GET['id']))
         {
-            $DBpost = $post->find($_GET['id']); // search the post with this id in database and get it if it exists
-            if (!$DBpost)
-            { // if not found
+            $getId = (int) $_GET['id'];
+            $DBpost = $post->find($getId); // search the post with this id in database and get it if it exists
+
+            if (!$DBpost) // if post not found in database
+            {
                 $pageTitle = 'Ajouter un post';
                 $template = 'newPost';
                 $style = 'warning';
                 $message = 'Le post que vous souhaitez modifier n\'existe pas ou l\'identifiant est incorrect. Créez un nouveau post en complétant le formulaire ci-dessous.';
             }
-            else
+
+            if (!empty($DBpost)) // if post exists in database
             {
                 foreach ($DBpost as $k => $v) $post->$k = $v;
 
                 $pageTitle = 'Modifier le post #'.$post->id;
 
-                if (!empty($_POST))
+                if (!empty($_POST)) // if the form is submitted
                 {
-                    
-                    if (isset($_POST['delete'])) // click on delete button
-                    {
-                        $pageTitle = 'Suppression du post #'.$post->id;
-                        
-                        $post->delete();
 
-                        if (!$post->find($post->id)) {
-                            $template = 'index';
-                            $style = 'success';
-                            $message = 'Le post #' . $post->id . ' a bien été supprimé.';
-                        } else {
-                            $template = 'editPost';
-                            $style = 'warning';
-                            $message = 'Le post #' . $post->id . ' n\'a pas pu être supprimé.';
-                        }
-
-                    }
-                    elseif ( isset($_POST['update']) OR isset($_POST['updateAsDraft']) ) // it's just an update
+                    if ( isset($_POST['update']) OR isset($_POST['updateAsDraft']) ) // if submit with update button
                     {
 
                         if (isset($_POST['update']))
@@ -159,16 +149,31 @@ class PostController extends Controller
                         $this->dataTransform($post, $_POST);
                         
                         if ($post->update()) $style = 'success';
-                    }                 
+                    }
+                    
+                    if (isset($_POST['delete'])) // if submit with delete button
+                    {
+                        $pageTitle = 'Suppression du post #'.$post->id;
+                        
+                        $post->delete();
+
+                        $template = 'index';
+                        $style = 'success';
+                        $message = 'Le post #' . $post->id . ' a bien été supprimé.';
+
+                        if (!empty($post->find($post->id))) { // if post still exists => delete() has failed
+                            $template = 'editPost';
+                            $style = 'warning';
+                            $message = 'Le post #' . $post->id . ' n\'a pas pu être supprimé.';
+                        }
+                    }
         
                 }
             }
         }
         
-        if($message !== '') {
+        if(!empty($message)) {
             $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
-        } else {
-            $alert = '';
         }
 
         Renderer::render('admin', $template, compact('pageTitle','alert','post'));
@@ -180,14 +185,14 @@ class PostController extends Controller
      * 
      */
     public function dataTransform(object $post, array $formdata) : void {
-        $post->title = htmlspecialchars($formdata['title']);
+        $post->title = self::filter_string($formdata['title']);
         // slugify the title
         $slugify = new Slugify();
         $post->slug = $slugify->slugify($post->title);
-        $post->intro = htmlspecialchars($formdata['intro']);
-        $post->content = htmlspecialchars($formdata['content']);
-        $date = (!empty($formdata['date'])) ? $formdata['date'] : date('Y-m-d');
-        $time = (!empty($formdata['time'])) ? $formdata['time'] : date('H:i:s');
+        $post->intro = self::filter_string($formdata['intro']);
+        $post->content = self::filter_string($formdata['content']);
+        $date = (!empty($formdata['date'])) ? self::filter_string($formdata['date']) : date('Y-m-d');
+        $time = (!empty($formdata['time'])) ? self::filter_string($formdata['time']) : date('H:i:s');
         $post->publication_date = $date.' '.$time;
     }
 

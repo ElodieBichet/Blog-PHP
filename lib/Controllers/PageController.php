@@ -25,7 +25,7 @@ class PageController extends Controller
         
         if (!empty($_GET['page']))
         {
-            $page = $_GET['page'];
+            $page = self::filter_string($_GET['page']);
         }
         
         // Connection test currently in the render function (temporary)

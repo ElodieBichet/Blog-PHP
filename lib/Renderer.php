@@ -22,7 +22,8 @@ class Renderer
                 $path = 'login';
                 $pageTitle = 'Connexion à l\'admin';
             }
-            else
+            // else
+            if($isConnected)
             {
                 ob_start();
                 require('../templates/admin/inc/sidebar.html.php');

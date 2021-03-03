@@ -20,15 +20,16 @@ class Session {
 
     static function logout() : void{
         session_destroy();
-        Http::redirect($_SERVER['PHP_SELF']);
+        $url = (!empty($_SERVER['PHP_SELF'])) ? $_SERVER['PHP_SELF'] : 'index.php';
+        Http::redirect($url);
     }
 
     static function isConnected() : bool{
         if(empty($_SESSION)) {
-            return false;
-        } else {
-            return $_SESSION['connection'];
+            $_SESSION['connection'] = false;
         }
+
+        return $_SESSION['connection'];
     }
 
 }
