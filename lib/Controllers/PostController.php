@@ -53,7 +53,6 @@ class PostController extends Controller
         $alert = '';
         $template = 'newPost';
         $post = $this->model;
-        $post->publication_date = date('Y-m-d H:i:s');
         $postArray = filter_input_array(INPUT_POST); // collect global $_POST data
         
         if (!empty($postArray)) {
@@ -197,9 +196,10 @@ class PostController extends Controller
         $slugify = new Slugify();
         $post->slug = $slugify->slugify($post->title);
         // publication date format
-        $date = (!empty($formdata['date'])) ? filter_var($formdata['date'], FILTER_SANITIZE_STRING) : date('Y-m-d');
-        $time = (!empty($formdata['time'])) ? filter_var($formdata['time'], FILTER_SANITIZE_STRING) : date('H:i:s');
-        $post->publication_date = $date.' '.$time;
+        $date = (!empty($formdata['date'])) ? filter_var($formdata['date'], FILTER_SANITIZE_STRING) : '';
+        $time = (!empty($formdata['time'])) ? filter_var($formdata['time'], FILTER_SANITIZE_STRING) : '';
+        
+        $post->publication_date = (!empty($formdata['date']) AND !empty($formdata['time'])) ? $date.' '.$time : '';
     }
 
 }
