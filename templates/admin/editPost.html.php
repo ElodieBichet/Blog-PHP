@@ -1,7 +1,7 @@
 
 <div>
 
-    <form action="<?= $_SERVER['PHP_SELF'] ?>?controller=post&task=edit&id=<?= $post->id ?>" method="POST">
+    <form action="index.php?controller=post&task=edit&id=<?= $post->id ?>" method="POST">
 
         <?php require('inc/postFields.html.php'); ?>
 

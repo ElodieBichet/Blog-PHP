@@ -12,7 +12,7 @@ class Renderer
         $isConnected = Session::isConnected();
         
         extract($variables);
-
+        
         // Force connection if an admin page is requested (temporary feature while waiting for a real authentication system)
         if ($type=='admin')
         {
@@ -22,7 +22,8 @@ class Renderer
                 $path = 'login';
                 $pageTitle = 'Connexion à l\'admin';
             }
-            else
+            // else
+            if($isConnected)
             {
                 ob_start();
                 require('../templates/admin/inc/sidebar.html.php');
@@ -40,5 +41,6 @@ class Renderer
         $pageContent = ob_get_clean();
     
         require('../templates/'.$type.'/layout.html.php');
+
     }
 }

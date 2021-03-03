@@ -14,21 +14,24 @@ class Application
 
         $controllerName = "Page";
         $task = "show";
+        $getArray = filter_input_array(INPUT_GET);
 
-        if(!empty($_GET['controller'])) {
-            $controllerName = ucfirst($_GET['controller']);
+        if(!empty($getArray['controller'])) {
+            $controllerName = ucfirst($getArray['controller']);
         }
 
-        if(!empty($_GET['task'])) {
-            $task = $_GET['task'];
+        if(!empty($getArray['task'])) {
+            $task = ucfirst($getArray['task']);
         }
 
         $controllerName = "\App\Controllers\\" . $controllerName . "Controller";
-        
+
         if (method_exists ( $controllerName, $task )) {
             $controller = new $controllerName();
             $controller->$task();
-        } else {
+        }
+        // else
+        if (!method_exists( $controllerName, $task )) {
             $controller = new PageController();
             $controller->show404();
         }
