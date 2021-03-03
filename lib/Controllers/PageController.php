@@ -16,25 +16,26 @@ class PageController extends Controller
         $type = 'front';
         $page = 'index';
         $pageTitle = 'Page d\'accueil';
+        $getArray = filter_input_array(INPUT_GET);
 
         // Destroy current session in case of deconnection
-        if (isset($_GET['logout'])) 
+        if (isset($getArray['logout'])) 
         {
             Session::logout();
         }
         
-        if (!empty($_GET['page']))
+        if (!empty($getArray['page']))
         {
-            $page = $_GET['page'];
+            $page = $getArray['page'];
         }
         
         // Connection test currently in the render function (temporary)
-        if (isset($_GET['admin']))
+        if (isset($getArray['admin']))
         {
             $type = 'admin';
             $pageTitle = 'Tableau de bord';
         }
-        
+
         Renderer::render($type, $page, compact('pageTitle'));
     }
 

@@ -23,12 +23,13 @@
                     <li class="nav-item">
                         <a class="nav-link" href="index.php?page=login">Connexion</a>
                     </li>
-                    <?php else : ?>
+                    <?php endif; ?>
+                    <?php if($isConnected) : ?>
                     <li class="nav-item">
                         <a class="btn btn-primary" href="index.php?admin">Admin</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?=$_SERVER['PHP_SELF'] ?>?logout">Déconnexion</a>
+                        <a class="nav-link" href="index.php?logout">Déconnexion</a>
                     </li>
                     <?php endif; ?>
                 </ul>

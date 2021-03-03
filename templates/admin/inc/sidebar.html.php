@@ -65,7 +65,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="<?=$_SERVER['PHP_SELF'] ?>?logout">
+            <a class="nav-link" href="index.php?logout">
               Déconnexion
             </a>
           </li>
