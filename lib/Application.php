@@ -7,23 +7,28 @@ use App\Session;
 
 class Application
 {
+    const TIMEZONE = 'Europe/Paris';
+
     public static function process()
     {
+        // Fix default timezone to match with DB
+        date_default_timezone_set(self::TIMEZONE);
+        
         // Call session_start() once
-        Session::getInstance();
-
+        $session = Session::getInstance();
+        
         $controllerName = "Page";
         $task = "show";
-        $getArray = filter_input_array(INPUT_GET);
-
+        $getArray = $session->collectInput('GET');
+        
         if(!empty($getArray['controller'])) {
             $controllerName = ucfirst($getArray['controller']);
         }
-
+        
         if(!empty($getArray['task'])) {
             $task = ucfirst($getArray['task']);
         }
-
+        
         $controllerName = "\App\Controllers\\" . $controllerName . "Controller";
 
         if (method_exists ( $controllerName, $task )) {

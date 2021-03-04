@@ -19,19 +19,12 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <?php if(!$isConnected) : ?>
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.php?page=login">Connexion</a>
-                    </li>
-                    <?php endif; ?>
-                    <?php if($isConnected) : ?>
-                    <li class="nav-item">
+                    <li class="nav-item<?= filter_var($navAdminDisplay, FILTER_SANITIZE_STRING) ?>">
                         <a class="btn btn-primary" href="index.php?admin">Admin</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php?logout">Déconnexion</a>
+                        <a class="nav-link" href="<?= filter_var($navConnectLink['href'], FILTER_SANITIZE_STRING) ?>"><?= filter_var($navConnectLink['label'], FILTER_SANITIZE_STRING) ?></a>
                     </li>
-                    <?php endif; ?>
                 </ul>
             </div>
         </div>

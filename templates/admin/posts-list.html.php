@@ -22,13 +22,13 @@
     <?php foreach ($posts as $post) : ?>
         
         <tr>
-            <td>#<?= $post->id ?></td>
-            <td><a href="index.php?controller=post&task=edit&id=<?= $post->id ?>"><?= $post->title ?></a></td>
+            <td>#<?= filter_var($post->id, FILTER_VALIDATE_INT) ?></td>
+            <td><a href="index.php?controller=post&task=edit&id=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>"><?= filter_var($post->title, FILTER_SANITIZE_STRING) ?></a></td>
             <td><?= $post->status ?></td>
             <td><?= $post->last_update_date ?></td>
             <td><?= $post->author ?></td>
-            <td><button type="submit" name="change" class="btn btn-primary" formaction="index.php?controller=post&task=edit&id=<?= $post->id ?>">Modif.</button></td>
-            <td><button type="button" name="delete" class="btn btn-danger" data-bs-postid="<?= $post->id ?>" data-bs-toggle="modal" data-bs-target="#myModal">Suppr.</button></td>
+            <td><button type="submit" name="change" class="btn btn-primary" formaction="index.php?controller=post&task=edit&id=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>">Modif.</button></td>
+            <td><button type="button" name="delete" class="btn btn-danger" data-bs-postid="<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>" data-bs-toggle="modal" data-bs-target="#myModal">Suppr.</button></td>
         </tr>
         
     <?php endforeach; ?>

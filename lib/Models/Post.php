@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
-use Cocur\Slugify\Slugify;
+use App\Input;
+use App\Rights;
 
 class Post extends Model
 {
+    use Input, Rights;
+
     protected $table = "posts";
     protected $id;
     protected $author;
@@ -21,7 +24,8 @@ class Post extends Model
      */
     public function insert() : int
     {
-        $query = $this->pdo->prepare('INSERT INTO '.$this->table.' SET status = :status, author = :author, title = :title, slug = :slug, intro = :intro, content = :content, publication_date = :publication_date, creation_date = NOW(), last_update_date = NOW()'); 
+        $req = 'INSERT INTO '.$this->table.' SET status = :status, author = :author, title = :title, slug = :slug, intro = :intro, content = :content, creation_date = NOW(), last_update_date = NOW(), publication_date = :publication_date';
+        $query = $this->pdo->prepare($req);
         $query->execute(array(
             ':status' => $this->status,
             ':author' => $this->author,
