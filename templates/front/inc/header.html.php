@@ -19,11 +19,11 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <li class="nav-item<?= $navAdminDisplay ?>">
+                    <li class="nav-item<?= filter_var($navAdminDisplay, FILTER_SANITIZE_STRING) ?>">
                         <a class="btn btn-primary" href="index.php?admin">Admin</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= $navConnectLink['href'] ?>"><?= $navConnectLink['label'] ?></a>
+                        <a class="nav-link" href="<?= filter_var($navConnectLink['href'], FILTER_SANITIZE_STRING) ?>"><?= $navConnectLink['label'] ?></a>
                     </li>
                 </ul>
             </div>
