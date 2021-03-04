@@ -7,11 +7,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Cette action est irréversible. Souhaitez-vous supprimer définitivement le post <span><?= $post->id ?></span> ?
+                    Cette action est irréversible. Souhaitez-vous supprimer définitivement le post <span><?= filter_var($post->id, FILTER_VALIDATE_INT) ?></span> ?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" id="delete" name="delete" class="btn btn-primary" formaction="index.php?controller=post&task=edit&id=<?= $post->id ?>">Supprimer le post</button>
+                    <button type="submit" id="delete" name="delete" class="btn btn-primary" formaction="index.php?controller=post&task=edit&id=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>">Supprimer le post</button>
                 </div>
                 </div>
             </div>

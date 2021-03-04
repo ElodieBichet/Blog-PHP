@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
-    <title><?= $pageTitle ?> - My Blog</title>
+    <title><?= filter_var($pageTitle, FILTER_SANITIZE_STRING) ?> - My Blog</title>
 
 </head>
 <body class="container pt-5">
@@ -17,7 +17,7 @@
 
             <main>
             
-                    <h1><?= $pageTitle ?></h1>
+                    <h1><?= filter_var($pageTitle, FILTER_SANITIZE_STRING) ?></h1>
 
                     <?= $pageContent ?>
     

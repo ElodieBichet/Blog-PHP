@@ -13,30 +13,43 @@ class PageController extends Controller
     public function show()
     {
 
-        $type = 'front';
-        $page = 'index';
+        $page = $this->model;
+        $template = 'index';
+        $page->type = 'front';
         $pageTitle = 'Page d\'accueil';
-        $getArray = filter_input_array(INPUT_GET);
+        $getArray = $page->collectInput('GET');
 
         // Destroy current session in case of deconnection
         if (isset($getArray['logout'])) 
         {
             Session::logout();
         }
+
+        if (isset($getArray['login']))
+        {
+            $template = 'login';
+            $pageTitle = 'Connexion à l\'admin';
+        }
         
         if (!empty($getArray['page']))
         {
-            $page = $getArray['page'];
+            $template = $getArray['page'];
         }
         
         // Connection test currently in the render function (temporary)
         if (isset($getArray['admin']))
         {
-            $type = 'admin';
+            $page->type = 'admin';
             $pageTitle = 'Tableau de bord';
         }
 
-        Renderer::render($type, $page, compact('pageTitle'));
+        // Force login page if an admin page is requested
+        if ($page->type=='admin')
+        {
+            $page->checkAccess();
+        }
+
+        Renderer::render($page->type, $template, compact('pageTitle'));
     }
 
     public function show404()

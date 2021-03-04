@@ -12,29 +12,31 @@ class Renderer
         $isConnected = Session::isConnected();
         
         extract($variables);
-        
-        // Force connection if an admin page is requested (temporary feature while waiting for a real authentication system)
+
+        if ($type == 'front')
+        {
+
+            $navConnectLink = array('href' => 'index.php?login', 'label' => 'Connexion');
+            $navAdminDisplay = ' d-none';
+
+            if($isConnected) {
+                $navConnectLink = array('href' => 'index.php?logout', 'label' => 'Déconnexion');
+                $navAdminDisplay = '';
+            }
+
+        }
+
+        // Get the admin sidebar template
         if ($type=='admin')
         {
-            if(!$isConnected)
-            {
-                $type = 'front';
-                $path = 'login';
-                $pageTitle = 'Connexion à l\'admin';
-            }
-            // else
-            if($isConnected)
-            {
-                ob_start();
-                require('../templates/admin/inc/sidebar.html.php');
-                $pageSidebar = ob_get_clean();
-            }
+            ob_start();
+            require('../templates/admin/inc/sidebar.html.php');
+            $pageSidebar = ob_get_clean();
         }
 
         ob_start();
         require('../templates/'.$type.'/inc/header.html.php');
         $pageHeader = ob_get_clean();
-
         
         ob_start();
         require('../templates/' . $type . '/' . $path . '.html.php');
