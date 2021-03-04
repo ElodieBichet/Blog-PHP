@@ -21,8 +21,9 @@ class Session
     }
 
     static function logout() : void{
+        $serverArray = self::getInstance()->collectInput('SERVER');
         session_destroy();
-        $url = (!empty($_SERVER['PHP_SELF'])) ? $_SERVER['PHP_SELF'] : 'index.php';
+        $url = (!empty($serverArray['PHP_SELF'])) ? $serverArray['PHP_SELF'] : 'index.php';
         Http::redirect($url);
     }
 
