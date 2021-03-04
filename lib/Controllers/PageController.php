@@ -13,9 +13,9 @@ class PageController extends Controller
     public function show()
     {
 
-        $type = 'front';
         $page = $this->model;
         $template = 'index';
+        $page->type = 'front';
         $pageTitle = 'Page d\'accueil';
         $getArray = $page->collectInput('GET');
 
@@ -23,6 +23,12 @@ class PageController extends Controller
         if (isset($getArray['logout'])) 
         {
             Session::logout();
+        }
+
+        if (isset($getArray['login']))
+        {
+            $template = 'login';
+            $pageTitle = 'Connexion à l\'admin';
         }
         
         if (!empty($getArray['page']))
@@ -33,11 +39,17 @@ class PageController extends Controller
         // Connection test currently in the render function (temporary)
         if (isset($getArray['admin']))
         {
-            $type = 'admin';
+            $page->type = 'admin';
             $pageTitle = 'Tableau de bord';
         }
 
-        Renderer::render($type, $template, compact('pageTitle'));
+        // Force login page if an admin page is requested
+        if ($page->type=='admin')
+        {
+            $page->checkAccess();
+        }
+
+        Renderer::render($page->type, $template, compact('pageTitle'));
     }
 
     public function show404()

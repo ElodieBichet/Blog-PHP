@@ -12,29 +12,39 @@ class Renderer
         $isConnected = Session::isConnected();
         
         extract($variables);
-        
-        // Force connection if an admin page is requested (temporary feature while waiting for a real authentication system)
+
+        if ($type == 'front')
+        {
+            ob_start();  
+            echo '<li class="nav-item">
+                <a class="nav-link" href="index.php?login">Connexion</a>
+            </li>';
+            $navbarItems = ob_get_clean();
+
+            if($isConnected) {
+                ob_start();
+                echo '<li class="nav-item">
+                    <a class="btn btn-primary" href="index.php?admin">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php?logout">Déconnexion</a>
+                </li>';
+                $navbarItems = ob_get_clean();
+            }
+
+        }
+
+        // Get the admin sidebar template
         if ($type=='admin')
         {
-            if(!$isConnected)
-            {
-                $type = 'front';
-                $path = 'login';
-                $pageTitle = 'Connexion à l\'admin';
-            }
-            // else
-            if($isConnected)
-            {
-                ob_start();
-                require('../templates/admin/inc/sidebar.html.php');
-                $pageSidebar = ob_get_clean();
-            }
+            ob_start();
+            require('../templates/admin/inc/sidebar.html.php');
+            $pageSidebar = ob_get_clean();
         }
 
         ob_start();
         require('../templates/'.$type.'/inc/header.html.php');
         $pageHeader = ob_get_clean();
-
         
         ob_start();
         require('../templates/' . $type . '/' . $path . '.html.php');

@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Input;
+use App\Rights;
 
 class Post extends Model
 {
-    use Input;
+    use Input, Rights;
 
     protected $table = "posts";
     protected $id;

@@ -16,10 +16,12 @@ class PostController extends Controller
      */
     public function showList() : void
     {
+        
         $admin = filter_input(INPUT_GET, 'admin');
         $type = (isset($admin)) ? 'admin' : 'front';
+        
         $path = 'posts-list';
-
+        
         switch($type)
         {
             case 'front':
@@ -28,6 +30,7 @@ class PostController extends Controller
                 $order = 'publication_date DESC';
                 break;
             case 'admin':
+                $this->model->checkAccess(); // redirect to login page if not connected
                 $pageTitle = 'Gérer les posts';
                 $condition = '1 = 1';
                 $order = 'last_update_date DESC';
@@ -51,6 +54,7 @@ class PostController extends Controller
         $alert = '';
         $template = 'newPost';
         $post = $this->model;
+        $post->checkAccess(); // redirect to login page if not connected
         $postArray = $post->collectInput('POST'); // collect global $_POST data
         
         if (!empty($postArray)) {
@@ -101,6 +105,7 @@ class PostController extends Controller
         $template = 'editPost';
         $alert = '';
         $post = $this->model;
+        $post->checkAccess(); // redirect to login page if not connected
         $getArray = $post->collectInput('GET'); // collect global $_GET data
         $postArray = $post->collectInput('POST'); // collect global $_POST data
 

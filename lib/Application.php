@@ -16,19 +16,19 @@ class Application
         
         // Call session_start() once
         $session = Session::getInstance();
-
+        
         $controllerName = "Page";
         $task = "show";
         $getArray = $session->collectInput('GET');
-
+        
         if(!empty($getArray['controller'])) {
             $controllerName = ucfirst($getArray['controller']);
         }
-
+        
         if(!empty($getArray['task'])) {
             $task = ucfirst($getArray['task']);
         }
-
+        
         $controllerName = "\App\Controllers\\" . $controllerName . "Controller";
 
         if (method_exists ( $controllerName, $task )) {
