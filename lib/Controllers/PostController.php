@@ -5,8 +5,6 @@ namespace App\Controllers;
 use Cocur\Slugify\Slugify;
 use App\Renderer;
 
-use function PHPSTORM_META\type;
-
 class PostController extends Controller
 {
     
@@ -53,7 +51,7 @@ class PostController extends Controller
         $alert = '';
         $template = 'newPost';
         $post = $this->model;
-        $postArray = filter_input_array(INPUT_POST); // collect global $_POST data
+        $postArray = $post->collectInput('POST'); // collect global $_POST data
         
         if (!empty($postArray)) {
             
@@ -103,8 +101,8 @@ class PostController extends Controller
         $template = 'editPost';
         $alert = '';
         $post = $this->model;
-        $getArray = filter_input_array(INPUT_GET); // collect global $_GET data
-        $postArray = filter_input_array(INPUT_POST); // collect global $_POST data
+        $getArray = $post->collectInput('GET'); // collect global $_GET data
+        $postArray = $post->collectInput('POST'); // collect global $_POST data
 
         if(empty($getArray['id'])) // if no ID
         {
@@ -189,16 +187,15 @@ class PostController extends Controller
      */
     public function dataTransform(object $post, array $formdata) : void {
         // sanitize string var
-        $post->title = filter_var($formdata['title'], FILTER_SANITIZE_STRING);
-        $post->intro = filter_var($formdata['intro'], FILTER_SANITIZE_STRING);
-        $post->content = filter_var($formdata['content'], FILTER_SANITIZE_STRING);
+        $post->title = $formdata['title'];
+        $post->intro = $formdata['intro'];
+        $post->content = $formdata['content'];
         // slugify the title
         $slugify = new Slugify();
         $post->slug = $slugify->slugify($post->title);
         // publication date format
-        $date = (!empty($formdata['date'])) ? filter_var($formdata['date'], FILTER_SANITIZE_STRING) : '';
-        $time = (!empty($formdata['time'])) ? filter_var($formdata['time'], FILTER_SANITIZE_STRING) : '';
-        
+        $date = (!empty($formdata['date'])) ? $formdata['date'] : '';
+        $time = (!empty($formdata['time'])) ? $formdata['time'] : '';
         $post->publication_date = (!empty($formdata['date']) AND !empty($formdata['time'])) ? $date.' '.$time : '';
     }
 

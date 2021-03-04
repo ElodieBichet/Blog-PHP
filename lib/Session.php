@@ -2,8 +2,10 @@
 
 namespace App;
 
-class Session {
+class Session 
+{
 
+    use Input;
     // Singleton pattern
     static $instance;
 

@@ -14,9 +14,10 @@ class PageController extends Controller
     {
 
         $type = 'front';
-        $page = 'index';
+        $page = $this->model;
+        $template = 'index';
         $pageTitle = 'Page d\'accueil';
-        $getArray = filter_input_array(INPUT_GET);
+        $getArray = $page->collectInput('GET');
 
         // Destroy current session in case of deconnection
         if (isset($getArray['logout'])) 
@@ -26,7 +27,7 @@ class PageController extends Controller
         
         if (!empty($getArray['page']))
         {
-            $page = $getArray['page'];
+            $template = $getArray['page'];
         }
         
         // Connection test currently in the render function (temporary)
@@ -36,7 +37,7 @@ class PageController extends Controller
             $pageTitle = 'Tableau de bord';
         }
 
-        Renderer::render($type, $page, compact('pageTitle'));
+        Renderer::render($type, $template, compact('pageTitle'));
     }
 
     public function show404()

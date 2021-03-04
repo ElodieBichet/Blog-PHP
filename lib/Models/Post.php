@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
-use Cocur\Slugify\Slugify;
+use App\Input;
 
 class Post extends Model
 {
+    use Input;
+
     protected $table = "posts";
     protected $id;
     protected $author;

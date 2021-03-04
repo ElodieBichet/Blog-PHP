@@ -7,14 +7,15 @@ use App\Session;
 
 class Application
 {
+
     public static function process()
     {
         // Call session_start() once
-        Session::getInstance();
+        $session = Session::getInstance();
 
         $controllerName = "Page";
         $task = "show";
-        $getArray = filter_input_array(INPUT_GET);
+        $getArray = $session->collectInput('GET');
 
         if(!empty($getArray['controller'])) {
             $controllerName = ucfirst($getArray['controller']);
