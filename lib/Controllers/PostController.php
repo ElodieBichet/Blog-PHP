@@ -194,9 +194,9 @@ class PostController extends Controller
         $slugify = new Slugify();
         $post->slug = $slugify->slugify($post->title);
         // publication date format
-        $date = (!empty($formdata['date'])) ? $formdata['date'] : '';
-        $time = (!empty($formdata['time'])) ? $formdata['time'] : '';
-        $post->publication_date = (!empty($formdata['date']) AND !empty($formdata['time'])) ? $date.' '.$time : '';
+        $date = (!empty($formdata['date'])) ? $formdata['date'] : date('Y-m-d');
+        $time = (!empty($formdata['time'])) ? $formdata['time'] : date('H:i:s');
+        $post->publication_date = $date.' '.$time;
     }
 
 }

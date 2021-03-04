@@ -23,8 +23,7 @@ class Post extends Model
      */
     public function insert() : int
     {
-        $publication_date = (!empty($this->publication_date)) ? $this->publication_date : 'NOW()';
-        $req = 'INSERT INTO '.$this->table.' SET status = :status, author = :author, title = :title, slug = :slug, intro = :intro, content = :content, creation_date = NOW(), last_update_date = NOW(), publication_date = '.$publication_date;
+        $req = 'INSERT INTO '.$this->table.' SET status = :status, author = :author, title = :title, slug = :slug, intro = :intro, content = :content, creation_date = NOW(), last_update_date = NOW(), publication_date = :publication_date';
         $query = $this->pdo->prepare($req);
         $query->execute(array(
             ':status' => $this->status,
@@ -32,7 +31,8 @@ class Post extends Model
             ':title' => $this->title,
             ':slug' => $this->slug,
             ':intro' => $this->intro,
-            ':content' => $this->content
+            ':content' => $this->content,
+            ':publication_date' => $this->publication_date
         ));
 
         return $this->pdo->lastInsertId();
