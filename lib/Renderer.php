@@ -15,21 +15,13 @@ class Renderer
 
         if ($type == 'front')
         {
-            ob_start();  
-            echo '<li class="nav-item">
-                <a class="nav-link" href="index.php?login">Connexion</a>
-            </li>';
-            $navbarItems = ob_get_clean();
+
+            $navConnectLink = array('href' => 'index.php?login', 'label' => 'Connexion');
+            $navAdminDisplay = ' d-none';
 
             if($isConnected) {
-                ob_start();
-                echo '<li class="nav-item">
-                    <a class="btn btn-primary" href="index.php?admin">Admin</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php?logout">Déconnexion</a>
-                </li>';
-                $navbarItems = ob_get_clean();
+                $navConnectLink = array('href' => 'index.php?logout', 'label' => 'Déconnexion');
+                $navAdminDisplay = '';
             }
 
         }

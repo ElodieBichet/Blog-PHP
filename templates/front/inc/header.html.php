@@ -19,7 +19,12 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <?= $navbarItems ?>
+                    <li class="nav-item<?= $navAdminDisplay ?>">
+                        <a class="btn btn-primary" href="index.php?admin">Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= $navConnectLink['href'] ?>"><?= $navConnectLink['label'] ?></a>
+                    </li>
                 </ul>
             </div>
         </div>
