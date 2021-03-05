@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use App\Input;
-use App\Rights;
+use App\Http;
 
 class Post extends Model
 {
-    use Input, Rights;
+    use Http;
 
     protected $table = "posts";
     protected $id;
