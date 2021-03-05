@@ -4,12 +4,12 @@ namespace App;
 
 class Renderer
 {
-    public static function render(string $type='front', string $path = 'index', array $variables=[])
+
+    public static function render(string $type='front', string $path = 'index', bool $isConnected = false, array $variables=[])
     {
         // variables initialization
         $pageTitle = 'Page sans titre';
         $alert = '';
-        $isConnected = Session::isConnected();
         
         extract($variables);
 
@@ -45,4 +45,5 @@ class Renderer
         require('../templates/'.$type.'/layout.html.php');
 
     }
+
 }

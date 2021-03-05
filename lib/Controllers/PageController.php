@@ -2,9 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Renderer;
-use App\Session;
-
 class PageController extends Controller
 {
 
@@ -22,7 +19,7 @@ class PageController extends Controller
         // Destroy current session in case of deconnection
         if (isset($getArray['logout'])) 
         {
-            Session::logout();
+            $page->logout();
         }
 
         if (isset($getArray['login']))
@@ -36,7 +33,6 @@ class PageController extends Controller
             $template = $getArray['page'];
         }
         
-        // Connection test currently in the render function (temporary)
         if (isset($getArray['admin']))
         {
             $page->type = 'admin';
@@ -46,16 +42,16 @@ class PageController extends Controller
         // Force login page if an admin page is requested
         if ($page->type=='admin')
         {
-            $page->checkAccess();
+            $this->checkAccess();
         }
 
-        Renderer::render($page->type, $template, compact('pageTitle'));
+        $this->display($page->type, $template, compact('pageTitle'));
     }
 
     public function show404()
     {
         $pageTitle = 'Erreur 404';
-        Renderer::render('front', '404-error', compact('pageTitle'));   
+        $this->display('front', '404-error', compact('pageTitle'));   
     }
 
 }

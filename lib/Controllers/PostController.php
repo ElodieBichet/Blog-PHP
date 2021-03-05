@@ -2,9 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Http;
 use Cocur\Slugify\Slugify;
-use App\Renderer;
 
 class PostController extends Controller
 {
@@ -31,7 +29,7 @@ class PostController extends Controller
                 $order = 'publication_date DESC';
                 break;
             case 'admin':
-                $this->model->checkAccess(); // redirect to login page if not connected
+                $this->checkAccess(); // redirect to login page if not connected
                 $pageTitle = 'Gérer les posts';
                 $condition = '1 = 1';
                 $order = 'last_update_date DESC';
@@ -40,7 +38,7 @@ class PostController extends Controller
 
         $posts = $this->model->findAll($condition, $order);
 
-        Renderer::render($type, $path, compact('pageTitle','posts'));
+        $this->display($type, $path, compact('pageTitle','posts'));
     }
 
     /**
@@ -56,7 +54,7 @@ class PostController extends Controller
 
         if(empty($getArray['id'])) // if no ID
         {
-            Http::redirect('index.php?controller=page&task=show404');
+            $post->redirect('index.php?controller=page&task=show404');
         }
 
         if(!empty($getArray['id']))
@@ -66,7 +64,7 @@ class PostController extends Controller
 
             if (!$DBpost)
             {
-                Http::redirect('index.php?controller=page&task=show404');
+                $post->redirect('index.php?controller=page&task=show404');
             }
 
             if (!empty($DBpost)) // if post exists in database
@@ -74,14 +72,14 @@ class PostController extends Controller
                 foreach ($DBpost as $k => $v) $post->$k = $v;
                 if ( ($post->status != self::STATUS_APPROVED) OR (strtotime($post->publication_date) > time()) )
                 {
-                    Http::redirect('index.php?controller=page&task=show404');
+                    $post->redirect('index.php?controller=page&task=show404');
                 }
 
                 $pageTitle = $post->title;
             }
         }
 
-        Renderer::render($type, $path, compact('pageTitle','post'));
+        $this->display($type, $path, compact('pageTitle','post'));
     }
 
 
@@ -92,11 +90,13 @@ class PostController extends Controller
     public function add() : void
     {
 
+        $this->checkAccess(); // redirect to login page if not connected
+
         $pageTitle = 'Ajouter un post';
         $alert = '';
         $template = 'newPost';
         $post = $this->model;
-        $post->checkAccess(); // redirect to login page if not connected
+
         $postArray = $post->collectInput('POST'); // collect global $_POST data
         
         if (!empty($postArray)) {
@@ -133,7 +133,7 @@ class PostController extends Controller
             $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
         }
         
-        Renderer::render('admin', $template, compact('pageTitle','alert','post'));
+        $this->display('admin', $template, compact('pageTitle','alert','post'));
 
     }
 
@@ -147,7 +147,7 @@ class PostController extends Controller
         $template = 'editPost';
         $alert = '';
         $post = $this->model;
-        $post->checkAccess(); // redirect to login page if not connected
+        $this->checkAccess(); // redirect to login page if not connected
         $getArray = $post->collectInput('GET'); // collect global $_GET data
         $postArray = $post->collectInput('POST'); // collect global $_POST data
 
@@ -190,7 +190,7 @@ class PostController extends Controller
             $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
         }
 
-        Renderer::render('admin', $template, compact('pageTitle','alert','post'));
+        $this->display('admin', $template, compact('pageTitle','alert','post'));
 
     }
 
