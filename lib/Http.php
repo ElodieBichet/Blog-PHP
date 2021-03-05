@@ -24,7 +24,7 @@ trait Http
   public function redirect(string $url): void
   {
       header("Location: $url");
-      exit(0);
+      exit();
   }
 
 
