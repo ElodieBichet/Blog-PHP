@@ -27,7 +27,7 @@ class PostController extends Controller
         {
             case 'front':
                 $pageTitle = 'News';
-                $condition = 'status = 2 AND publication_date <= NOW()'; // only approved and published posts
+                $condition = 'status = '.self::STATUS_APPROVED.' AND publication_date <= NOW()'; // only approved and published posts
                 $order = 'publication_date DESC';
                 break;
             case 'admin':
@@ -72,6 +72,10 @@ class PostController extends Controller
             if (!empty($DBpost)) // if post exists in database
             {
                 foreach ($DBpost as $k => $v) $post->$k = $v;
+                if ( ($post->status != self::STATUS_APPROVED) OR (strtotime($post->publication_date) > time()) )
+                {
+                    Http::redirect('index.php?controller=page&task=show404');
+                }
 
                 $pageTitle = $post->title;
             }
