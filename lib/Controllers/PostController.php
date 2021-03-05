@@ -156,7 +156,6 @@ class PostController extends Controller
             $template = 'index';
             $style = 'warning';
             $message = 'Vous devez spécifier l\'identifiant du post que vous souhaitez modifier.';
-            goto end;
         }
 
         if(!empty($getArray['id']))
@@ -170,7 +169,6 @@ class PostController extends Controller
                 $template = 'newPost';
                 $style = 'warning';
                 $message = 'Le post que vous souhaitez modifier n\'existe pas ou l\'identifiant est incorrect. Créez un nouveau post en complétant le formulaire ci-dessous.';
-                goto end;
             }
 
             if (!empty($DBpost)) // if post exists in database
@@ -187,8 +185,6 @@ class PostController extends Controller
             }
 
         }
-        
-        end:
 
         if(!empty($message)) {
             $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
@@ -240,7 +236,6 @@ class PostController extends Controller
             $this->dataTransform($post, $postArray);
             
             if ($post->update()) $style = 'success';
-            goto end;
         }
         
         if (isset($postArray['delete'])) // if submit with delete button
@@ -249,19 +244,17 @@ class PostController extends Controller
             
             $deleteSuccess = $post->delete();
 
+            $template = 'index';
+            $style = 'success';
+            $message = 'Le post #' . $post->id . ' a bien été supprimé.';
+
             if (!$deleteSuccess) { // if delete() has failed
                 $template = 'editPost';
                 $style = 'danger';
                 $message = 'Le post #' . $post->id . ' n\'a pas pu être supprimé.';
-                goto end;
             }
-
-            $template = 'index';
-            $style = 'success';
-            $message = 'Le post #' . $post->id . ' a bien été supprimé.';
         }
 
-        end:
         return array($template, $message, $style);
 
     }
