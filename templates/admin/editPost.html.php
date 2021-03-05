@@ -1,7 +1,7 @@
 
 <div>
 
-    <form action="index.php?controller=post&task=edit&id=<?= $post->id ?>" method="POST">
+    <form action="index.php?controller=post&task=edit&id=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>" method="POST">
 
         <?php require('inc/postFields.html.php'); ?>
 

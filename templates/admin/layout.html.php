@@ -8,7 +8,7 @@
 
     <link href="css/admin.css" rel="stylesheet">
 
-    <title>[Admin] <?= $pageTitle ?> - My Blog</title>
+    <title>[Admin] <?= filter_var($pageTitle, FILTER_SANITIZE_STRING) ?> - My Blog</title>
 
 </head>
 <body class="container-fluid p-0 pt-5">
@@ -22,7 +22,7 @@
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             
-                    <h1><?= $pageTitle ?></h1>
+                    <h1><?= filter_var($pageTitle, FILTER_SANITIZE_STRING) ?></h1>
                     
                     <?= $alert ?>
                     <?= $pageContent ?>
