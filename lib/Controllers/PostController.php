@@ -173,47 +173,13 @@ class PostController extends Controller
 
                 $pageTitle = 'Modifier le post #'.$post->id;
 
-                if (!empty($postArray)) // if the form is submitted
+                if (!empty($postArray))
                 {
-
-                    if ( isset($postArray['update']) OR isset($postArray['updateAsDraft']) ) // if submit with update button
-                    {
-
-                        if (isset($postArray['update']))
-                        {
-                            $message = 'Le post a bien été mis à jour.';
-                            $post->status = self::STATUS_APPROVED;
-                        }
-                        if (isset($postArray['updateAsDraft']))
-                        {
-                            $message = 'Le brouillon a bien mis à jour.';
-                            $post->status = self::STATUS_DRAFT;
-                        }
-                        
-                        $this->dataTransform($post, $postArray);
-                        
-                        if ($post->update()) $style = 'success';
-                    }
-                    
-                    if (isset($postArray['delete'])) // if submit with delete button
-                    {
-                        $pageTitle = 'Suppression du post #'.$post->id;
-                        
-                        $post->delete();
-
-                        $template = 'index';
-                        $style = 'success';
-                        $message = 'Le post #' . $post->id . ' a bien été supprimé.';
-
-                        if (!empty($post->find($post->id))) { // if post still exists => delete() has failed
-                            $template = 'editPost';
-                            $style = 'warning';
-                            $message = 'Le post #' . $post->id . ' n\'a pas pu être supprimé.';
-                        }
-                    }
-        
+                    $pageTitle = (isset($postArray['delete'])) ? 'Suppression du post #'.$post->id : $pageTitle;
+                    list($template, $message, $style) = $this->doActionForm($postArray, $post);
                 }
             }
+
         }
         
         if(!empty($message)) {
@@ -240,6 +206,53 @@ class PostController extends Controller
         $date = (!empty($formdata['date'])) ? $formdata['date'] : date('Y-m-d');
         $time = (!empty($formdata['time'])) ? $formdata['time'] : date('H:i:s');
         $post->publication_date = $date.' '.$time;
+    }
+
+    public function doActionForm(array $postArray, object $post) : array
+    {
+
+        $template = 'editPost';
+        $style = '';
+        $message = '';
+
+        if ( isset($postArray['update']) OR isset($postArray['updateAsDraft']) ) // if submit with update button
+        {
+
+            if (isset($postArray['update']))
+            {
+                $message = 'Le post a bien été mis à jour.';
+                $post->status = self::STATUS_APPROVED;
+            }
+            if (isset($postArray['updateAsDraft']))
+            {
+                $message = 'Le brouillon a bien mis à jour.';
+                $post->status = self::STATUS_DRAFT;
+            }
+            
+            $this->dataTransform($post, $postArray);
+            
+            if ($post->update()) $style = 'success';
+        }
+        
+        if (isset($postArray['delete'])) // if submit with delete button
+        {
+            $pageTitle = 'Suppression du post #'.$post->id;
+            
+            $deleteSuccess = $post->delete();
+
+            $template = 'index';
+            $style = 'success';
+            $message = 'Le post #' . $post->id . ' a bien été supprimé.';
+
+            if (!$deleteSuccess) { // if delete() has failed
+                $template = 'editPost';
+                $style = 'warning';
+                $message = 'Le post #' . $post->id . ' n\'a pas pu être supprimé.';
+            }
+        }
+
+        return array($template, $message, $style);
+
     }
 
 }
