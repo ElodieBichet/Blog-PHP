@@ -28,11 +28,9 @@ class Session
     }
 
     static function isConnected() : bool{
-        if(empty($_SESSION)) {
-            $_SESSION['connection'] = false;
-        }
+        $connection = (array_key_exists('connection', $_SESSION)) ? filter_var($_SESSION['connection'], FILTER_SANITIZE_STRING) : false;
 
-        return $_SESSION['connection'];
+        return $connection;
     }
 
 }
