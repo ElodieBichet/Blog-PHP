@@ -34,10 +34,12 @@ abstract class Model
      * 
      * @return object
      */
-    public function delete() : void
+    public function delete() : bool
     {
         $query = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = :id");
-        $query->execute(['id' => $this->id]);
+        $result = $query->execute(['id' => $this->id]);
+        
+        return $result;
     }
 
     /**

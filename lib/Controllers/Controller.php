@@ -2,9 +2,12 @@
 
 namespace App\Controllers;
 
+use App\Rights;
+
 abstract class Controller
 {
-
+    use Rights;
+    
     const STATUS_DRAFT = 0;
     const STATUS_SUBMITTED = 1;
     const STATUS_APPROVED = 2;
