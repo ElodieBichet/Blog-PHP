@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Http;
 use Cocur\Slugify\Slugify;
 use App\Renderer;
 
@@ -40,6 +41,43 @@ class PostController extends Controller
         $posts = $this->model->findAll($condition, $order);
 
         Renderer::render($type, $path, compact('pageTitle','posts'));
+    }
+
+    /**
+     * Display one post page
+     * 
+     */
+    public function show() : void
+    {
+        $post = $this->model;
+        $getArray = $post->collectInput('GET'); // collect global $_GET data
+        $type = 'front';
+        $path = 'post';
+
+        if(empty($getArray['id'])) // if no ID
+        {
+            Http::redirect('index.php?controller=page&task=show404');
+        }
+
+        if(!empty($getArray['id']))
+        {
+            $getId = (int) $getArray['id'];
+            $DBpost = $post->find($getId); // search the post with this id in database and get it if it exists
+
+            if (!$DBpost)
+            {
+                Http::redirect('index.php?controller=page&task=show404');
+            }
+
+            if (!empty($DBpost)) // if post exists in database
+            {
+                foreach ($DBpost as $k => $v) $post->$k = $v;
+
+                $pageTitle = $post->title;
+            }
+        }
+
+        Renderer::render($type, $path, compact('pageTitle','post'));
     }
 
 
