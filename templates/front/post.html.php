@@ -10,12 +10,8 @@
     </div>
 
     <div>
-    <!-- Comments list -->
-        
-    <!-- Comments form -->
-        <p>
-            Déposez un commentaire.
-        </p>
+        <!-- Comments form -->
+        <h2 class="my-3">Déposez un commentaire.</h2>
         <form method="POST" action="index.php?controller=comment&task=submit">
             <input type="hidden" name="post_id" value="<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>">
             <div class="form-floating mb-3">
@@ -32,6 +28,29 @@
             </div>
             <button type="submit" name="submit" class="btn btn-primary">Soumettre</button>
         </form>
+
+        <!-- Comments list -->
+        <h2 class="d-inline-block align-middle my-3">Commentaires</h2> <span class="badge bg-secondary rounded-pill align-middle"><?= $post->nb_comments ?></span>
+        <?php if ($post->nb_comments > 0) : ?>
+        <ul class="list-unstyled">
+            <?php foreach ($comments as $comment) : ?>
+            <li id="comment-<?= $comment->id ?>" class="my-4">
+            #<?= $comment->id ?>
+                <p class="d-inline-block border-bottom border-end border-2 py-2 px-3 mx-2 rounded position-relative bg-light" style="min-width: 6em;">
+                    <?= $comment->content ?>
+                    <span class="d-block position-absolute top-100" style="width: 0; height: 0; left: 2.4em; border-top: 18px solid #dee2e6; border-right: 15px solid transparent;"></span>
+                    <span class="d-block position-absolute top-100" style="width: 0; height: 0; left: 2.4em; border-top: 15px solid #f8f9fa; border-right: 12px solid transparent;"></span>
+                </p>
+                <p class="small">
+                    <span class="fw-bold"><?= $comment->author ?></span><span class="text-muted"> | <?= date('\l\e d/m/Y à H:i', strtotime($comment->creation_date)) ?></span>
+                </p>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+        <?php else : ?>
+        <p>Pas encore de commentaire pour ce post.</p>
+        <?php endif; ?>
+        
     </div>
 
 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Comment;
 use Cocur\Slugify\Slugify;
 
 class PostController extends Controller
@@ -48,6 +49,7 @@ class PostController extends Controller
     public function show() : void
     {
         $post = $this->model;
+        $comment = new Comment();
         $getArray = $post->collectInput('GET'); // collect global $_GET data
         $pageTitle = '';
         $alert = '';
@@ -70,6 +72,7 @@ class PostController extends Controller
             if (!empty($DBpost)) // if post exists in database
             {
                 foreach ($DBpost as $k => $v) $post->$k = $v;
+
                 if ( ($post->status != self::STATUS_APPROVED) OR (strtotime($post->publication_date) > time()) )
                 {
                     $post->redirect('index.php?controller=page&task=show404');
@@ -90,11 +93,15 @@ class PostController extends Controller
             
                 }
 
+                $condition = 'post_id = '.$post->id.' AND status = 1';
+                $comments = $comment->findAll($condition, 'creation_date DESC');
+                $post->nb_comments = count($comments);
+
                 $pageTitle = $post->title;
             }
         }
 
-        $this->display('front', 'post', compact('pageTitle','post','alert'));
+        $this->display('front', 'post', compact('pageTitle','post','comments','alert'));
     }
 
     /**
