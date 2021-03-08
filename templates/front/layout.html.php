@@ -19,6 +19,7 @@
             
                     <h1><?= filter_var($pageTitle, FILTER_SANITIZE_STRING) ?></h1>
 
+                    <?= $alert ?>
                     <?= $pageContent ?>
     
             </main>

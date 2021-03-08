@@ -11,6 +11,11 @@
 
         <?php require('inc/modal.html.php'); ?>
 
+        <p>
+            <button type="submit" name="manage_comments" class="btn btn-link btn-sm" formaction="index.php?admin&controller=comment&task=showList&postid=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>">Gérer les commentaires de ce post</button>
+        </p>
+            
     </form>
+
 
 </div>

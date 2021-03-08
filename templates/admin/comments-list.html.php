@@ -21,7 +21,7 @@
             <td>#<?= filter_var($comment->post_id, FILTER_VALIDATE_INT) ?></td>
             <td><?= filter_var($comment->author, FILTER_SANITIZE_STRING) ?></td>
             <td><?= filter_var($comment->content, FILTER_SANITIZE_STRING) ?></td>
-            <td><?= $comment->status ?></td>
+            <td><?= filter_var($comment->status, FILTER_VALIDATE_INT) ?></td>
             <td><?= $comment->creation_date ?></td>
             <td>
                 <button disabled type="submit" name="change" class="btn btn-primary" formaction="index.php?controller=post&task=edit&id=<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>">Modif.</button>

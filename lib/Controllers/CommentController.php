@@ -11,17 +11,33 @@ class CommentController extends Controller
      * Display comments list in admin
      * 
      */
-    public function showList($post_id = null) : void
+    public function showList() : void
     {
         $this->checkAccess(); // redirect to login page if not connected
         
         $pageTitle = 'Gérer les commentaires';
         $condition = '1 = 1';
         $order = 'creation_date DESC';
+        $post_id = filter_input(INPUT_GET, 'postid');
+        $alert = '';
+
+        if (!empty($post_id))
+        {
+            $post_id = (int) $post_id;
+            $pageTitle = 'Gérer les commentaires du post #'.$post_id;
+            $condition = 'post_id = '.$post_id;
+        }
 
         $comments = $this->model->findAll($condition, $order);
+        
+        if(empty($comments))
+        {
+            $style = 'warning';
+            $message = 'Aucun commentaire trouvé avec ces critères';
+            $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
+        }
 
-        $this->display('admin', 'comments-list', compact('pageTitle','comments'));
+        $this->display('admin', 'comments-list', compact('pageTitle','comments','alert'));
     }
 
     /**
