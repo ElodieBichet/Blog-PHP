@@ -49,8 +49,8 @@ class PostController extends Controller
     {
         $post = $this->model;
         $getArray = $post->collectInput('GET'); // collect global $_GET data
-        $type = 'front';
-        $path = 'post';
+        $pageTitle = '';
+        $alert = '';
 
         if(empty($getArray['id'])) // if no ID
         {
@@ -75,13 +75,27 @@ class PostController extends Controller
                     $post->redirect('index.php?controller=page&task=show404');
                 }
 
+                if (isset($getArray['comment']))
+                {
+                    $message = 'Votre commentaire a été envoyé. Il sera publié après modération par un administrateur.';
+                    $style = 'success';
+                    
+                    if ($getArray['comment'] != 'submitted')
+                    {
+                        $message = 'Une erreur est survenue, le commentaire n\'a pas pu être envoyé.';
+                        $style = 'danger';
+                    }
+
+                    $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
+            
+                }
+
                 $pageTitle = $post->title;
             }
         }
 
-        $this->display($type, $path, compact('pageTitle','post'));
+        $this->display('front', 'post', compact('pageTitle','post','alert'));
     }
-
 
     /**
      * Display post creation form
@@ -118,7 +132,7 @@ class PostController extends Controller
             $post->id = $post->insert();
 
             if($post->id == 0) {
-                $message = 'Une erreur est survenu, le post n\'a pas pu être inséré dans la base de données.';
+                $message = 'Une erreur est survenue, le post n\'a pas pu être inséré dans la base de données.';
             } 
             if($post->id !== 0) {
                 $message .= ' sous l\'identifiant #'.$post->id.'.';
@@ -199,7 +213,6 @@ class PostController extends Controller
      * 
      */
     public function dataTransform(object $post, array $formdata) : void {
-        // sanitize string var
         $post->title = $formdata['title'];
         $post->intro = $formdata['intro'];
         $post->content = $formdata['content'];
