@@ -8,6 +8,23 @@ class CommentController extends Controller
     protected $modelName = \App\Models\Comment::class;
 
     /**
+     * Display comments list in admin
+     * 
+     */
+    public function showList($post_id = null) : void
+    {
+        $this->checkAccess(); // redirect to login page if not connected
+        
+        $pageTitle = 'Gérer les commentaires';
+        $condition = '1 = 1';
+        $order = 'creation_date DESC';
+
+        $comments = $this->model->findAll($condition, $order);
+
+        $this->display('admin', 'comments-list', compact('pageTitle','comments'));
+    }
+
+    /**
      * Submit a comment
      * 
      */
