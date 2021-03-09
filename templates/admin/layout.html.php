@@ -13,19 +13,19 @@
 </head>
 <body class="container-fluid p-0 pt-5">
 
-    <?= $pageHeader ?>
+    <?= filter_var($pageHeader) ?>
 
     <div class="container-fluid pt-3">
         <div class="row">
 
-            <?= $pageSidebar ?>
+            <?= filter_var($pageSidebar) ?>
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             
                     <h1><?= filter_var($pageTitle, FILTER_SANITIZE_STRING) ?></h1>
                     
-                    <?= $alert ?>
-                    <?= $pageContent ?>
+                    <?= filter_var($alert) ?>
+                    <?= filter_var($pageContent) ?>
     
             </main>
 

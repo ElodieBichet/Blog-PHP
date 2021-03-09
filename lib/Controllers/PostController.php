@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\Comment;
 use Cocur\Slugify\Slugify;
 
 class PostController extends Controller
@@ -48,9 +49,10 @@ class PostController extends Controller
     public function show() : void
     {
         $post = $this->model;
+        $comment = new Comment();
         $getArray = $post->collectInput('GET'); // collect global $_GET data
-        $type = 'front';
-        $path = 'post';
+        $pageTitle = '';
+        $alert = '';
 
         if(empty($getArray['id'])) // if no ID
         {
@@ -70,18 +72,37 @@ class PostController extends Controller
             if (!empty($DBpost)) // if post exists in database
             {
                 foreach ($DBpost as $k => $v) $post->$k = $v;
+
                 if ( ($post->status != self::STATUS_APPROVED) OR (strtotime($post->publication_date) > time()) )
                 {
                     $post->redirect('index.php?controller=page&task=show404');
                 }
 
+                if (isset($getArray['comment']))
+                {
+                    $message = 'Votre commentaire a été envoyé. Il sera publié après modération par un administrateur.';
+                    $style = 'success';
+                    
+                    if ($getArray['comment'] != 'submitted')
+                    {
+                        $message = 'Une erreur est survenue, le commentaire n\'a pas pu être envoyé.';
+                        $style = 'danger';
+                    }
+
+                    $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
+            
+                }
+
+                $condition = 'post_id = '.$post->id.' AND status = '.self::STATUS_APPROVED; // All approved comments for the current post
+                $comments = $comment->findAll($condition, 'creation_date DESC');
+                $post->nb_comments = count($comments);
+
                 $pageTitle = $post->title;
             }
         }
 
-        $this->display($type, $path, compact('pageTitle','post'));
+        $this->display('front', 'post', compact('pageTitle','post','comments','alert'));
     }
-
 
     /**
      * Display post creation form
@@ -118,7 +139,7 @@ class PostController extends Controller
             $post->id = $post->insert();
 
             if($post->id == 0) {
-                $message = 'Une erreur est survenu, le post n\'a pas pu être inséré dans la base de données.';
+                $message = 'Une erreur est survenue, le post n\'a pas pu être inséré dans la base de données.';
             } 
             if($post->id !== 0) {
                 $message .= ' sous l\'identifiant #'.$post->id.'.';
@@ -199,7 +220,6 @@ class PostController extends Controller
      * 
      */
     public function dataTransform(object $post, array $formdata) : void {
-        // sanitize string var
         $post->title = $formdata['title'];
         $post->intro = $formdata['intro'];
         $post->content = $formdata['content'];

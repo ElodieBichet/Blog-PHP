@@ -4,12 +4,12 @@
         </div>
 
         <div class="form-floating mb-3">
-            <textarea class="form-control" placeholder="Chapô" name="intro" id="intro" required><?= $post->intro ?></textarea>
+            <textarea class="form-control" placeholder="Chapô" name="intro" id="intro" required><?= filter_var($post->intro) ?></textarea>
             <label for="intro">Chapô</label>
         </div>
 
         <div class="form-floating mb-3">
-            <textarea class="form-control" placeholder="Contenu du post" name="content" id="content" style="height: 200px;" required><?= $post->content ?></textarea>
+            <textarea class="form-control" placeholder="Contenu du post" name="content" id="content" style="height: 200px;" required><?= filter_var($post->content) ?></textarea>
             <label for="content">Contenu du post</label>
         </div>
 
