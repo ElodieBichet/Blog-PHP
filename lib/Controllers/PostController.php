@@ -93,7 +93,7 @@ class PostController extends Controller
             
                 }
 
-                $condition = 'post_id = '.$post->id.' AND status = '.self::STATUS_SUBMITTED; // pass status to STATUS_APPROVED when validation feature ready
+                $condition = 'post_id = '.$post->id.' AND status = '.self::STATUS_APPROVED; // All approved comments for the current post
                 $comments = $comment->findAll($condition, 'creation_date DESC');
                 $post->nb_comments = count($comments);
 

@@ -60,6 +60,21 @@ abstract class Model
     }
 
     /**
+     * Get status label of the item in the database
+     * 
+     * @return object
+     */
+    public function getStatusLabel() : string
+    {
+        $query = $this->pdo->prepare("SELECT * FROM status WHERE id = :id");
+        $query->execute([':id' => (int) $this->status]);
+        $row = $query->fetch();
+        $label = $row['label'];
+        
+        return $label;
+    }
+
+    /**
      * Find the item in the database thanks to a value of any column, and return it (return the first one if several rows found)
      * 
      * @param          $value  searched value in the database

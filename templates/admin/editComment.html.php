@@ -17,7 +17,7 @@
             <label for="content">Commentaire</label>
         </div>
 
-        <p>Validation du commentaire : 
+        <p>Statut du commentaire : <?= filter_var($comment->getStatusLabel(), FILTER_SANITIZE_STRING) ?> 
         <?php if((int) $comment->status != 2) : ?>
         <button type="submit" name="valid" class="btn btn-success btn-sm">Approuver</button>
         <?php endif; ?>
