@@ -24,15 +24,15 @@
             <td><?= filter_var($comment->status, FILTER_VALIDATE_INT) ?></td>
             <td><?= $comment->creation_date ?></td>
             <td>
-                <button disabled type="submit" name="change" class="btn btn-primary" formaction="index.php?controller=post&task=edit&id=<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>">Modif.</button>
+                <button type="submit" name="change" class="btn btn-primary" formaction="index.php?controller=comment&task=edit&id=<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>">Modif.</button>
             </td>
             <td>
-                <button disabled type="button" name="delete" class="btn btn-danger" data-bs-commentid="<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>" data-bs-toggle="modal" data-bs-target="#myModal">Suppr.</button>
+                <button type="button" name="delete" class="btn btn-danger" data-bs-commentid="<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>" data-bs-toggle="modal" data-bs-target="#myModal">Suppr.</button>
             </td>
         </tr>
         
     <?php endforeach; ?>
-    <?php // require('inc/modal.html.php'); ?>
+    <?php $item = 'le commentaire';  $itemId = 0; require('inc/modal.html.php'); ?>
     </form>
     
         <script>
@@ -46,7 +46,7 @@
                 var commentIdSpan = myModal.querySelector('.modal-body > span')
                 var confirm = myModal.querySelector('#delete')
                 commentIdSpan.textContent = commentId
-                confirm.setAttribute('formaction', 'index.php?controller=post&task=edit&id='+commentId)
+                confirm.setAttribute('formaction', 'index.php?controller=comment&task=edit&id='+commentId)
             })
         </script>
 

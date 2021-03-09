@@ -76,6 +76,64 @@ class CommentController extends Controller
     }
 
     /**
+     * Display post edition form
+     * 
+     */
+    public function edit() : void
+    {
+        $pageTitle = 'Modifier un comment';
+        $template = 'editComment';
+        $alert = '';
+        $comment = $this->model;
+        $this->checkAccess(); // redirect to login page if not connected
+        $getArray = $comment->collectInput('GET'); // collect global $_GET data
+        $postArray = $comment->collectInput('POST'); // collect global $_POST data
+
+        if(empty($getArray['id'])) // if no ID
+        {
+            $template = 'index';
+            $style = 'warning';
+            $message = 'Vous devez spécifier l\'identifiant du commentaire que vous souhaitez modifier.';
+        }
+
+        if(!empty($getArray['id']))
+        {
+            $getId = (int) $getArray['id'];
+            $DBcomment = $comment->find($getId); // search the comment with this id in database and get it if it exists
+
+            if (!$DBcomment) // if comment not found in database
+            {
+                $pageTitle = 'Gérer les commentaires';
+                $template = 'comments-list';
+                $style = 'warning';
+                $message = 'Le commentaire que vous souhaitez modifier n\'existe pas ou l\'identifiant est incorrect.';
+            }
+
+            if (!empty($DBcomment)) // if post exists in database
+            {
+                foreach ($DBcomment as $k => $v) $comment->$k = $v;
+
+                $pageTitle = 'Modifier le commentaire #'.$comment->id;
+
+                if (!empty($postArray))
+                {
+                    $pageTitle = (isset($postArray['delete'])) ? 'Suppression du commentaire #'.$comment->id : $pageTitle;
+                    list($template, $message, $style) = $this->doActionForm($postArray, $comment);
+                }
+            }
+
+        }
+
+        if(!empty($message)) {
+            $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
+        }
+
+        $this->display('admin', $template, compact('pageTitle','alert','comment'));
+
+    }
+
+
+    /**
      * Check all the $_POST data before adding or updating a comment
      * 
      */
@@ -84,6 +142,43 @@ class CommentController extends Controller
         $comment->author = $formdata['author'];
         $comment->email_address = $formdata['email_address'];
         $comment->content = $formdata['content'];
+    }
+
+    public function doActionForm(array $postArray, object $comment) : array
+    {
+
+        $template = 'editComment';
+        $style = '';
+        $message = '';
+
+        if ( isset($postArray['update']) ) // if submit with update button
+        {
+            $message = 'Le commentaire a bien été mis à jour et publié.';
+            
+            $this->dataTransform($comment, $postArray);
+            
+            if ($comment->update()) $style = 'success';
+        }
+        
+        if (isset($postArray['delete'])) // if submit with delete button
+        {
+            $pageTitle = 'Suppression du commentaire #'.$comment->id;
+            
+            $deleteSuccess = $comment->delete();
+
+            $template = 'index';
+            $style = 'success';
+            $message = 'Le commentaire #' . $comment->id . ' a bien été supprimé.';
+
+            if (!$deleteSuccess) { // if delete() has failed
+                $template = 'editComment';
+                $style = 'danger';
+                $message = 'Le commentaire #' . $comment->id . ' n\'a pas pu être supprimé.';
+            }
+        }
+
+        return array($template, $message, $style);
+
     }
 
 }
