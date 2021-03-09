@@ -38,7 +38,7 @@
             var myModal = document.getElementById('myModal')
             myModal.addEventListener('show.bs.modal', function (event) {
                 var confirm = myModal.querySelector('#delete')
-                confirm.setAttribute('formaction', 'index.php?controller=comment&task=edit&id='+<?= $itemId ?>)
+                confirm.setAttribute('formaction', 'index.php?controller=comment&task=edit&id='+<?= filter_var($itemId, FILTER_VALIDATE_INT) ?>)
             })
         </script>
 

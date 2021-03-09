@@ -30,19 +30,19 @@
         </form>
 
         <!-- Comments list -->
-        <h2 class="d-inline-block align-middle my-3">Commentaires</h2> <span class="badge bg-secondary rounded-pill align-middle"><?= $post->nb_comments ?></span>
+        <h2 class="d-inline-block align-middle my-3">Commentaires</h2> <span class="badge bg-secondary rounded-pill align-middle"><?= filter_var($post->nb_comments, FILTER_VALIDATE_INT) ?></span>
         <?php if ($post->nb_comments > 0) : ?>
         <ul class="list-unstyled">
             <?php foreach ($comments as $comment) : ?>
-            <li id="comment-<?= $comment->id ?>" class="my-4">
-            #<?= $comment->id ?>
+            <li id="comment-<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>" class="my-4">
+            #<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>
                 <p class="d-inline-block border-bottom border-end border-2 py-2 px-3 mx-2 rounded position-relative bg-light" style="min-width: 6em;">
-                    <?= $comment->content ?>
+                    <?= htmlentities($comment->content) ?>
                     <span class="d-block position-absolute top-100" style="width: 0; height: 0; left: 2.4em; border-top: 18px solid #dee2e6; border-right: 15px solid transparent;"></span>
                     <span class="d-block position-absolute top-100" style="width: 0; height: 0; left: 2.4em; border-top: 15px solid #f8f9fa; border-right: 12px solid transparent;"></span>
                 </p>
                 <p class="small">
-                    <span class="fw-bold"><?= $comment->author ?></span><span class="text-muted"> | <?= date('\l\e d/m/Y à H:i', strtotime($comment->creation_date)) ?></span>
+                    <span class="fw-bold"><?= htmlentities($comment->author) ?></span><span class="text-muted"> | <?= date('\l\e d/m/Y à H:i', strtotime($comment->creation_date)) ?></span>
                 </p>
             </li>
             <?php endforeach; ?>
