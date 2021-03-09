@@ -4,6 +4,10 @@ namespace App\Controllers;
 
 use App\Rights;
 
+/**
+ * Controller
+ * Manage Model
+ */
 abstract class Controller
 {
     use Rights;
@@ -15,7 +19,12 @@ abstract class Controller
 
     protected $model;
     protected $modelName;
-
+    
+    /**
+     * __construct
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->model = new $this->modelName();

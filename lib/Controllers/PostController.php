@@ -5,14 +5,20 @@ namespace App\Controllers;
 use App\Models\Comment;
 use Cocur\Slugify\Slugify;
 
+/**
+ * PostController
+ * Manage posts
+ */
 class PostController extends Controller
 {
     
     protected $modelName = \App\Models\Post::class;
-    
+       
     /**
-     * Display post lists
-     * 
+     * showList
+     * Display post lists by context
+     *
+     * @return void
      */
     public function showList() : void
     {
@@ -41,10 +47,12 @@ class PostController extends Controller
 
         $this->display($type, $path, compact('pageTitle','posts'));
     }
-
+  
     /**
+     * show
      * Display one post page
-     * 
+     *
+     * @return void
      */
     public function show() : void
     {
@@ -103,10 +111,12 @@ class PostController extends Controller
 
         $this->display('front', 'post', compact('pageTitle','post','comments','alert'));
     }
-
+   
     /**
-     * Display post creation form
-     * 
+     * add
+     * Display post creation form and analyse form submission
+     *
+     * @return void
      */
     public function add() : void
     {
@@ -157,10 +167,12 @@ class PostController extends Controller
         $this->display('admin', $template, compact('pageTitle','alert','post'));
 
     }
-
+  
     /**
-     * Display post edition form
-     * 
+     * edit
+     * Display post edition form and analyse form submission
+     *
+     * @return void
      */
     public function edit() : void
     {
@@ -214,10 +226,14 @@ class PostController extends Controller
         $this->display('admin', $template, compact('pageTitle','alert','post'));
 
     }
-
+  
     /**
+     * dataTransform
      * Check all the $_POST data before adding or updating a post
-     * 
+     *
+     * @param  mixed $post
+     * @param  mixed $formdata
+     * @return void
      */
     public function dataTransform(object $post, array $formdata) : void {
         $post->title = $formdata['title'];
@@ -231,7 +247,15 @@ class PostController extends Controller
         $time = (!empty($formdata['time'])) ? $formdata['time'] : date('H:i:s');
         $post->publication_date = $date.' '.$time;
     }
-
+    
+    /**
+     * doActionForm
+     * Check what action is requested when the form is submitted and do these actions
+     *
+     * @param  array $postArray Array which contains $_POST entries
+     * @param  object $post Concerned Post instance
+     * @return array with 3 variables values
+     */
     public function doActionForm(array $postArray, object $post) : array
     {
 

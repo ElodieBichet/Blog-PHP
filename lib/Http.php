@@ -3,7 +3,14 @@
 namespace App;
 
 trait Http
-{
+{  
+  /**
+   * collectInput
+   * Pick up $_POST, $_GET or $_SERVER superglobals in a secured way
+   *
+   * @param  string $type
+   * @return array
+   */
   public function collectInput(string $type = 'GET')
   {
     $constant = 'INPUT_';
@@ -12,7 +19,12 @@ trait Http
 
     return $inputArray;
   }
-
+  
+  /**
+   * logout
+   *
+   * @return void
+   */
   public function logout() : void
   {
     $serverArray = $this->collectInput('SERVER');
@@ -20,7 +32,13 @@ trait Http
     $url = (!empty($serverArray['PHP_SELF'])) ? $serverArray['PHP_SELF'] : 'index.php';
     $this->redirect($url);
   }
-
+  
+  /**
+   * redirect
+   *
+   * @param  string $url  URL to redirect user
+   * @return void
+   */
   public function redirect(string $url): void
   {
       header("Location: $url");

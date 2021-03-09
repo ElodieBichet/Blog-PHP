@@ -6,33 +6,80 @@ use App\Database;
 use PDO;
 
 abstract class Model
-{    
-    protected $pdo;
-    protected $table;
-    protected $status;
-    protected $creation_date;
-    protected $last_update_date;
+{        
+    /**
+     * pdo : database connection
+     *
+     * @var object PDO
+     */
+    protected $pdo;    
+    /**
+     * table : name of the database table which contains the comments
+     *
+     * @var string 
+     */
+    protected $table;    
+    /**
+     * status
+     *
+     * @var int
+     */
+    protected $status;    
+    /**
+     * creation_date
+     *
+     * @var string
+     */
+    protected $creation_date;    
+    /**
+     * last_update_date
+     *
+     * @var string
+     */
+    protected $last_update_date;    
+    /**
+     * publication_date
+     *
+     * @var string
+     */
     protected $publication_date;
-
+    
+    /**
+     * __construct
+     *
+     * @return void
+     */
     function __construct()
     {
         $this->pdo = Database::getPdo();
     }
-
-    // Setter
+ 
+    /**
+     * __set
+     *
+     * @param  mixed $attr
+     * @param  mixed $value
+     * @return void
+     */
     public function __set($attr, $value) : void {
         $this->$attr = $value;
     }
-    
-    // Getter
+       
+    /**
+     * __get
+     *
+     * @param  mixed $attr
+     * @return mixed
+     */
     public function __get($attr) {
         return $this->$attr;
     }
-
+   
     /**
+     * delete
      * Delete the item in the database
-     * 
-     * @return object
+     *
+     * @return bool
      */
     public function delete() : bool
     {
@@ -41,13 +88,16 @@ abstract class Model
         
         return $result;
     }
-
+  
     /**
+     * setStatus
      * Update status of the item in the database
-     * 
-     * @return object
+     *
+     * @param  int $status
+     * @param  bool $updatePubDate
+     * @return bool true if the update succeeds
      */
-    public function setStatus($status = 1, $updatePubDate = false) : bool
+    public function setStatus(int $status = 1, bool $updatePubDate = false) : bool
     {
         $partQuery = ($updatePubDate) ? ', publication_date = NOW()' : '';
         $query = $this->pdo->prepare("UPDATE {$this->table} SET status = :status, last_update_date = NOW(){$partQuery} WHERE id = :id");
@@ -60,11 +110,12 @@ abstract class Model
     }
 
     /**
+     * getStatusLabel
      * Get status label of the item in the database
      * 
-     * @return object
+     * @return mixed string (or null if not found)
      */
-    public function getStatusLabel() : string
+    public function getStatusLabel()
     {
         $query = $this->pdo->prepare("SELECT * FROM status WHERE id = :id");
         $query->execute([':id' => (int) $this->status]);
@@ -75,13 +126,13 @@ abstract class Model
     }
 
     /**
+     * find
      * Find the item in the database thanks to a value of any column, and return it (return the first one if several rows found)
      * 
-     * @param          $value  searched value in the database
-     * @param   string $name   name of the column in the table
-     * 
-     * @return object
-     */
+     * @param        $value  searched value in the database
+     * @param string $name   name of the column in the table
+     * @return mixed item as an object (or =null if no result)
+     */    
     public function find($value, string $name='id')
     {
         $query = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE {$name} = :{$name}");
@@ -90,11 +141,14 @@ abstract class Model
 
         return $item;
     }
-
+ 
     /**
-     * Find the item in the database thanks to a value of any column, and return it (return the first one if several rows found)
-     * 
-     * @return 
+     * findAll
+     * Find all the item in the database with conditions return it (return the first one if several rows found)
+     *
+     * @param  string   $condition    condition of the SLQ query
+     * @param  string   $order        order of the SQL query
+     * @return mixed    array of objects (or =null if no result)
      */
     public function findAll(string $condition = '1 = 1', string $order = 'last_update_date DESC')
     {

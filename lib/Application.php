@@ -5,10 +5,20 @@ namespace App;
 use App\Controllers\PageController;
 use App\Session;
 
+/**
+ * Application
+ * Allow site processing
+ */
 class Application
 {
     const TIMEZONE = 'Europe/Paris';
-
+    
+    /**
+     * process
+     * Launch the website
+     *
+     * @return void
+     */
     public static function process()
     {
         // Fix default timezone to match with DB

@@ -5,17 +5,23 @@ namespace App;
 use PDO;
 use Symfony\Component\Dotenv\Dotenv;
 
+// Use .env files to create $_ENV superglobal var
 $dotenv = new Dotenv();
 $dotenv->load(__DIR__.'/../.env', __DIR__.'/../.env.local');
 
+/**
+ * Database
+ * Connect to the database
+ */
 class Database
 {
     // Singleton pattern
     private static $instance = null;
-
+  
     /**
+     * getPdo
      * Return a connection to database
-     * 
+     *
      * @return PDO
      */
     public static function getPdo(): PDO

@@ -2,14 +2,20 @@
 
 namespace App\Controllers;
 
+/**
+ * CommentController
+ * Manage comments
+ */
 class CommentController extends Controller
 {
-
+    
     protected $modelName = \App\Models\Comment::class;
-
+ 
     /**
+     * showList
      * Display comments list in admin
-     * 
+     *
+     * @return void
      */
     public function showList() : void
     {
@@ -41,8 +47,10 @@ class CommentController extends Controller
     }
 
     /**
+     * submit
      * Submit a comment
      * 
+     * @return void
      */
     public function submit() : void
     {
@@ -76,8 +84,10 @@ class CommentController extends Controller
     }
 
     /**
+     * edit
      * Display post edition form
      * 
+     * @return void
      */
     public function edit() : void
     {
@@ -133,8 +143,12 @@ class CommentController extends Controller
     }
 
     /**
+     * dataTransform
      * Check all the $_POST data before adding or updating a comment
-     * 
+     *
+     * @param  object $comment The Comment instance with properties to update
+     * @param  array $formdata The array with values to assign
+     * @return void
      */
     public function dataTransform(object $comment, array $formdata) : void {
         $comment->post_id = $formdata['post_id'];
@@ -142,14 +156,22 @@ class CommentController extends Controller
         $comment->email_address = $formdata['email_address'];
         $comment->content = $formdata['content'];
     }
-
+    
+    /**
+     * doActionForm
+     * Check what action is requested when the form is submitted and do these actions
+     *
+     * @param  array $postArray Array which contains $_POST entries
+     * @param  object $comment Concerned Comment instance
+     * @return array with 3 variables values
+     */
     public function doActionForm(array $postArray, object $comment) : array
     {
 
         $template = 'editComment';
         $style = '';
         $message = '';
-
+        
         if ( isset($postArray['update']) ) // if submit with update button
         {
             $message = 'Le commentaire a bien été mis à jour.';

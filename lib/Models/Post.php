@@ -7,20 +7,61 @@ use App\Http;
 class Post extends Model
 {
     use Http;
-
+    
+     /**
+     * table : name of the database table which contains the posts
+     *
+     * @var string 
+     */
     protected $table = "posts";
+    /**
+     * id : id of the post in the database
+     * 
+     * @var int
+     */
     protected $id;
+    /**
+     * author : id of the author user in the database
+     * 
+     * @var int
+     */
     protected $author;
-    protected $title;
-    protected $slug;
-    protected $intro;
-    protected $content;
+    /**
+     * title
+     *
+     * @var string
+     */ 
+    protected $title;    
+    /**
+     * slug : "slugified" title of the post
+     *
+     * @var string
+     */
+    protected $slug;    
+    /**
+     * intro : extract of the post
+     *
+     * @var string
+     */
+    protected $intro;    
+    /**
+     * content
+     *
+     * @var string
+     */
+    protected $content;    
+    /**
+     * nb_comments : number of comments on the post
+     *
+     * @var int
+     */
     protected $nb_comments;
 
     /**
-     * Insert the item in the database and return the id of the new line
+     * insert
+     * Insert the post in the database
      * 
-     * @return int
+     * @return int  id of the new post (= 0 if insertion fails)
      */
     public function insert() : int
     {
@@ -40,9 +81,10 @@ class Post extends Model
     }
 
     /**
-     * Update the item in the database and return true if there is no error
+     * update
+     * Update the post in the database
      * 
-     * @return bool
+     * @return bool true if the update succeeds
      */
     public function update() : bool
     {
