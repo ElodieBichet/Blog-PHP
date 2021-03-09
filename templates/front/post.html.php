@@ -1,6 +1,6 @@
 <div id="post-<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>">
     <div>
-        <p class="mb-2 text-muted">Dernière mise à jour : <?= date('\l\e d/m/Y à H:i', strtotime($post->last_update_date)) ?></p>
+        <p class="mb-2 text-muted">Dernière mise à jour : <?= filter_var(date('\l\e d/m/Y à H:i', strtotime($post->last_update_date)), FILTER_SANITIZE_STRING) ?></p>
         <p>
             <?= filter_var($post->intro) ?>
         </p>
@@ -42,7 +42,7 @@
                     <span class="d-block position-absolute top-100" style="width: 0; height: 0; left: 2.4em; border-top: 15px solid #f8f9fa; border-right: 12px solid transparent;"></span>
                 </p>
                 <p class="small">
-                    <span class="fw-bold"><?= filter_var($comment->author) ?></span><span class="text-muted"> | <?= date('\l\e d/m/Y à H:i', strtotime($comment->creation_date)) ?></span>
+                    <span class="fw-bold"><?= filter_var($comment->author) ?></span><span class="text-muted"> | <?= filter_var(date('\l\e d/m/Y à H:i', strtotime($comment->creation_date)), FILTER_SANITIZE_STRING) ?></span>
                 </p>
             </li>
             <?php endforeach; ?>
