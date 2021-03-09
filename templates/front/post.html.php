@@ -2,10 +2,10 @@
     <div>
         <p class="mb-2 text-muted">Dernière mise à jour : <?= date('\l\e d/m/Y à H:i', strtotime($post->last_update_date)) ?></p>
         <p>
-            <?= $post->intro ?>
+            <?= filter_var($post->intro) ?>
         </p>
         <p>
-            <?= $post->content ?>
+            <?= filter_var($post->content) ?>
         </p>
     </div>
 
