@@ -5,8 +5,8 @@
             <td>Post</td>
             <td>Pseudo</td>
             <td>Commentaire</td>
-            <td>Statut</td>
             <td>Soumis le</td>
+            <td>Statut</td>
             <td>Modif.</td>
             <td>Suppr.</td>
         </tr>
@@ -21,8 +21,12 @@
             <td>#<?= filter_var($comment->post_id, FILTER_VALIDATE_INT) ?></td>
             <td><?= filter_var($comment->author, FILTER_SANITIZE_STRING) ?></td>
             <td><?= filter_var($comment->content, FILTER_SANITIZE_STRING) ?></td>
-            <td><?= filter_var($comment->status, FILTER_VALIDATE_INT) ?></td>
             <td><?= $comment->creation_date ?></td>
+            <td>
+                <?= filter_var($comment->status, FILTER_VALIDATE_INT) ?>
+                <button <?php if((int) $comment->status == 2) echo 'disabled'; ?> type="submit" name="valid" class="btn btn-success btn-sm" formaction="index.php?controller=comment&task=edit&id=<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>">Approuver</button>
+                <button <?php if((int) $comment->status == 3) echo 'disabled'; ?> type="submit" name="reject" class="btn btn-warning btn-sm" formaction="index.php?controller=comment&task=edit&id=<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>">Rejeter</button>
+            </td>
             <td>
                 <button type="submit" name="change" class="btn btn-primary" formaction="index.php?controller=comment&task=edit&id=<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>">Modif.</button>
             </td>

@@ -17,7 +17,14 @@
             <label for="content">Commentaire</label>
         </div>
 
-        <p>Statut du commentaire : <?= (int) $comment->status ?></p>
+        <p>Validation du commentaire : 
+        <?php if((int) $comment->status != 2) : ?>
+        <button type="submit" name="valid" class="btn btn-success btn-sm">Approuver</button>
+        <?php endif; ?>
+        <?php if((int) $comment->status <= 2) : ?>
+        <button type="submit" name="reject" class="btn btn-warning btn-sm">Rejeter</button>
+        <?php endif; ?>
+        </p>
 
         <button type="submit" name="update" class="btn btn-primary">Mettre à jour</button>
         <button type="button" name="delete" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal">Supprimer</button>

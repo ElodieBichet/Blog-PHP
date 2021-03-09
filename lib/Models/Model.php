@@ -43,6 +43,23 @@ abstract class Model
     }
 
     /**
+     * Update status of the item in the database
+     * 
+     * @return object
+     */
+    public function setStatus($status = 1, $updatePubDate = false) : bool
+    {
+        $partQuery = ($updatePubDate) ? ', publication_date = NOW()' : '';
+        $query = $this->pdo->prepare("UPDATE {$this->table} SET status = :status, last_update_date = NOW(){$partQuery} WHERE id = :id");
+        $result = $query->execute(array(
+            'status' => $status,
+            'id' => $this->id
+        ));
+        
+        return $result;
+    }
+
+    /**
      * Find the item in the database thanks to a value of any column, and return it (return the first one if several rows found)
      * 
      * @param          $value  searched value in the database

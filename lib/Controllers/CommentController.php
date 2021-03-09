@@ -132,7 +132,6 @@ class CommentController extends Controller
 
     }
 
-
     /**
      * Check all the $_POST data before adding or updating a comment
      * 
@@ -153,7 +152,7 @@ class CommentController extends Controller
 
         if ( isset($postArray['update']) ) // if submit with update button
         {
-            $message = 'Le commentaire a bien été mis à jour et publié.';
+            $message = 'Le commentaire a bien été mis à jour.';
             
             $this->dataTransform($comment, $postArray);
             
@@ -161,9 +160,7 @@ class CommentController extends Controller
         }
         
         if (isset($postArray['delete'])) // if submit with delete button
-        {
-            $pageTitle = 'Suppression du commentaire #'.$comment->id;
-            
+        {   
             $deleteSuccess = $comment->delete();
 
             $template = 'index';
@@ -174,6 +171,34 @@ class CommentController extends Controller
                 $template = 'editComment';
                 $style = 'danger';
                 $message = 'Le commentaire #' . $comment->id . ' n\'a pas pu être supprimé.';
+            }
+        }
+
+        if (isset($postArray['valid']))
+        {
+            $updateSuccess = $comment->setStatus(self::STATUS_APPROVED, true);
+
+            $style = 'success';
+            $message = 'Le commentaire #' . $comment->id . ' a bien été approuvé.';
+            $comment->status = self::STATUS_APPROVED;
+
+            if (!$updateSuccess) { // if setStatus() has failed
+                $style = 'danger';
+                $message = 'Le commentaire #' . $comment->id . ' n\'a pas pu être approuvé.';
+            }
+        }
+
+        if (isset($postArray['reject']))
+        {
+            $updateSuccess = $comment->setStatus(self::STATUS_REJECTED);
+
+            $style = 'success';
+            $message = 'Le commentaire #' . $comment->id . ' a bien été rejeté.';
+            $comment->status = self::STATUS_REJECTED;
+
+            if (!$updateSuccess) { // if setStatus() has failed
+                $style = 'danger';
+                $message = 'Le commentaire #' . $comment->id . ' n\'a pas pu être rejeté.';
             }
         }
 
