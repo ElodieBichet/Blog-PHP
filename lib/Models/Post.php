@@ -15,6 +15,7 @@ class Post extends Model
     protected $slug;
     protected $intro;
     protected $content;
+    protected $nb_comments;
 
     /**
      * Insert the item in the database and return the id of the new line

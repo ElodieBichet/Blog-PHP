@@ -33,7 +33,7 @@
         </h6>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="index.php?admin&controller=comment&task=showList">
               Gérer les commentaires
             </a>
           </li>

@@ -11,7 +11,7 @@
 </head>
 <body class="container pt-5">
 
-    <?= $pageHeader ?>
+    <?= filter_var($pageHeader) ?>
 
     <div class="container-fluid">
 
@@ -19,7 +19,8 @@
             
                     <h1><?= filter_var($pageTitle, FILTER_SANITIZE_STRING) ?></h1>
 
-                    <?= $pageContent ?>
+                    <?= filter_var($alert) ?>
+                    <?= filter_var($pageContent) ?>
     
             </main>
 
