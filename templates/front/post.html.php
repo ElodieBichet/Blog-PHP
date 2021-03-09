@@ -37,12 +37,12 @@
             <li id="comment-<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>" class="my-4">
             #<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>
                 <p class="d-inline-block border-bottom border-end border-2 py-2 px-3 mx-2 rounded position-relative bg-light" style="min-width: 6em;">
-                    <?= htmlentities($comment->content) ?>
+                    <?= filter_var($comment->content) ?>
                     <span class="d-block position-absolute top-100" style="width: 0; height: 0; left: 2.4em; border-top: 18px solid #dee2e6; border-right: 15px solid transparent;"></span>
                     <span class="d-block position-absolute top-100" style="width: 0; height: 0; left: 2.4em; border-top: 15px solid #f8f9fa; border-right: 12px solid transparent;"></span>
                 </p>
                 <p class="small">
-                    <span class="fw-bold"><?= htmlentities($comment->author) ?></span><span class="text-muted"> | <?= date('\l\e d/m/Y à H:i', strtotime($comment->creation_date)) ?></span>
+                    <span class="fw-bold"><?= filter_var($comment->author) ?></span><span class="text-muted"> | <?= date('\l\e d/m/Y à H:i', strtotime($comment->creation_date)) ?></span>
                 </p>
             </li>
             <?php endforeach; ?>
