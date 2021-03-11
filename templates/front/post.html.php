@@ -14,13 +14,19 @@
         <h2 class="my-3">Déposez un commentaire.</h2>
         <form method="POST" action="index.php?controller=comment&task=submit">
             <input type="hidden" name="post_id" value="<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>">
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" name="author" id="author" placeholder="Pseudo" value="" required>
-                <label for="author">Pseudo</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" name="email_address" id="email_address" placeholder="Adresse email" value="">
-                <label for="email_address">Adresse email</label>
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="author" id="author" placeholder="Pseudo" value="" required>
+                        <label for="author">Pseudo</label>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" name="email_address" id="email_address" placeholder="Adresse email" value="">
+                        <label for="email_address">Adresse email</label>
+                    </div>
+                </div>
             </div>
             <div class="form-floating mb-3">
                 <textarea class="form-control" placeholder="Commentaire" name="content" id="content" style="height: 8.5em;" required></textarea>
