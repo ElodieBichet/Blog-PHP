@@ -13,6 +13,12 @@ class PostController extends Controller
 {
     
     protected $modelName = \App\Models\Post::class;
+    protected $modelTrad = array(
+        'item' => 'post',
+        'article_a' => 'un ',
+        'article_the' => 'le ',
+        'of' => 'du '
+    );
        
     /**
      * showList
@@ -164,65 +170,6 @@ class PostController extends Controller
             $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
         }
         
-        $this->display('admin', $template, compact('pageTitle','alert','post'));
-
-    }
-  
-    /**
-     * edit
-     * Display post edition form and analyse form submission
-     *
-     * @return void
-     */
-    public function edit() : void
-    {
-        $pageTitle = 'Modifier un post';
-        $template = 'editPost';
-        $alert = '';
-        $post = $this->model;
-        $this->checkAccess(); // redirect to login page if not connected
-        $getArray = $post->collectInput('GET'); // collect global $_GET data
-        $postArray = $post->collectInput('POST'); // collect global $_POST data
-
-        if(empty($getArray['id'])) // if no ID
-        {
-            $template = 'index';
-            $style = 'warning';
-            $message = 'Vous devez spécifier l\'identifiant du post que vous souhaitez modifier.';
-        }
-
-        if(!empty($getArray['id']))
-        {
-            $getId = (int) $getArray['id'];
-            $DBpost = $post->find($getId); // search the post with this id in database and get it if it exists
-
-            if (!$DBpost) // if post not found in database
-            {
-                $pageTitle = 'Ajouter un post';
-                $template = 'newPost';
-                $style = 'warning';
-                $message = 'Le post que vous souhaitez modifier n\'existe pas ou l\'identifiant est incorrect. Créez un nouveau post en complétant le formulaire ci-dessous.';
-            }
-
-            if (!empty($DBpost)) // if post exists in database
-            {
-                foreach ($DBpost as $k => $v) $post->$k = $v;
-
-                $pageTitle = 'Modifier le post #'.$post->id;
-
-                if (!empty($postArray))
-                {
-                    $pageTitle = (isset($postArray['delete'])) ? 'Suppression du post #'.$post->id : $pageTitle;
-                    list($template, $message, $style) = $this->doActionForm($postArray, $post);
-                }
-            }
-
-        }
-
-        if(!empty($message)) {
-            $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
-        }
-
         $this->display('admin', $template, compact('pageTitle','alert','post'));
 
     }

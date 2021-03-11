@@ -13,6 +13,12 @@ class UserController extends Controller
     const ROLE_AUTHOR = 2;
 
     protected $modelName = \App\Models\User::class;
+    protected $modelTrad = array(
+        'item' => 'utilisateur',
+        'article_a' => 'un ',
+        'article_the' => 'l\'',
+        'of' => 'de l\''
+    );
 
         /**
      * showList
@@ -99,65 +105,6 @@ class UserController extends Controller
         }
 
         $this->display('front', 'register', compact('pageTitle','alert'));
-
-    }
-
-    /**
-     * edit
-     * Display user edition form
-     * 
-     * @return void
-     */
-    public function edit() : void
-    {
-        $pageTitle = 'Modifier le profil';
-        $template = 'editUser';
-        $alert = '';
-        $user = $this->model;
-        $this->checkAccess(); // redirect to login page if not connected
-        $getArray = $user->collectInput('GET'); // collect global $_GET data
-        $postArray = $user->collectInput('POST'); // collect global $_POST data
-
-        if(empty($getArray['id'])) // if no ID
-        {
-            $template = 'index';
-            $style = 'warning';
-            $message = 'Vous devez spécifier l\'identifiant du profil à modifier.';
-        }
-
-        if(!empty($getArray['id']))
-        {
-            $getId = (int) $getArray['id'];
-            $DBuser = $user->find($getId); // search the user with this id in database and get it if it exists
-
-            if (!$DBuser) // if user not found in database
-            {
-                $pageTitle = 'Gérer les utilisateurs';
-                $template = 'users-list';
-                $style = 'warning';
-                $message = 'L\'utilisateur que vous souhaitez modifier n\'existe pas ou l\'identifiant est incorrect.';
-            }
-
-            if (!empty($DBuser)) // if post exists in database
-            {
-                foreach ($DBuser as $k => $v) $user->$k = $v;
-
-                $pageTitle = 'Modifier le profil #'.$user->id;
-
-                if (!empty($postArray))
-                {
-                    $pageTitle = (isset($postArray['delete'])) ? 'Suppression de l\'utilisateur #'.$user->id : $pageTitle;
-                    list($template, $message, $style) = $this->doActionForm($postArray, $user);
-                }
-            }
-
-        }
-
-        if(!empty($message)) {
-            $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
-        }
-
-        $this->display('admin', $template, compact('pageTitle','alert','user'));
 
     }
 

@@ -10,6 +10,12 @@ class PageController extends Controller
 {
 
     protected $modelName = \App\Models\Page::class;
+    protected $modelTrad = array(
+        'item' => 'page',
+        'article_a' => 'une ',
+        'article_the' => 'la ',
+        'of' => 'de la '
+    );
     
     /**
      * show
@@ -74,6 +80,18 @@ class PageController extends Controller
     {
         $pageTitle = 'Erreur 404';
         $this->display('front', '404-error', compact('pageTitle'));   
+    }
+    
+    /**
+     * doActionForm : do nothing for the moment
+     *
+     * @param  array $postArray
+     * @param  object $page
+     * @return array
+     */
+    public function doActionForm(array $postArray, object $page) : array
+    {
+        return $postArray;
     }
 
 }

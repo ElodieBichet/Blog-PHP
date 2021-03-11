@@ -10,6 +10,12 @@ class CommentController extends Controller
 {
     
     protected $modelName = \App\Models\Comment::class;
+    protected $modelTrad = array(
+        'item' => 'commentaire',
+        'article_a' => 'un ',
+        'article_the' => 'le ',
+        'of' => 'du '
+    );
  
     /**
      * showList
@@ -80,65 +86,6 @@ class CommentController extends Controller
         }
 
         $this->redirect('index.php?controller=post&task=show&id='.$comment->post_id.'&comment='.$result);
-
-    }
-
-    /**
-     * edit
-     * Display comment edition form
-     * 
-     * @return void
-     */
-    public function edit() : void
-    {
-        $pageTitle = 'Modifier un comment';
-        $template = 'editComment';
-        $alert = '';
-        $comment = $this->model;
-        $this->checkAccess(); // redirect to login page if not connected
-        $getArray = $comment->collectInput('GET'); // collect global $_GET data
-        $postArray = $comment->collectInput('POST'); // collect global $_POST data
-
-        if(empty($getArray['id'])) // if no ID
-        {
-            $template = 'index';
-            $style = 'warning';
-            $message = 'Vous devez spécifier l\'identifiant du commentaire que vous souhaitez modifier.';
-        }
-
-        if(!empty($getArray['id']))
-        {
-            $getId = (int) $getArray['id'];
-            $DBcomment = $comment->find($getId); // search the comment with this id in database and get it if it exists
-
-            if (!$DBcomment) // if comment not found in database
-            {
-                $pageTitle = 'Gérer les commentaires';
-                $template = 'comments-list';
-                $style = 'warning';
-                $message = 'Le commentaire que vous souhaitez modifier n\'existe pas ou l\'identifiant est incorrect.';
-            }
-
-            if (!empty($DBcomment)) // if post exists in database
-            {
-                foreach ($DBcomment as $k => $v) $comment->$k = $v;
-
-                $pageTitle = 'Modifier le commentaire #'.$comment->id;
-
-                if (!empty($postArray))
-                {
-                    $pageTitle = (isset($postArray['delete'])) ? 'Suppression du commentaire #'.$comment->id : $pageTitle;
-                    list($template, $message, $style) = $this->doActionForm($postArray, $comment);
-                }
-            }
-
-        }
-
-        if(!empty($message)) {
-            $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
-        }
-
-        $this->display('admin', $template, compact('pageTitle','alert','comment'));
 
     }
 
