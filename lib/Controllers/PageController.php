@@ -2,12 +2,22 @@
 
 namespace App\Controllers;
 
+/**
+ * PageController
+ * Manage pages
+ */
 class PageController extends Controller
 {
 
     protected $modelName = \App\Models\Page::class;
-
-    public function show()
+    
+    /**
+     * show
+     * Display the requested page
+     *
+     * @return void
+     */
+    public function show() : void
     {
 
         $page = $this->model;
@@ -47,8 +57,14 @@ class PageController extends Controller
 
         $this->display($page->type, $template, compact('pageTitle'));
     }
-
-    public function show404()
+    
+    /**
+     * show404
+     * Display an error page
+     *
+     * @return void
+     */
+    public function show404() : void
     {
         $pageTitle = 'Erreur 404';
         $this->display('front', '404-error', compact('pageTitle'));   

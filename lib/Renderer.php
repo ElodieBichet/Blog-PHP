@@ -2,10 +2,24 @@
 
 namespace App;
 
+/**
+ * Renderer
+ * View
+ */
 class Renderer
 {
-
-    public static function render(string $type='front', string $path = 'index', bool $isConnected = false, array $variables=[])
+    
+    /**
+     * render
+     * Display a web page with right templates and variables
+     *
+     * @param  string   $type   'admin'or 'front' context
+     * @param  string   $path   template name without extensions
+     * @param  bool     $isConnected    true if the current session has a connected user
+     * @param  array    $variables  array with all needed variables used in templates
+     * @return void
+     */
+    public static function render(string $type='front', string $path = 'index', bool $isConnected = false, array $variables=[]) : void
     {
         // variables initialization
         $pageTitle = 'Page sans titre';

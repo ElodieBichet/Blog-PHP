@@ -4,22 +4,56 @@ namespace App\Models;
 
 use App\Http;
 
+/**
+ * Comment
+ */
 class Comment extends Model
 {
     use Http;
-
-    protected $table = "comments";
-    protected $id;
-    protected $author;
-    protected $email_address;
-    protected $content;
+    
+    /**
+     * table : name of the database table which contains the comments
+     * 
+     * @var string
+     */    
+    protected $table = "comments";    
+    /**
+     * id : id of the comment in the database
+     * 
+     * @var int
+     */
+    protected $id;    
+    /**
+     * author : username of the comment author
+     *
+     * @var string
+     */
+    protected $author;    
+    /**
+     * email_address : author's email address
+     *
+     * @var string
+     */
+    protected $email_address;    
+    /**
+     * content : comment
+     *
+     * @var string
+     */    
+    protected $content;    
+    /**
+     * post_id : id of the commented post
+     *
+     * @var int
+     */
     protected $post_id;
 
     /**
-     * Insert the item in the database and return the id of the new line
+     * insert
+     * Insert the comment in the database 
      * 
-     * @return int
-     */
+     * @return int  id of the new comment (= 0 if insertion fails)
+     */    
     public function insert() : int
     {
         $req = 'INSERT INTO '.$this->table.' SET status = :status, post_id = :post_id , author = :author, email_address = :email_address, content = :content, creation_date = NOW(), last_update_date = NOW(), publication_date = NOW()';
@@ -36,9 +70,10 @@ class Comment extends Model
     }
 
     /**
-     * Update the item in the database and return true if there is no error
+     * update
+     * Update the comment in the database
      * 
-     * @return bool
+     * @return bool true if the update succeeds
      */
     public function update() : bool
     {
