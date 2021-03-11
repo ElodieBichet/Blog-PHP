@@ -85,7 +85,7 @@ class CommentController extends Controller
 
     /**
      * edit
-     * Display post edition form
+     * Display comment edition form
      * 
      * @return void
      */

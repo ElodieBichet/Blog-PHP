@@ -14,6 +14,33 @@ class UserController extends Controller
 
     protected $modelName = \App\Models\User::class;
 
+        /**
+     * showList
+     * Display users list in admin
+     *
+     * @return void
+     */
+    public function showList() : void
+    {
+        $this->checkAccess(); // redirect to login page if not connected
+        
+        $pageTitle = 'Gérer les utilisateurs';
+        $condition = '1 = 1';
+        $order = 'creation_date DESC';
+        $alert = '';
+
+        $users = $this->model->findAll($condition, $order);
+        
+        if(empty($users))
+        {
+            $style = 'warning';
+            $message = 'Aucun utilisateur trouvé.';
+            $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
+        }
+
+        $this->display('admin', 'users-list', compact('pageTitle','users','alert'));
+    }
+
     /**
      * submit
      * Submit a user
@@ -27,7 +54,6 @@ class UserController extends Controller
 
         $postArray = $user->collectInput('POST'); // collect global $_POST data
 
-        $template = 'register';
         $pageTitle = 'Inscription';
         $alert = '';
         
@@ -77,8 +103,67 @@ class UserController extends Controller
     }
 
     /**
+     * edit
+     * Display user edition form
+     * 
+     * @return void
+     */
+    public function edit() : void
+    {
+        $pageTitle = 'Modifier le profil';
+        $template = 'editUser';
+        $alert = '';
+        $user = $this->model;
+        $this->checkAccess(); // redirect to login page if not connected
+        $getArray = $user->collectInput('GET'); // collect global $_GET data
+        $postArray = $user->collectInput('POST'); // collect global $_POST data
+
+        if(empty($getArray['id'])) // if no ID
+        {
+            $template = 'index';
+            $style = 'warning';
+            $message = 'Vous devez spécifier l\'identifiant du profil à modifier.';
+        }
+
+        if(!empty($getArray['id']))
+        {
+            $getId = (int) $getArray['id'];
+            $DBuser = $user->find($getId); // search the user with this id in database and get it if it exists
+
+            if (!$DBuser) // if user not found in database
+            {
+                $pageTitle = 'Gérer les utilisateurs';
+                $template = 'users-list';
+                $style = 'warning';
+                $message = 'L\'utilisateur que vous souhaitez modifier n\'existe pas ou l\'identifiant est incorrect.';
+            }
+
+            if (!empty($DBuser)) // if post exists in database
+            {
+                foreach ($DBuser as $k => $v) $user->$k = $v;
+
+                $pageTitle = 'Modifier le profil #'.$user->id;
+
+                if (!empty($postArray))
+                {
+                    $pageTitle = (isset($postArray['delete'])) ? 'Suppression de l\'utilisateur #'.$user->id : $pageTitle;
+                    list($template, $message, $style) = $this->doActionForm($postArray, $user);
+                }
+            }
+
+        }
+
+        if(!empty($message)) {
+            $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
+        }
+
+        $this->display('admin', $template, compact('pageTitle','alert','user'));
+
+    }
+
+    /**
      * dataTransform
-     * Check all the $_POST data before adding or updating a comment
+     * Check all the $_POST data before adding or updating a user
      *
      * @param  object $user The User instance with properties to update
      * @param  array $formdata The array with values to assign
@@ -87,9 +172,81 @@ class UserController extends Controller
     public function dataTransform(object $user, array $formdata) : void {
         $user->first_name = $formdata['first_name'];
         $user->last_name = $formdata['last_name'];
-        $user->public_name = $formdata['public_name'];
+        // if empty, public name = first name + last name
+        $user->public_name = (!empty($formdata['public_name'])) ? $formdata['public_name'] : $formdata['first_name'].' '.$formdata['last_name'];
         $user->email_address = $formdata['email_address'];
-        $user->password = password_hash($formdata['password'], PASSWORD_DEFAULT);
+        if (!empty($formdata['password'])) $user->password = password_hash($formdata['password'], PASSWORD_DEFAULT);
+    }
+
+    /**
+     * doActionForm
+     * Check what action is requested when the form is submitted and do these actions
+     *
+     * @param  array $postArray Array which contains $_POST entries
+     * @param  object $user Concerned User instance
+     * @return array with 3 variables values
+     */
+    public function doActionForm(array $postArray, object $user) : array
+    {
+
+        $template = 'editUser';
+        $style = '';
+        $message = '';
+        
+        if ( isset($postArray['update']) ) // if submit with update button
+        {
+            $message = 'Le profil a bien été mis à jour.';
+            
+            $this->dataTransform($user, $postArray);
+            
+            if ($user->update()) $style = 'success';
+        }
+        
+        if (isset($postArray['delete'])) // if submit with delete button
+        {   
+            $deleteSuccess = $user->delete();
+
+            $template = 'index';
+            $style = 'success';
+            $message = 'L\'utilisateur #' . $user->id . ' a bien été supprimé.';
+
+            if (!$deleteSuccess) { // if delete() has failed
+                $template = 'editUser';
+                $style = 'danger';
+                $message = 'L\'utilisateur #' . $user->id . ' n\'a pas pu être supprimé.';
+            }
+        }
+
+        if (isset($postArray['valid']))
+        {
+            $updateSuccess = $user->setStatus(self::STATUS_APPROVED, true);
+
+            $style = 'success';
+            $message = 'L\'utilisateur #' . $user->id . ' a bien été approuvé.';
+            $user->status = self::STATUS_APPROVED;
+
+            if (!$updateSuccess) { // if setStatus() has failed
+                $style = 'danger';
+                $message = 'L\'utilisateur #' . $user->id . ' n\'a pas pu être approuvé.';
+            }
+        }
+
+        if (isset($postArray['reject']))
+        {
+            $updateSuccess = $user->setStatus(self::STATUS_REJECTED);
+
+            $style = 'success';
+            $message = 'L\'utilisateur #' . $user->id . ' a bien été rejeté.';
+            $user->status = self::STATUS_REJECTED;
+
+            if (!$updateSuccess) { // if setStatus() has failed
+                $style = 'danger';
+                $message = 'L\'utilisateur #' . $user->id . ' n\'a pas pu être rejeté.';
+            }
+        }
+
+        return array($template, $message, $style);
+
     }
 
 }
