@@ -19,8 +19,8 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <li class="nav-item<?= filter_var($navAdminDisplay, FILTER_SANITIZE_STRING) ?>">
-                        <a class="btn btn-primary" href="index.php?admin">Admin</a>
+                    <li class="nav-item">
+                        <a class="btn btn-primary" href="<?= filter_var($navAdminLink['href'], FILTER_SANITIZE_STRING) ?>"><?= filter_var($navAdminLink['label'], FILTER_SANITIZE_STRING) ?></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?= filter_var($navConnectLink['href'], FILTER_SANITIZE_STRING) ?>"><?= filter_var($navConnectLink['label'], FILTER_SANITIZE_STRING) ?></a>

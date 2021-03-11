@@ -37,6 +37,12 @@ class PageController extends Controller
             $template = 'login';
             $pageTitle = 'Connexion à l\'admin';
         }
+
+        if (isset($getArray['register']))
+        {
+            $template = 'register';
+            $pageTitle = 'Inscription';
+        }
         
         if (!empty($getArray['page']))
         {
