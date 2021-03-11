@@ -44,12 +44,12 @@
         </h6>
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="index.php?admin&controller=user&task=showList">
               Gérer les utilisateurs
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="index.php?register">
               Ajouter un utilisateur
             </a>
           </li>
