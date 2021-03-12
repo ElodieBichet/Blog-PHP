@@ -45,6 +45,8 @@ class PostController extends Controller
                 $this->checkAccess(); // redirect to login page if not connected
                 $pageTitle = 'Gérer les posts';
                 $condition = '1 = 1';
+                // If user is not admin, he can only see his own posts
+                if(!($this->isAdmin())) $condition = 'author = '.$_SESSION['user_id'];
                 $order = 'last_update_date DESC';
                 break;
         }
@@ -149,7 +151,7 @@ class PostController extends Controller
                 $post->status = self::STATUS_DRAFT;
             }
 
-            $post->author = 1; // default author
+            $post->author = filter_var($_SESSION['user_id'], FILTER_VALIDATE_INT); // author = connected user
             $this->dataTransform($post, $postArray);
             
             $post->id = $post->insert();

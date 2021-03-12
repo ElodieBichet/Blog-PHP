@@ -28,7 +28,7 @@ class UserController extends Controller
      */
     public function showList() : void
     {
-        $this->checkAccess(); // redirect to login page if not connected
+        $this->checkAccess(true); // redirect to login page if not connected or not admin
         
         $pageTitle = 'Gérer les utilisateurs';
         $condition = '1 = 1';
@@ -121,7 +121,7 @@ class UserController extends Controller
         $user->last_name = $formdata['last_name'];
         // if empty, public name = first name + last name
         $user->public_name = (!empty($formdata['public_name'])) ? $formdata['public_name'] : $formdata['first_name'].' '.$formdata['last_name'];
-        $user->email_address = $formdata['email_address'];
+        $user->email_address = filter_var($formdata['email_address'], FILTER_SANITIZE_EMAIL);
         if (!empty($formdata['password'])) $user->password = password_hash($formdata['password'], PASSWORD_BCRYPT);
     }
 
@@ -232,6 +232,8 @@ class UserController extends Controller
                         case self::STATUS_APPROVED :
                             $_SESSION['connection'] = true;
                             $_SESSION['user_id'] = $user->id;
+                            $_SESSION['user_email'] = $user->email_address;
+                            $_SESSION['user_name'] = $user->public_name;
                             $_SESSION['user_role'] = $user->role;
                             $type = 'admin';
                             $template = 'index';

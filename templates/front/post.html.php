@@ -17,13 +17,13 @@
             <div class="row">
                 <div class="col-lg-4 col-md-6">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" name="author" id="author" placeholder="Pseudo" value="" required>
+                        <input type="text" class="form-control" name="author" id="author" placeholder="Pseudo" value="<?php if ($isConnected) echo $_SESSION['user_name'] ?>" required>
                         <label for="author">Pseudo</label>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <div class="form-floating mb-3">
-                        <input type="email" class="form-control" name="email_address" id="email_address" placeholder="Adresse email" value="">
+                        <input type="email" class="form-control" name="email_address" id="email_address" placeholder="Adresse email" value="<?php if ($isConnected) echo $_SESSION['user_email'] ?>">
                         <label for="email_address">Adresse email</label>
                     </div>
                 </div>

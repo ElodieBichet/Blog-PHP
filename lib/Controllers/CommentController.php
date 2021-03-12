@@ -100,7 +100,7 @@ class CommentController extends Controller
     public function dataTransform(object $comment, array $formdata) : void {
         $comment->post_id = $formdata['post_id'];
         $comment->author = $formdata['author'];
-        $comment->email_address = $formdata['email_address'];
+        $comment->email_address = filter_var($formdata['email_address'], FILTER_SANITIZE_EMAIL);
         $comment->content = $formdata['content'];
     }
     

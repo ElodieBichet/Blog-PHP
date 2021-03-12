@@ -12,14 +12,25 @@ trait Rights
    *
    * @return void
    */
-  public function checkAccess() : void
+  public function checkAccess($admin = false) : void
   {
     $isConnected = self::isConnected();
 
     if(!$isConnected)
     {
-        $this->redirect('index.php?login');      
+      $this->redirect('index.php?login');
     }
+
+    if($admin)
+    {
+      $isAdmin = self::isAdmin();
+
+      if(!$isAdmin)
+      {
+        $this->redirect('index.php?controller=page&task=showAccessDenied');
+      }
+    }
+
   }
   
   /**
@@ -43,10 +54,24 @@ trait Rights
    *
    * @return bool
    */
-  public static function isConnected() : bool{
+  public static function isConnected() : bool
+  {
     $connection = (array_key_exists('connection', $_SESSION)) ? filter_var($_SESSION['connection'], FILTER_SANITIZE_STRING) : false;
 
     return $connection;
+  }
+
+  /**
+   * isAdmin
+   * Test if a connected user is an admin thanks to the $_SESSION superglobal
+   *
+   * @return bool
+   */
+  public static function isAdmin() : bool
+  {
+    $role = (array_key_exists('user_role', $_SESSION)) ? filter_var($_SESSION['user_role'], FILTER_SANITIZE_STRING) : 0;
+
+    return ($role == 1);
   }
 
 }

@@ -81,6 +81,18 @@ class PageController extends Controller
         $pageTitle = 'Erreur 404';
         $this->display('front', '404-error', compact('pageTitle'));   
     }
+
+    /**
+     * showAccessDenied
+     * Display an error page if user has not the right access
+     *
+     * @return void
+     */
+    public function showAccessDenied() : void
+    {
+        $pageTitle = 'Accès refusé';
+        $this->display('front', 'access-denied', compact('pageTitle'));   
+    }
     
     /**
      * doActionForm : do nothing for the moment
