@@ -220,16 +220,27 @@ class UserController extends Controller
                 
                 if ( password_verify($postArray['password'], $user->password) )
                 {
-                    $_SESSION['connection'] = true;
-                    $_SESSION['user_id'] = $user->id;
-                    $_SESSION['user_role'] = $user->role;
-
-                    $type = 'admin';
-                    $template = 'index';
-                    $pageTitle = 'Tableau de bord';
-                    $style = 'success';
-                    $role = (string) $user->getRoleLabel();
-                    $message = 'Vous êtes maintenant connecté en tant qu\''.$role.'.';
+                    switch ($user->status)
+                    {
+                        case self::STATUS_SUBMITTED :
+                            $style = 'warning';
+                            $message = 'Votre demande d\'inscription n\'a pas encore été approuvée ou rejetée par un administrateur. Réessayez plus tard.';
+                            break;
+                        case self::STATUS_REJECTED :
+                            $message = 'Votre demande d\'inscription a été rejetée par un administrateur. Vous ne pouvez pas vous connecter à l\'admin.';
+                            break;
+                        case self::STATUS_APPROVED :
+                            $_SESSION['connection'] = true;
+                            $_SESSION['user_id'] = $user->id;
+                            $_SESSION['user_role'] = $user->role;
+                            $type = 'admin';
+                            $template = 'index';
+                            $pageTitle = 'Tableau de bord';
+                            $style = 'success';
+                            $role = (string) $user->getRoleLabel();
+                            $message = 'Vous êtes maintenant connecté en tant qu\''.$role.'.';
+                            break;
+                    }
                 
                 }
 
