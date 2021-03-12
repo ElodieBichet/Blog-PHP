@@ -31,6 +31,7 @@
         <div class="form-floating mb-3 col-lg-6 col-md-8">
             <input type="password" class="form-control" name="password" id="password" placeholder="Mot de passe">
             <label for="password">Mot de passe</label>
+            <small class="text-form">Laissez vide pour ne pas modifier le mot de passe.</small>
         </div>
 
         <p>Statut de l'utilisateur : <?= filter_var($user->getStatusLabel(), FILTER_SANITIZE_STRING) ?> 

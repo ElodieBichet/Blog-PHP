@@ -122,7 +122,7 @@ class UserController extends Controller
         // if empty, public name = first name + last name
         $user->public_name = (!empty($formdata['public_name'])) ? $formdata['public_name'] : $formdata['first_name'].' '.$formdata['last_name'];
         $user->email_address = $formdata['email_address'];
-        if (!empty($formdata['password'])) $user->password = password_hash($formdata['password'], PASSWORD_DEFAULT);
+        if (!empty($formdata['password'])) $user->password = password_hash($formdata['password'], PASSWORD_BCRYPT);
     }
 
     /**
@@ -194,6 +194,51 @@ class UserController extends Controller
 
         return array($template, $message, $style);
 
+    }
+    
+    /**
+     * connect
+     *
+     * @return void
+     */
+    public function connect()
+    {
+        $user = $this->model;
+        $postArray = $user->collectInput('POST'); // collect global $_POST data
+        $type = 'front';
+        $template = 'login';
+        $pageTitle = 'Connexion à l\'admin';
+        $style = 'danger';
+        $message = 'Echec de la connexion : identifiant ou mot de passe incorrect !';
+
+        if ( !empty($postArray['email_address']) )
+        {
+            $DBuser = $user->find($postArray['email_address'], 'email_address');
+            
+            if ($DBuser) {
+                foreach ($DBuser as $k => $v) $user->$k = $v;
+                
+                if ( password_verify($postArray['password'], $user->password) )
+                {
+                    $_SESSION['connection'] = true;
+                    $_SESSION['user_id'] = $user->id;
+                    $_SESSION['user_role'] = $user->role;
+
+                    $type = 'admin';
+                    $template = 'index';
+                    $pageTitle = 'Tableau de bord';
+                    $style = 'success';
+                    $role = (string) $user->getRoleLabel();
+                    $message = 'Vous êtes maintenant connecté en tant qu\''.$role.'.';
+                
+                }
+
+            }
+        }
+
+        $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
+
+        $this->display($type, $template, compact('pageTitle','alert'));
     }
 
 }
