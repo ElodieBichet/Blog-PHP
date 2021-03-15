@@ -136,6 +136,7 @@ class UserController extends Controller
     public function doActionForm(array $postArray, object $user) : array
     {
 
+        $this->checkAccess(false, $user);
         $template = 'editUser';
         $style = '';
         $message = '';

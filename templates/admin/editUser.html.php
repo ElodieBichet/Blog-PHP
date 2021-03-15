@@ -35,11 +35,13 @@
         </div>
 
         <p>Statut de l'utilisateur : <?= filter_var($user->getStatusLabel(), FILTER_SANITIZE_STRING) ?> 
+        <?php if ($_SESSION['user_role'] == 1) : ?>
         <?php if((int) $user->status != 2) : ?>
         <button type="submit" name="valid" class="btn btn-success btn-sm">Approuver</button>
         <?php endif; ?>
         <?php if((int) $user->status <= 2) : ?>
         <button type="submit" name="reject" class="btn btn-warning btn-sm">Rejeter</button>
+        <?php endif; ?>
         <?php endif; ?>
         </p>
 

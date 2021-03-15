@@ -62,7 +62,7 @@
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="index.php?controller=user&task=edit&id=<?= $_SESSION['user_id'] ?>">
               Gérer mon profil
             </a>
           </li>

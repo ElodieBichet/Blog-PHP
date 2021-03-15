@@ -76,6 +76,7 @@ abstract class Controller
             {
                 foreach ($DBitem as $k => $v) $item->$k = $v;
 
+                $this->checkAccess(false, $item);
                 $pageTitle = 'Modifier '.$modelTrad['article_the'].$modelTrad['item'].' #'.$item->id;
 
                 if (!empty($postArray))

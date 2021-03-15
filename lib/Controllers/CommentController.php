@@ -31,12 +31,12 @@ class CommentController extends Controller
         $order = 'creation_date DESC';
         $post_id = filter_input(INPUT_GET, 'postid');
         $alert = '';
+        $user_posts = $_SESSION['user_posts'];
         
         if(!$this->isAdmin())
         {
-            $user_posts = $_SESSION['user_posts'];
             $postslist = (!empty($user_posts)) ? (implode(', ', $user_posts)) : '0'; 
-            $condition = 'post_id IN ('.$postslist.')'; // if the user is not admin, he can see only comments on his own posts
+            $condition = 'post_id IN ('.$postslist.')'; // if the user is not admin, he can see comments for his own posts only
         }
 
         if (!empty($post_id))
@@ -122,6 +122,7 @@ class CommentController extends Controller
     public function doActionForm(array $postArray, object $comment) : array
     {
 
+        $this->checkAccess(false, $comment);
         $template = 'editComment';
         $style = '';
         $message = '';
@@ -180,17 +181,6 @@ class CommentController extends Controller
 
         return array($template, $message, $style);
 
-    }
-
-    /**
-     * filterAccess
-     * Filter lists and actions according to the connected user rights
-     *
-     * @return void
-     */
-    public function filterAccess() : void
-    {
-        
     }
 
 }

@@ -209,6 +209,7 @@ class PostController extends Controller
     public function doActionForm(array $postArray, object $post) : array
     {
 
+        $this->checkAccess(false, $post);
         $template = 'editPost';
         $style = '';
         $message = '';
