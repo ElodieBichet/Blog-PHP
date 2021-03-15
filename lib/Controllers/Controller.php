@@ -31,8 +31,16 @@ abstract class Controller
     {
         $this->model = new $this->modelName();
     }
-
-    abstract function doActionForm(array $postArray, object $item) : array;
+    
+    /**
+     * dataTransform
+     * Data transformation before database insertion or update
+     *
+     * @param  object $item
+     * @param  mixed $formdata
+     * @return void
+     */
+    abstract function dataTransform(object $item, array $formdata) : void;
 
     /**
      * edit
@@ -46,7 +54,7 @@ abstract class Controller
         $pageTitle = 'Modifier '.$modelTrad['article_the'].$modelTrad['item'];
         $alert = '';
         $item = $this->model;
-        $itemClass = new ReflectionClass($item); // to get the class name pf the item
+        $itemClass = new ReflectionClass($item); // to get the class name of the item
         $template = 'edit'.$itemClass->getShortName();
         $this->checkAccess(); // redirect to login page if not connected
         $getArray = $item->collectInput('GET'); // collect global $_GET data
@@ -82,7 +90,7 @@ abstract class Controller
                 if (!empty($postArray))
                 {
                     $pageTitle = (isset($postArray['delete'])) ? 'Suppression '.$modelTrad['of'].$modelTrad['item'].' #'.$item->id : $pageTitle;
-                    list($template, $message, $style) = $this->doActionForm($postArray, $item);
+                    list($template, $message, $style) = $this->doActionForm($item, $postArray);
                 }
             }
 
@@ -99,6 +107,89 @@ abstract class Controller
         );
 
         $this->display('admin', $template, $variables);
+
+    }
+
+    /**
+     * doActionForm
+     * Check what action is requested when the form is submitted and do these actions
+     *
+     * @param  object   $item Concerned item instance
+     * @param  array    $postArray Array which contains $_POST entries
+     * @return array with 3 variables values
+     */
+    public function doActionForm(object $item, array $postArray) : array
+    {
+        $this->checkAccess(false, $item);
+        $modelTrad = $this->modelTrad;
+        $itemClass = new ReflectionClass($item); // to get the class name of the item
+        $template = 'edit'.$itemClass->getShortName();
+        $style = '';
+        $message = '';
+
+        if ( isset($postArray['update']) OR isset($postArray['updateAsDraft']) ) // if submit with update button
+        {
+
+            if (isset($postArray['update']))
+            {
+                $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' a bien été mis à jour.';
+                if ($item->status == self::STATUS_DRAFT) $item->status = self::STATUS_SUBMITTED;
+            }
+            if (isset($postArray['updateAsDraft']))
+            {
+                $message = 'Le brouillon a bien mis à jour.';
+                $item->status = self::STATUS_DRAFT;
+            }
+            
+            $this->dataTransform($item, $postArray);
+            
+            if ($item->update()) $style = 'success';
+        }
+        
+        if (isset($postArray['delete'])) // if submit with delete button
+        {            
+            $deleteSuccess = $item->delete();
+
+            $template = 'index';
+            $style = 'success';
+            $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' a bien été supprimé.';
+
+            if (!$deleteSuccess) { // if delete() has failed
+                $template = 'edit'.$itemClass->getShortName();
+                $style = 'danger';
+                $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' n\'a pas pu être supprimé.';
+            }
+        }
+
+        if (isset($postArray['valid']))
+        {
+            $updateSuccess = $item->setStatus(self::STATUS_APPROVED);
+
+            $style = 'success';
+            $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' a bien été approuvé.';
+            $item->status = self::STATUS_APPROVED;
+
+            if (!$updateSuccess) { // if setStatus() has failed
+                $style = 'danger';
+                $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' n\'a pas pu être approuvé.';
+            }
+        }
+
+        if (isset($postArray['reject']))
+        {
+            $updateSuccess = $item->setStatus(self::STATUS_REJECTED);
+
+            $style = 'success';
+            $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' a bien été rejeté.';
+            $item->status = self::STATUS_REJECTED;
+
+            if (!$updateSuccess) { // if setStatus() has failed
+                $style = 'danger';
+                $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' n\'a pas pu être rejeté.';
+            }
+        }
+
+        return array($template, $message, $style);
 
     }
 

@@ -94,16 +94,9 @@ class PageController extends Controller
         $this->display('front', 'access-denied', compact('pageTitle'));   
     }
     
-    /**
-     * doActionForm : do nothing for the moment
-     *
-     * @param  array $postArray
-     * @param  object $page
-     * @return array
-     */
-    public function doActionForm(array $postArray, object $page) : array
+    function dataTransform(object $item, array $formdata) : void
     {
-        return $postArray;
+        // do nothing for the moment as pages are not managed like other items
     }
 
 }
