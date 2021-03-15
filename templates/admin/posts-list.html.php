@@ -9,9 +9,12 @@
         <tr>
             <td>ID</td>
             <td>Titre</td>
-            <td>Statut</td>
             <td>Mise à jour</td>
             <td>Auteur</td>
+            <td>Statut</td>
+            <?php if($_SESSION['user_role'] == 1) : ?>
+            <td>Validation</td>
+            <?php endif; ?>
             <td>Modif.</td>
             <td>Suppr.</td>
         </tr>
@@ -24,9 +27,19 @@
         <tr>
             <td>#<?= filter_var($post->id, FILTER_VALIDATE_INT) ?></td>
             <td><a href="index.php?controller=post&task=edit&id=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>"><?= filter_var($post->title, FILTER_SANITIZE_STRING) ?></a></td>
-            <td><?= filter_var($post->getStatusLabel(), FILTER_SANITIZE_STRING) ?></td>
             <td><?= filter_var($post->last_update_date, FILTER_SANITIZE_STRING) ?></td>
             <td><?= filter_var($post->author, FILTER_VALIDATE_INT) ?></td>
+            <td>
+                <?= filter_var($post->getStatusLabel(), FILTER_SANITIZE_STRING) ?>
+            </td>
+            <?php if($_SESSION['user_role'] == 1) : ?>
+            <td>
+                <?php if((int) $post->status != 0) : ?>
+                <button <?= ((int) $post->status == 2) ? 'disabled' : '' ?> type="submit" name="valid" class="btn btn-success btn-sm" formaction="index.php?controller=post&task=edit&id=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>">Approuver</button>
+                <button <?= ((int) $post->status == 3) ? 'disabled' : '' ?> type="submit" name="reject" class="btn btn-warning btn-sm" formaction="index.php?controller=post&task=edit&id=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>">Rejeter</button>
+                <?php endif; ?>
+            </td>
+            <?php endif; ?>
             <td><button type="submit" name="change" class="btn btn-primary" formaction="index.php?controller=post&task=edit&id=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>">Modif.</button></td>
             <td><button type="button" name="delete" class="btn btn-danger" data-bs-postid="<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>" data-bs-toggle="modal" data-bs-target="#myModal">Suppr.</button></td>
         </tr>

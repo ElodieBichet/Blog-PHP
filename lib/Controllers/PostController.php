@@ -143,7 +143,7 @@ class PostController extends Controller
             if (isset($postArray['save']))
             {
                 $message = 'Le post a bien été enregistré en base';
-                $post->status = self::STATUS_APPROVED;
+                $post->status = self::STATUS_SUBMITTED;
             }
             if (isset($postArray['saveAsDraft']))
             {
@@ -219,7 +219,7 @@ class PostController extends Controller
             if (isset($postArray['update']))
             {
                 $message = 'Le post a bien été mis à jour.';
-                $post->status = self::STATUS_APPROVED;
+                if ($post->status == self::STATUS_DRAFT) $post->status = self::STATUS_SUBMITTED;
             }
             if (isset($postArray['updateAsDraft']))
             {
@@ -246,6 +246,34 @@ class PostController extends Controller
                 $template = 'editPost';
                 $style = 'danger';
                 $message = 'Le post #' . $post->id . ' n\'a pas pu être supprimé.';
+            }
+        }
+
+        if (isset($postArray['valid']))
+        {
+            $updateSuccess = $post->setStatus(self::STATUS_APPROVED);
+
+            $style = 'success';
+            $message = 'Le post #' . $post->id . ' a bien été approuvé.';
+            $post->status = self::STATUS_APPROVED;
+
+            if (!$updateSuccess) { // if setStatus() has failed
+                $style = 'danger';
+                $message = 'Le post #' . $post->id . ' n\'a pas pu être approuvé.';
+            }
+        }
+
+        if (isset($postArray['reject']))
+        {
+            $updateSuccess = $post->setStatus(self::STATUS_REJECTED);
+
+            $style = 'success';
+            $message = 'Le post #' . $post->id . ' a bien été rejeté.';
+            $post->status = self::STATUS_REJECTED;
+
+            if (!$updateSuccess) { // if setStatus() has failed
+                $style = 'danger';
+                $message = 'Le post #' . $post->id . ' n\'a pas pu être rejeté.';
             }
         }
 
