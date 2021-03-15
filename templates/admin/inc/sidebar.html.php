@@ -20,7 +20,7 @@
         <ul class="nav flex-column">
           <li class="nav-item">
             <a class="nav-link" href="index.php?admin&controller=post&task=showList">
-              Gérer les posts
+              Gérer <?= ($_SESSION['user_role'] == 1) ? 'les' : 'mes' ?> posts
             </a>
           </li>
           <li class="nav-item">
@@ -34,11 +34,12 @@
         <ul class="nav flex-column">
           <li class="nav-item">
             <a class="nav-link" href="index.php?admin&controller=comment&task=showList">
-              Gérer les commentaires
+              Gérer les commentaires <?= ($_SESSION['user_role'] == 1) ? '' : 'sur mes posts' ?>
             </a>
           </li>
         </ul>
 
+        <?php if($_SESSION['user_role'] == 1) : ?>
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
           Utilisateurs
         </h6>
@@ -54,6 +55,7 @@
             </a>
           </li>
         </ul>
+        <?php endif; ?>
 
         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
             Mon compte
@@ -61,7 +63,7 @@
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
             <a class="nav-link" href="#">
-              Gérer mon compte
+              Gérer mon profil
             </a>
           </li>
           <li class="nav-item">

@@ -160,6 +160,7 @@ class PostController extends Controller
                 $message = 'Une erreur est survenue, le post n\'a pas pu être inséré dans la base de données.';
             } 
             if($post->id !== 0) {
+                array_push($_SESSION['user_posts'], $post->id);
                 $message .= ' sous l\'identifiant #'.$post->id.'.';
                 $style = 'success';
                 $pageTitle = 'Modifier le post #'.$post->id;

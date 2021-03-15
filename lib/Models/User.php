@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http;
+use PDO;
 
 /**
  * User
@@ -118,6 +119,39 @@ class User extends Model
         $label = $row['label'];
         
         return $label;
+    }
+
+    /**
+     * getUserPosts
+     * Get all user's posts
+     * 
+     * @return mixed string (or null if not found)
+     */
+    public function getUserPosts()
+    {
+        $query = $this->pdo->prepare("SELECT id FROM posts WHERE author = :id");
+        $query->execute([':id' => (int) $this->id]);
+        $return = $query->fetchAll(PDO::FETCH_COLUMN);
+        
+        return $return;
+    }
+
+    /**
+     * setConnection
+     * Update $_SESSION with the connected user's data
+     *
+     * @return void
+     */
+    public function setConnection()
+    {
+        $_SESSION['connection'] = true;
+        $_SESSION['user_id'] = $this->id;
+        $_SESSION['user_email'] = $this->email_address;
+        $_SESSION['user_name'] = $this->public_name;
+        $_SESSION['user_role'] = $this->role;
+        $_SESSION['user_posts'] = array();
+        $userPosts = $this->getUserPosts();
+        if($userPosts) $_SESSION['user_posts'] = $userPosts;
     }
 
 }

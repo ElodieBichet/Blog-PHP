@@ -230,11 +230,7 @@ class UserController extends Controller
                             $message = 'Votre demande d\'inscription a été rejetée par un administrateur. Vous ne pouvez pas vous connecter à l\'admin.';
                             break;
                         case self::STATUS_APPROVED :
-                            $_SESSION['connection'] = true;
-                            $_SESSION['user_id'] = $user->id;
-                            $_SESSION['user_email'] = $user->email_address;
-                            $_SESSION['user_name'] = $user->public_name;
-                            $_SESSION['user_role'] = $user->role;
+                            $user->setConnection(); // update $_SESSION
                             $type = 'admin';
                             $template = 'index';
                             $pageTitle = 'Tableau de bord';

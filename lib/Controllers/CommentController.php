@@ -25,16 +25,23 @@ class CommentController extends Controller
      */
     public function showList() : void
     {
-        $this->checkAccess(); // redirect to login page if not connected
-        
+        $this->checkAccess();
         $pageTitle = 'Gérer les commentaires';
         $condition = '1 = 1';
         $order = 'creation_date DESC';
         $post_id = filter_input(INPUT_GET, 'postid');
         $alert = '';
+        
+        if(!$this->isAdmin())
+        {
+            $user_posts = $_SESSION['user_posts'];
+            $postslist = (!empty($user_posts)) ? (implode(', ', $user_posts)) : '0'; 
+            $condition = 'post_id IN ('.$postslist.')'; // if the user is not admin, he can see only comments on his own posts
+        }
 
         if (!empty($post_id))
         {
+            if(!in_array($post_id, $user_posts)) $this->checkAccess(true); // if the user is not author of the requested post, he has to be admin
             $post_id = (int) $post_id;
             $pageTitle = 'Gérer les commentaires du post #'.$post_id;
             $condition = 'post_id = '.$post_id;
@@ -173,6 +180,17 @@ class CommentController extends Controller
 
         return array($template, $message, $style);
 
+    }
+
+    /**
+     * filterAccess
+     * Filter lists and actions according to the connected user rights
+     *
+     * @return void
+     */
+    public function filterAccess() : void
+    {
+        
     }
 
 }
