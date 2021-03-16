@@ -130,11 +130,9 @@ abstract class Controller
         if ( isset($postArray['update']) OR isset($postArray['updateAsDraft']) ) // if submit with update button
         {
 
-            if (isset($postArray['update']))
-            {
-                $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' a bien été mis à jour.';
-                if ($item->status == self::STATUS_DRAFT) $item->status = self::STATUS_SUBMITTED;
-            }
+            $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' a bien été mis à jour.';
+            if ($item->status == self::STATUS_DRAFT) $item->status = self::STATUS_SUBMITTED;
+
             if (isset($postArray['updateAsDraft']))
             {
                 $message = 'Le brouillon a bien mis à jour.';
