@@ -1,4 +1,14 @@
 
-<p>Le contenu de l'admin par défaut.</p>
+<div class="text-center">
 
-<p><a class="nav-link" href="index.php?controller=post&task=add">Ajouter un post</a></p>
+    <p class="display-4">Bienvenue <?= filter_var($sessionTab['user_name'], FILTER_SANITIZE_STRING) ?> !</p>
+
+    <p class="lead">Par quoi souhaitez-vous commencer ?</p>
+
+    <p class="d-flex justify-content-evenly">
+        <a class="btn btn-primary mx-2" href="index.php?controller=post&task=add">Ajouter un post</a>
+        <a class="btn btn-primary mx-2" href="index.php?controller=comment&task=showList">Gérer les commentaires</a>
+        <a class="btn btn-primary mx-2" href="index.php?controller=comment&task=showList">Modifier mon profil</a>
+    </p>
+
+</div>

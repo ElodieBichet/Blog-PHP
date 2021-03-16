@@ -31,8 +31,10 @@
         <div class="form-floating mb-3 col-lg-6 col-md-8">
             <input type="password" class="form-control" name="password" id="password" placeholder="Mot de passe">
             <label for="password">Mot de passe</label>
+            <small class="text-form">Laissez vide pour ne pas modifier le mot de passe.</small>
         </div>
 
+        <?php if ($isAdmin) : ?>
         <p>Statut de l'utilisateur : <?= filter_var($user->getStatusLabel(), FILTER_SANITIZE_STRING) ?> 
         <?php if((int) $user->status != 2) : ?>
         <button type="submit" name="valid" class="btn btn-success btn-sm">Approuver</button>
@@ -41,6 +43,7 @@
         <button type="submit" name="reject" class="btn btn-warning btn-sm">Rejeter</button>
         <?php endif; ?>
         </p>
+        <?php endif; ?>
 
         <button type="submit" name="update" class="btn btn-primary">Mettre à jour</button>
         <button type="button" name="delete" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal">Supprimer</button>

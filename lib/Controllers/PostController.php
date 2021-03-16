@@ -45,6 +45,8 @@ class PostController extends Controller
                 $this->checkAccess(); // redirect to login page if not connected
                 $pageTitle = 'Gérer les posts';
                 $condition = '1 = 1';
+                // If user is not admin, he can only see his own posts
+                if(!($this->isAdmin())) $condition = 'author = '.$_SESSION['user_id'];
                 $order = 'last_update_date DESC';
                 break;
         }
@@ -141,7 +143,7 @@ class PostController extends Controller
             if (isset($postArray['save']))
             {
                 $message = 'Le post a bien été enregistré en base';
-                $post->status = self::STATUS_APPROVED;
+                $post->status = self::STATUS_SUBMITTED;
             }
             if (isset($postArray['saveAsDraft']))
             {
@@ -149,7 +151,7 @@ class PostController extends Controller
                 $post->status = self::STATUS_DRAFT;
             }
 
-            $post->author = 1; // default author
+            $post->author = filter_var($_SESSION['user_id'], FILTER_VALIDATE_INT); // author = connected user
             $this->dataTransform($post, $postArray);
             
             $post->id = $post->insert();
@@ -158,6 +160,7 @@ class PostController extends Controller
                 $message = 'Une erreur est survenue, le post n\'a pas pu être inséré dans la base de données.';
             } 
             if($post->id !== 0) {
+                array_push($_SESSION['user_posts'], $post->id);
                 $message .= ' sous l\'identifiant #'.$post->id.'.';
                 $style = 'success';
                 $pageTitle = 'Modifier le post #'.$post->id;
@@ -193,61 +196,6 @@ class PostController extends Controller
         $date = (!empty($formdata['date'])) ? $formdata['date'] : date('Y-m-d');
         $time = (!empty($formdata['time'])) ? $formdata['time'] : date('H:i:s');
         $post->publication_date = $date.' '.$time;
-    }
-    
-    /**
-     * doActionForm
-     * Check what action is requested when the form is submitted and do these actions
-     *
-     * @param  array $postArray Array which contains $_POST entries
-     * @param  object $post Concerned Post instance
-     * @return array with 3 variables values
-     */
-    public function doActionForm(array $postArray, object $post) : array
-    {
-
-        $template = 'editPost';
-        $style = '';
-        $message = '';
-
-        if ( isset($postArray['update']) OR isset($postArray['updateAsDraft']) ) // if submit with update button
-        {
-
-            if (isset($postArray['update']))
-            {
-                $message = 'Le post a bien été mis à jour.';
-                $post->status = self::STATUS_APPROVED;
-            }
-            if (isset($postArray['updateAsDraft']))
-            {
-                $message = 'Le brouillon a bien mis à jour.';
-                $post->status = self::STATUS_DRAFT;
-            }
-            
-            $this->dataTransform($post, $postArray);
-            
-            if ($post->update()) $style = 'success';
-        }
-        
-        if (isset($postArray['delete'])) // if submit with delete button
-        {
-            $pageTitle = 'Suppression du post #'.$post->id;
-            
-            $deleteSuccess = $post->delete();
-
-            $template = 'index';
-            $style = 'success';
-            $message = 'Le post #' . $post->id . ' a bien été supprimé.';
-
-            if (!$deleteSuccess) { // if delete() has failed
-                $template = 'editPost';
-                $style = 'danger';
-                $message = 'Le post #' . $post->id . ' n\'a pas pu être supprimé.';
-            }
-        }
-
-        return array($template, $message, $style);
-
     }
 
 }

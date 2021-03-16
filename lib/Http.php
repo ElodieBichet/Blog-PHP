@@ -28,6 +28,7 @@ trait Http
   public function logout() : void
   {
     $serverArray = $this->collectInput('SERVER');
+    $_SESSION = array();
     session_destroy();
     $url = (!empty($serverArray['PHP_SELF'])) ? $serverArray['PHP_SELF'] : 'index.php';
     $this->redirect($url);

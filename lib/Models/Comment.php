@@ -87,4 +87,5 @@ class Comment extends Model
 
         return $return;
     }
+
 }

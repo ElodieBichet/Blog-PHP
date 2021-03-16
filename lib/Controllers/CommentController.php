@@ -25,16 +25,23 @@ class CommentController extends Controller
      */
     public function showList() : void
     {
-        $this->checkAccess(); // redirect to login page if not connected
-        
+        $this->checkAccess();
         $pageTitle = 'Gérer les commentaires';
         $condition = '1 = 1';
         $order = 'creation_date DESC';
         $post_id = filter_input(INPUT_GET, 'postid');
         $alert = '';
+        $user_posts = $_SESSION['user_posts'];
+        
+        if(!$this->isAdmin())
+        {
+            $postslist = (!empty($user_posts)) ? (implode(', ', $user_posts)) : '0'; 
+            $condition = 'post_id IN ('.$postslist.')'; // if the user is not admin, he can see comments for his own posts only
+        }
 
         if (!empty($post_id))
         {
+            if(!in_array($post_id, $user_posts)) $this->checkAccess(true); // if the user is not author of the requested post, he has to be admin
             $post_id = (int) $post_id;
             $pageTitle = 'Gérer les commentaires du post #'.$post_id;
             $condition = 'post_id = '.$post_id;
@@ -100,79 +107,8 @@ class CommentController extends Controller
     public function dataTransform(object $comment, array $formdata) : void {
         $comment->post_id = $formdata['post_id'];
         $comment->author = $formdata['author'];
-        $comment->email_address = $formdata['email_address'];
+        $comment->email_address = filter_var($formdata['email_address'], FILTER_SANITIZE_EMAIL);
         $comment->content = $formdata['content'];
-    }
-    
-    /**
-     * doActionForm
-     * Check what action is requested when the form is submitted and do these actions
-     *
-     * @param  array $postArray Array which contains $_POST entries
-     * @param  object $comment Concerned Comment instance
-     * @return array with 3 variables values
-     */
-    public function doActionForm(array $postArray, object $comment) : array
-    {
-
-        $template = 'editComment';
-        $style = '';
-        $message = '';
-        
-        if ( isset($postArray['update']) ) // if submit with update button
-        {
-            $message = 'Le commentaire a bien été mis à jour.';
-            
-            $this->dataTransform($comment, $postArray);
-            
-            if ($comment->update()) $style = 'success';
-        }
-        
-        if (isset($postArray['delete'])) // if submit with delete button
-        {   
-            $deleteSuccess = $comment->delete();
-
-            $template = 'index';
-            $style = 'success';
-            $message = 'Le commentaire #' . $comment->id . ' a bien été supprimé.';
-
-            if (!$deleteSuccess) { // if delete() has failed
-                $template = 'editComment';
-                $style = 'danger';
-                $message = 'Le commentaire #' . $comment->id . ' n\'a pas pu être supprimé.';
-            }
-        }
-
-        if (isset($postArray['valid']))
-        {
-            $updateSuccess = $comment->setStatus(self::STATUS_APPROVED, true);
-
-            $style = 'success';
-            $message = 'Le commentaire #' . $comment->id . ' a bien été approuvé.';
-            $comment->status = self::STATUS_APPROVED;
-
-            if (!$updateSuccess) { // if setStatus() has failed
-                $style = 'danger';
-                $message = 'Le commentaire #' . $comment->id . ' n\'a pas pu être approuvé.';
-            }
-        }
-
-        if (isset($postArray['reject']))
-        {
-            $updateSuccess = $comment->setStatus(self::STATUS_REJECTED);
-
-            $style = 'success';
-            $message = 'Le commentaire #' . $comment->id . ' a bien été rejeté.';
-            $comment->status = self::STATUS_REJECTED;
-
-            if (!$updateSuccess) { // if setStatus() has failed
-                $style = 'danger';
-                $message = 'Le commentaire #' . $comment->id . ' n\'a pas pu être rejeté.';
-            }
-        }
-
-        return array($template, $message, $style);
-
     }
 
 }

@@ -81,17 +81,22 @@ class PageController extends Controller
         $pageTitle = 'Erreur 404';
         $this->display('front', '404-error', compact('pageTitle'));   
     }
-    
+
     /**
-     * doActionForm : do nothing for the moment
+     * showAccessDenied
+     * Display an error page if user has not the right access
      *
-     * @param  array $postArray
-     * @param  object $page
-     * @return array
+     * @return void
      */
-    public function doActionForm(array $postArray, object $page) : array
+    public function showAccessDenied() : void
     {
-        return $postArray;
+        $pageTitle = 'Accès refusé';
+        $this->display('front', 'access-denied', compact('pageTitle'));   
+    }
+    
+    function dataTransform(object $item, array $formdata) : void
+    {
+        // do nothing for the moment as pages are not managed like other items
     }
 
 }
