@@ -48,10 +48,7 @@
         <button type="submit" name="update" class="btn btn-primary">Mettre à jour</button>
         <button type="button" name="delete" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal">Supprimer</button>
 
-        <?php
-         $item = 'l\'utilisateur'; $itemId = $user->id;
-         require('inc/modal.html.php');
-        ?>
+        <?php $item = 'l\'utilisateur'; $itemId = $user->id; require 'inc/modal.html.php'; ?>
 
         <script>
             var myModal = document.getElementById('myModal')

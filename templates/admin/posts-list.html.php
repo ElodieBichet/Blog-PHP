@@ -45,7 +45,7 @@
         </tr>
         
     <?php endforeach; ?>
-    <?php $item = 'le post'; $itemId = 0; require('inc/modal.html.php'); ?>
+    <?php $item = 'le post'; $itemId = 0; require 'inc/modal.html.php'; ?>
     </form>
     
         <script>

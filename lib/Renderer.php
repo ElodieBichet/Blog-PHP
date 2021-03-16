@@ -43,21 +43,25 @@ class Renderer
 
         // Get the admin sidebar template
         if ($type=='admin')
-        {
+        {   
+            $sidebarPath = '../templates/admin/inc/sidebar.html.php';
             ob_start();
-            require('../templates/admin/inc/sidebar.html.php');
+            require $sidebarPath;
             $pageSidebar = ob_get_clean();
         }
 
+        $headerPath = '../templates/'.$type.'/inc/header.html.php';
         ob_start();
-        require('../templates/'.$type.'/inc/header.html.php');
+        require $headerPath;
         $pageHeader = ob_get_clean();
         
+        $contentPath = '../templates/' . $type . '/' . $path . '.html.php';
         ob_start();
-        require('../templates/' . $type . '/' . $path . '.html.php');
+        require $contentPath;
         $pageContent = ob_get_clean();
     
-        require('../templates/'.$type.'/layout.html.php');
+        $layoutPath = '../templates/'.$type.'/layout.html.php';
+        require $layoutPath;
 
     }
 
