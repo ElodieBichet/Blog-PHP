@@ -144,14 +144,20 @@ class User extends Model
      */
     public function setConnection()
     {
-        $_SESSION['connection'] = true;
-        $_SESSION['user_id'] = $this->id;
-        $_SESSION['user_email'] = $this->email_address;
-        $_SESSION['user_name'] = $this->public_name;
-        $_SESSION['user_role'] = $this->role;
-        $_SESSION['user_posts'] = array();
-        $userPosts = $this->getUserPosts();
-        if($userPosts) $_SESSION['user_posts'] = $userPosts;
+        $currentSession = array(
+            'connection' => true,
+            'user_id' => $this->id,
+            'user_email' => $this->email_address,
+            'user_name' => $this->public_name,
+            'user_role' => $this->role
+        );
+        $userPosts = $this->getUserPosts(); 
+        $currentSession['user_posts'] = ($userPosts) ? $userPosts : array();
+
+        foreach ($currentSession as $key => $value)
+        {
+            $_SESSION[$key] = $value;
+        }
     }
 
 }

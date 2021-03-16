@@ -6,7 +6,7 @@
         <?php require('inc/postFields.html.php'); ?>
 
         <p>Statut du post : <?= filter_var($post->getStatusLabel(), FILTER_SANITIZE_STRING) ?> 
-        <?php if( ($_SESSION['user_role'] == 1) AND ($post->status > 0)) : ?>
+        <?php if( ($isAdmin) AND ($post->status > 0)) : ?>
         <?php if((int) $post->status != 2) : ?>
         <button type="submit" name="valid" class="btn btn-success btn-sm">Approuver</button>
         <?php endif; ?>

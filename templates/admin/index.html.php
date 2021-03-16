@@ -1,7 +1,7 @@
 
 <div class="text-center">
 
-    <p class="display-4">Bienvenue <?= filter_var($_SESSION['user_name'], FILTER_SANITIZE_STRING) ?> !</p>
+    <p class="display-4">Bienvenue <?= filter_var($sessionTab['user_name'], FILTER_SANITIZE_STRING) ?> !</p>
 
     <p class="lead">Par quoi souhaitez-vous commencer ?</p>
 

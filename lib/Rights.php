@@ -37,19 +37,20 @@ trait Rights
       {
         $itemClass = new \ReflectionClass($item);
         $classname = $itemClass->getShortName();
+        $currentSession = filter_var_array($_SESSION);
         
         switch ($classname)
         {
           case 'Comment' : // if comment, check if the post_id is in the user's posts
-            $user_posts = $_SESSION['user_posts'];
+            $user_posts = $currentSession['user_posts'];
             if(!in_array($item->post_id, $user_posts)) $isAllowed = false;
             break;
           case 'Post' : // if post, check if the user is the author
-            $user_id = $_SESSION['user_id'];
+            $user_id = $currentSession['user_id'];
             if($item->author != $user_id) $isAllowed = false;
             break;
           case 'User' : // if user, check if this is the current connected user
-            $user_id = $_SESSION['user_id'];
+            $user_id = $currentSession['user_id'];
             if($item->id != $user_id) $isAllowed = false;
             break;
           default :
@@ -74,7 +75,8 @@ trait Rights
   public function display(string $type, string $path, array $variables)
   {
     $isConnected = self::isConnected();
-    Renderer::render($type, $path, $isConnected, $variables);
+    $isAdmin = self::isAdmin();
+    Renderer::render($type, $path, $isConnected, $isAdmin, $variables);
   }
   
   /**
@@ -85,9 +87,9 @@ trait Rights
    */
   public static function isConnected() : bool
   {
-    $connection = (array_key_exists('connection', $_SESSION)) ? filter_var($_SESSION['connection'], FILTER_SANITIZE_STRING) : false;
+    $connection = (array_key_exists('connection', $_SESSION)) ? filter_var((bool) $_SESSION['connection'], FILTER_SANITIZE_STRING) : false;
 
-    return $connection;
+    return (bool) $connection;
   }
 
   /**
