@@ -72,11 +72,11 @@ trait Rights
    * @param  array  $variables  array with all needed variables used in templates
    * @return void
    */
-  public function display(string $type, string $path, array $variables)
+  public function display(string $type, string $path, string $pageTitle, array $variables = [])
   {
     $isConnected = self::isConnected();
     $isAdmin = self::isAdmin();
-    Renderer::render($type, $path, $isConnected, $isAdmin, $variables);
+    Renderer::render($type, $path, $isConnected, $isAdmin, $pageTitle, $variables);
   }
   
   /**

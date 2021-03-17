@@ -30,7 +30,8 @@ class CommentController extends Controller
         $condition = '1 = 1';
         $order = 'creation_date DESC';
         $post_id = filter_input(INPUT_GET, 'postid');
-        $alert = '';
+        $style = 'warning';
+        $message = '';
         $user_posts = $_SESSION['user_posts'];
         
         if(!$this->isAdmin())
@@ -53,10 +54,9 @@ class CommentController extends Controller
         {
             $style = 'warning';
             $message = 'Aucun commentaire trouvé avec ces critères';
-            $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
         }
 
-        $this->display('admin', 'comments-list', compact('pageTitle','comments','alert'));
+        $this->display('admin', 'comments-list', $pageTitle, compact('comments','message','style'));
     }
 
     /**

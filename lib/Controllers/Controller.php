@@ -52,7 +52,8 @@ abstract class Controller
     {
         $modelTrad = $this->modelTrad;
         $pageTitle = 'Modifier '.$modelTrad['article_the'].$modelTrad['item'];
-        $alert = '';
+        $style = 'warning';
+        $message = '';
         $item = $this->model;
         $itemClass = new ReflectionClass($item); // to get the class name of the item
         $template = 'edit'.$itemClass->getShortName();
@@ -63,7 +64,6 @@ abstract class Controller
         if(empty($getArray['id'])) // if no ID
         {
             $template = 'index';
-            $style = 'warning';
             $message = 'Vous devez spécifier l\'identifiant '.$modelTrad['of'].$modelTrad['item'].' que vous souhaitez modifier.';
         }
 
@@ -76,7 +76,6 @@ abstract class Controller
             {
                 $pageTitle = 'Gérer les '.$modelTrad['item'].'s';
                 $template = 'index';
-                $style = 'warning';
                 $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' que vous souhaitez modifier n\'existe pas ou l\'identifiant est incorrect.';
             }
 
@@ -96,17 +95,13 @@ abstract class Controller
 
         }
 
-        if(!empty($message)) {
-            $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
-        }
-
         $variables = array(
-            'pageTitle' => $pageTitle,
-            'alert' => $alert,
+            'style' => $style,
+            'message' => $message,
             strtolower($itemClass->getShortName()) => $item
         );
 
-        $this->display('admin', $template, $variables);
+        $this->display('admin', $template, $pageTitle, $variables);
 
     }
 

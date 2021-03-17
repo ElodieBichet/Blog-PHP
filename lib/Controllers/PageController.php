@@ -67,7 +67,7 @@ class PageController extends Controller
             $this->checkAccess();
         }
 
-        $this->display($page->type, $template, compact('pageTitle'));
+        $this->display($page->type, $template, $pageTitle);
     }
     
     /**
@@ -78,8 +78,7 @@ class PageController extends Controller
      */
     public function show404() : void
     {
-        $pageTitle = 'Erreur 404';
-        $this->display('front', '404-error', compact('pageTitle'));   
+        $this->display('front', '404-error', 'Erreur 404');   
     }
 
     /**
@@ -90,8 +89,7 @@ class PageController extends Controller
      */
     public function showAccessDenied() : void
     {
-        $pageTitle = 'Accès refusé';
-        $this->display('front', 'access-denied', compact('pageTitle'));   
+        $this->display('front', 'access-denied', 'Accès refusé');   
     }
     
     function dataTransform(object $item, array $formdata) : void

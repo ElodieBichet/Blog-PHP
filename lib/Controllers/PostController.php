@@ -53,7 +53,7 @@ class PostController extends Controller
 
         $posts = $this->model->findAll($condition, $order);
 
-        $this->display($type, $path, compact('pageTitle','posts'));
+        $this->display($type, $path, $pageTitle, compact('posts'));
     }
   
     /**
@@ -68,7 +68,8 @@ class PostController extends Controller
         $comment = new Comment();
         $getArray = $post->collectInput('GET'); // collect global $_GET data
         $pageTitle = '';
-        $alert = '';
+        $style = 'success';
+        $message = '';
 
         if(empty($getArray['id'])) // if no ID
         {
@@ -97,15 +98,12 @@ class PostController extends Controller
                 if (isset($getArray['comment']))
                 {
                     $message = 'Votre commentaire a été envoyé. Il sera publié après modération par un administrateur.';
-                    $style = 'success';
                     
                     if ($getArray['comment'] != 'submitted')
                     {
                         $message = 'Une erreur est survenue, le commentaire n\'a pas pu être envoyé.';
                         $style = 'danger';
                     }
-
-                    $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
             
                 }
 
@@ -117,7 +115,7 @@ class PostController extends Controller
             }
         }
 
-        $this->display('front', 'post', compact('pageTitle','post','comments','alert'));
+        $this->display('front', 'post', $pageTitle, compact('post','comments','message','style'));
     }
    
     /**
@@ -132,7 +130,8 @@ class PostController extends Controller
         $this->checkAccess(); // redirect to login page if not connected
 
         $pageTitle = 'Ajouter un post';
-        $alert = '';
+        $message = '';
+        $style = 'success';
         $template = 'newPost';
         $post = $this->model;
 
@@ -158,22 +157,18 @@ class PostController extends Controller
 
             if($post->id == 0) {
                 $message = 'Une erreur est survenue, le post n\'a pas pu être inséré dans la base de données.';
+                $style = 'danger';
             } 
             if($post->id !== 0) {
                 array_push($_SESSION['user_posts'], $post->id);
                 $message .= ' sous l\'identifiant #'.$post->id.'.';
-                $style = 'success';
                 $pageTitle = 'Modifier le post #'.$post->id;
                 $template = 'editPost';
             }
 
         }
-
-        if(!empty($message)) {
-            $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
-        }
         
-        $this->display('admin', $template, compact('pageTitle','alert','post'));
+        $this->display('admin', $template, $pageTitle, compact('message','style','post'));
 
     }
   

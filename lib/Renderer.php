@@ -19,14 +19,13 @@ class Renderer
      * @param  array    $variables  array with all needed variables used in templates
      * @return void
      */
-    public static function render(string $type='front', string $path = 'index', bool $isConnected = false, bool $isAdmin = false, array $variables=[]) : void
+    public static function render(string $type='front', string $path = 'index', bool $isConnected = false, bool $isAdmin = false, string $pageTitle = 'Page sans titre', array $variables=[]) : void
     {
         // variables initialization
-        $pageTitle = 'Page sans titre';
-        $alert = '';
         $sessionTab = (!empty($_SESSION)) ? $_SESSION : array();
-        
         extract($variables);
+        
+        $alert = (!empty($message)) ? sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style) : '';
 
         if ($type == 'front')
         {
