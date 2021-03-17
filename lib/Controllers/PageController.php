@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use Throwable;
+
 /**
  * PageController
  * Manage pages
@@ -93,6 +95,25 @@ class PageController extends Controller
         $page->type = 'front';
         $page->template = $pageName;
         $page->title = $pageTitle;
+    }
+
+    public function send()
+    {
+        try
+        {
+            if (!mail('e_bichet@yahoo.fr', 'sujet', 'message'))
+            {
+                throw new Throwable();
+            }
+        }
+        catch (Throwable $e)
+        {
+            $message = 'Une erreur est survenue, le message n\'a pas pu être envoyé.';
+            $style = 'danger';
+            $this->display('front','contact','Contactez-moi',compact('message','style'));
+            // Uncomment in dev context :
+            // echo 'Erreur : '. $e->getMessage() .'<br>Fichier : '. $e->getFile() .'<br>Ligne : '. $e->getLine();
+        }
     }
     
     function dataTransform(object $item, array $formdata) : void
