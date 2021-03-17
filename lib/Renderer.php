@@ -30,8 +30,8 @@ class Renderer
         if ($type == 'front')
         {
 
-            $navAdminLink = array('href' => 'index.php?register', 'label' => 'Inscription');
-            $navConnectLink = array('href' => 'index.php?login', 'label' => 'Connexion');
+            $navAdminLink = array('href' => 'index.php?page=register', 'label' => 'Inscription');
+            $navConnectLink = array('href' => 'index.php?page=login', 'label' => 'Connexion');
 
             if($isConnected) {
                 $navAdminLink = array('href' => 'index.php?admin', 'label' => 'Admin');

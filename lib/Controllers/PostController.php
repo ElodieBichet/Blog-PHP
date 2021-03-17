@@ -73,7 +73,7 @@ class PostController extends Controller
 
         if(empty($getArray['id'])) // if no ID
         {
-            $post->redirect('index.php?controller=page&task=show404');
+            $post->redirect('index.php?page=404-error');
         }
 
         if(!empty($getArray['id']))
@@ -83,7 +83,7 @@ class PostController extends Controller
 
             if (!$DBpost)
             {
-                $post->redirect('index.php?controller=page&task=show404');
+                $post->redirect('index.php?page=404-error');
             }
 
             if (!empty($DBpost)) // if post exists in database
@@ -92,7 +92,7 @@ class PostController extends Controller
 
                 if ( ($post->status != self::STATUS_APPROVED) OR (strtotime($post->publication_date) > time()) )
                 {
-                    $post->redirect('index.php?controller=page&task=show404');
+                    $post->redirect('index.php?page=404-error');
                 }
 
                 if (isset($getArray['comment']))

@@ -50,7 +50,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="index.php?register">
+            <a class="nav-link" href="index.php?page=register">
               Ajouter un utilisateur
             </a>
           </li>

@@ -48,7 +48,7 @@ class Application
         // else
         if (!method_exists( $controllerName, $task )) {
             $controller = new PageController();
-            $controller->show404();
+            $controller->redirect('index.php?page=404-error');
         }
     }
 }

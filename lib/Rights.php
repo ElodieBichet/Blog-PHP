@@ -20,7 +20,7 @@ trait Rights
 
     if(!$isConnected)
     {
-      $this->redirect('index.php?login');
+      $this->redirect('index.php?page=login');
     }
 
     $isAdmin = self::isAdmin();
@@ -59,7 +59,7 @@ trait Rights
       }
     }
     
-    if (!$isAllowed) $this->redirect('index.php?controller=page&task=showAccessDenied');
+    if (!$isAllowed) $this->redirect('index.php?page=access-denied');
 
   }
   
