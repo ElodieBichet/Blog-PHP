@@ -23,7 +23,7 @@ class Application
     {
         // Fix default timezone to match with DB
         date_default_timezone_set(self::TIMEZONE);
-        
+
         // Call session_start() once
         $session = Session::getInstance();
         
