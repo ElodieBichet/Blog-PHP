@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Rights;
 use ReflectionClass;
+use Throwable;
+use App\Mailing;
 
 /**
  * Controller
@@ -41,6 +43,50 @@ abstract class Controller
      * @return void
      */
     abstract function dataTransform(object $item, array $formdata) : void;
+    
+    /**
+     * contact
+     * Send an email to the superadmin thanks to the contact form
+     *
+     * @return void
+     */
+    public function contact()
+    {
+        $getPost = $this->collectInput('POST', FILTER_SANITIZE_STRING);
+
+        if(isset($getPost['sendEmail']))
+        {
+            // Get the values of the form fields
+            $name = (isset($getPost['sender_name'])) ? filter_var($getPost['sender_name'], FILTER_SANITIZE_STRING) : 'anonyme';
+            $email = (isset($getPost['sender_email_address'])) ? filter_var($getPost['sender_email_address'], FILTER_SANITIZE_EMAIL) : 'indéterminée';
+            $subject = (isset($getPost['sender_subject'])) ? filter_var($getPost['sender_subject'], FILTER_SANITIZE_STRING) : 'contactez-moi';
+            $body = (isset($getPost['sender_message'])) ? filter_var($getPost['sender_message'], FILTER_SANITIZE_STRING) : '';
+            $body = 'Message de '. $name .' ('.$email.') envoyé le '.date("d/m/Y à H\hi").' : '."\n\n".$body;
+
+            try
+            {
+                // Send the email
+                $result = Mailing::sendEmail($name, $email, $subject, $body);
+                
+                if (!($result))
+                {
+                    throw new Throwable();
+                }
+                $message = 'Le message a bien été envoyé.';
+                $style = 'success';
+            }
+            catch (Throwable $e)
+            {
+                $message = 'Une erreur est survenue, le message n\'a pas pu être envoyé.';
+                $style = 'danger';
+                // Uncomment in dev context :
+                echo 'Erreur : '. $e->getMessage() .'<br>Fichier : '. $e->getFile() .'<br>Ligne : '. $e->getLine();
+            }
+    
+            $this->display('front','contactme','Contactez-moi',compact('message','style'));
+        }
+
+    }
 
     /**
      * edit
