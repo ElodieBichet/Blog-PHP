@@ -103,4 +103,20 @@ class Post extends Model
         return $return;
     }
 
+    /**
+     * getAuthorName
+     * Get public name of the item in the database
+     * 
+     * @return mixed string (or null if not found)
+     */
+    public function getAuthorName()
+    {
+        $query = $this->pdo->prepare("SELECT * FROM users WHERE id = :id");
+        $query->execute([':id' => (int) $this->author]);
+        $row = $query->fetch();
+        $label = ($row) ? $row['public_name'] : 'utilisateur supprimé';
+        
+        return $label;
+    }
+
 }

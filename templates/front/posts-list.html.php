@@ -9,7 +9,7 @@
                 <h2 class="card-title"><?= filter_var($post->title, FILTER_SANITIZE_STRING) ?></h2>
             </div>
             <div class="card-body">
-                <p class="card-subtitle mb-2 text-muted">Dernière mise à jour : <?= filter_var(date('\l\e d/m/Y à H:i', strtotime($post->last_update_date)), FILTER_SANITIZE_STRING) ?></p>
+                <p class="card-subtitle mb-2 text-muted">Par <?= filter_var($post->getAuthorName(), FILTER_SANITIZE_STRING) ?><br>Dernière mise à jour : <?= filter_var(date('\l\e d/m/Y à H:i', strtotime($post->last_update_date)), FILTER_SANITIZE_STRING) ?></p>
                 <p class="card-text">
                     <?= filter_var($post->intro) ?>
                 </p>
