@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Comment;
 use Cocur\Slugify\Slugify;
+use Throwable;
 
 /**
  * PostController
@@ -164,6 +165,26 @@ class PostController extends Controller
                 $message .= ' sous l\'identifiant #'.$post->id.'.';
                 $pageTitle = 'Modifier le post #'.$post->id;
                 $template = 'editPost';
+
+                if(!$this->isAdmin())
+                {
+                    // Try to notify the site owner of the new post submission
+                    try
+                    {
+                        $serverArray = $this->collectInput('SERVER');
+                        $baseUrl = 'http://'.$serverArray['HTTP_HOST'].$serverArray['PHP_SELF'];
+                        $body = "Un nouveau post vient d'être soumis par {$post->getAuthor()} : {$baseUrl}?controller=post&task=edit&id={$post->id}";
+                        if (!$this->sendEmail('My Blog','noreply@myblog.fr','Nouveau post soumis',$body))
+                        {
+                            throw new Throwable();
+                        }
+                    }
+                    catch (Throwable $e)
+                    {
+                        // Uncomment in dev context :
+                        echo 'Erreur : '. $e->getMessage() .'<br>Fichier : '. $e->getFile() .'<br>Ligne : '. $e->getLine();
+                    }
+                }
             }
 
         }
