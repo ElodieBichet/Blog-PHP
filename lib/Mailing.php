@@ -7,15 +7,11 @@ use Swift_Mailer;
 use Swift_Message;
 use Symfony\Component\Dotenv\Dotenv;
 
-// Use .env files to create $_ENV superglobal var
-$dotenv = new Dotenv();
-$dotenv->load(__DIR__.'/../.env', __DIR__.'/../.env.local');
-
 /**
  * Mailing
  * Manage email sending with Swiftmailer library
  */
-class Mailing
+trait Mailing
 {        
     /**
      * sendEmail
@@ -27,9 +23,13 @@ class Mailing
      * @param  array $recipient Array (recipient's email address => name). If empty use the configured superadmin in .env file)
      * @return bool True in case of success, False else
      */
-    public static function sendEmail(string $name, string $email, string $subject, string $body, array $recipient = []) : bool
+    public function sendEmail(string $name, string $email, string $subject, string $body, array $recipient = []) : bool
     {
+        // Use .env files to create $_ENV superglobal var
+        $dotenv = new Dotenv();
+        $dotenv->load(__DIR__.'/../.env', __DIR__.'/../.env.local');
         $envInput = filter_var_array($_ENV, FILTER_SANITIZE_STRING);
+
         if (empty($recipient)) $recipient = array($envInput['ADMIN_EMAIL'] => $envInput['ADMIN_NAME']);
         
         // Create the Transport
@@ -51,4 +51,5 @@ class Mailing
 
         return $mailer->send($message);
     }
+
 }

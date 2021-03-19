@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use Throwable;
+
 /**
  * UserController
  * Manage users
@@ -90,6 +92,23 @@ class UserController extends Controller
                     if($user->id !== 0)
                     {
                         $message = 'Votre demande d\'inscription a bien été enregistrée pour validation par un administrateur.';
+
+                        // Try t notify the site owner of the new registration
+                        try
+                        {
+                            $serverArray = $this->collectInput('SERVER');
+                            $baseUrl = 'http://'.$serverArray['HTTP_HOST'].$serverArray['PHP_SELF'];
+                            $body = "Un nouvel utilisateur vient d'être enregistré : {$baseUrl}?controller=user&task=edit&id={$user->id}";
+                            if (!$this->sendEmail('My Blog','noreply@myblog.fr','Nouvel utilisateur enregistré',$body))
+                            {
+                                throw new Throwable();
+                            };
+                        }
+                        catch (Throwable $e)
+                        {
+                            // Uncomment in dev context :
+                            echo 'Erreur : '. $e->getMessage() .'<br>Fichier : '. $e->getFile() .'<br>Ligne : '. $e->getLine();
+                        }
                     }
                 }
 

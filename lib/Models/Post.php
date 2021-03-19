@@ -8,7 +8,7 @@ class Post extends Model
 {
     use Http;
     
-     /**
+    /**
      * table : name of the database table which contains the posts
      *
      * @var string 

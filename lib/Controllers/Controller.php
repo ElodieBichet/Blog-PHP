@@ -14,6 +14,7 @@ use App\Mailing;
 abstract class Controller
 {
     use Rights;
+    use Mailing;
     
     const STATUS_DRAFT = 0;
     const STATUS_SUBMITTED = 1;
@@ -66,7 +67,7 @@ abstract class Controller
             try
             {
                 // Send the email
-                $result = Mailing::sendEmail($name, $email, $subject, $body);
+                $result = $this->sendEmail($name, $email, $subject, $body);
                 
                 if (!($result))
                 {
