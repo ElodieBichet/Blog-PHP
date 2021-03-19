@@ -1,6 +1,6 @@
 <div id="post-<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>">
     <div>
-        <p class="mb-2 text-muted">Dernière mise à jour : <?= filter_var(date('\l\e d/m/Y à H:i', strtotime($post->last_update_date)), FILTER_SANITIZE_STRING) ?><br>Par <?= filter_var($post->getAuthorName(), FILTER_SANITIZE_STRING) ?></p>
+        <p class="mb-2 text-muted">Dernière mise à jour : <?= filter_var(date('\l\e d/m/Y à H:i', strtotime($post->last_update_date)), FILTER_SANITIZE_STRING) ?><br>Par <?= filter_var($post->getAuthor(), FILTER_SANITIZE_STRING) ?></p>
         <p>
             <?= filter_var($post->intro) ?>
         </p>

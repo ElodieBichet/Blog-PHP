@@ -104,17 +104,18 @@ class Post extends Model
     }
 
     /**
-     * getAuthorName
-     * Get public name of the item in the database
+     * getAuthor
+     * Get public_name or any column of the post author in the database
      * 
-     * @return mixed string (or null if not found)
+     * @param  string $column Name of the column id users table in database
+     * @return mixed type depend on the column (or null if not found)
      */
-    public function getAuthorName()
+    public function getAuthor(string $column = 'public_name')
     {
         $query = $this->pdo->prepare("SELECT * FROM users WHERE id = :id");
         $query->execute([':id' => (int) $this->author]);
         $row = $query->fetch();
-        $label = ($row) ? $row['public_name'] : 'utilisateur supprimé';
+        $label = ($row) ? $row[$column] : 'utilisateur supprimé';
         
         return $label;
     }

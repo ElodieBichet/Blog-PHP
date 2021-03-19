@@ -93,7 +93,7 @@ class UserController extends Controller
                     {
                         $message = 'Votre demande d\'inscription a bien été enregistrée pour validation par un administrateur.';
 
-                        // Try t notify the site owner of the new registration
+                        // Try to notify the site owner of the new registration
                         try
                         {
                             $serverArray = $this->collectInput('SERVER');
@@ -102,7 +102,7 @@ class UserController extends Controller
                             if (!$this->sendEmail('My Blog','noreply@myblog.fr','Nouvel utilisateur enregistré',$body))
                             {
                                 throw new Throwable();
-                            };
+                            }
                         }
                         catch (Throwable $e)
                         {

@@ -22,5 +22,5 @@
         </div>
 
         <?php if($isAdmin) : ?>
-        <p>Auteur : #<?= filter_var($post->author, FILTER_VALIDATE_INT) ?> <?= filter_var($post->getAuthorName(), FILTER_SANITIZE_STRING) ?></p>
+        <p>Auteur : #<?= filter_var($post->author, FILTER_VALIDATE_INT) ?> <?= filter_var($post->getAuthor(), FILTER_SANITIZE_STRING) ?></p>
         <?php endif; ?>

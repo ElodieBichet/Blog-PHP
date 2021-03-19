@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use Throwable;
+
 /**
  * CommentController
  * Manage comments
@@ -87,6 +89,34 @@ class CommentController extends Controller
             } 
             if($comment->id !== 0) {
                 $result = 'submitted';
+
+                // Try to notify the author of the post of the new comment submission
+                try
+                {
+                    $serverArray = $this->collectInput('SERVER');
+                    $baseUrl = 'http://'.$serverArray['HTTP_HOST'].$serverArray['PHP_SELF'];
+                    $body = "Un nouveau commentaire vient d'être soumis sur le post #{$comment->post_id} :\n"
+                        ."- modifier ce commentaire -> {$baseUrl}?controller=comment&task=edit&id={$comment->id} \n"
+                        ."- gérer tous les commentaires de ce post -> {$baseUrl}?controller=comment&task=showList&postid={$comment->post_id}";
+                    $recipient = array();
+                    $author = $comment->getPostAuthor();
+
+                    if ($author)
+                    {
+                        $user_name = $author->public_name;
+                        $user_email = $author->email_address;
+                        $recipient = array($user_email => $user_name);
+                    }
+                    if (!$this->sendEmail('My Blog','noreply@myblog.fr','Nouveau commentaire déposé',$body,$recipient))
+                    {
+                        throw new Throwable();
+                    }
+                }
+                catch (Throwable $e)
+                {
+                    // Uncomment in dev context :
+                    // echo 'Erreur : '. $e->getMessage() .'<br>Fichier : '. $e->getFile() .'<br>Ligne : '. $e->getLine();
+                }
             }
 
         }

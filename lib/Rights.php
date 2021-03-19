@@ -11,7 +11,7 @@ trait Rights
    * Check if a user is connected and has rights to make action, and redirect to the login page or denied access page if not
    *
    * @param  bool $admin  True if an admin role is needed, False else
-   * @param  mixed $item  Optional, if the requested action concerns an specific item
+   * @param  mixed $item  Optional (object or null), if the requested action concerns a specific item
    * @return void
    */
   public function checkAccess(bool $admin = false, object $item = null) : void
@@ -37,25 +37,26 @@ trait Rights
       {
         $itemClass = new \ReflectionClass($item);
         $classname = $itemClass->getShortName();
-        $currentSession = filter_var_array($_SESSION);
         
         switch ($classname)
         {
-          case 'Comment' : // if comment, check if the post_id is in the user's posts
-            $user_posts = $currentSession['user_posts'];
-            if(!in_array($item->post_id, $user_posts)) $isAllowed = false;
+          case 'Comment' : // if comment, allowed user is the author of the concerned post
+            $author = $item->getPostAuthor();
+            $allowedUser = $author->id;
             break;
-          case 'Post' : // if post, check if the user is the author
-            $user_id = $currentSession['user_id'];
-            if($item->author != $user_id) $isAllowed = false;
+          case 'Post' : // if post, allowed user is the author
+            $allowedUser = $item->author;
             break;
-          case 'User' : // if user, check if this is the current connected user
-            $user_id = $currentSession['user_id'];
-            if($item->id != $user_id) $isAllowed = false;
+          case 'User' : // if user, allowed user is the user himself
+            $allowedUser = $item->id;
             break;
           default :
-            $isAllowed = false;
+            $allowedUser = 0;
         }
+
+        $currentSession = filter_var_array($_SESSION);
+        $user_id = $currentSession['user_id'];
+        if($allowedUser != $user_id) $isAllowed = false;
       }
     }
     

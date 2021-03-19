@@ -28,7 +28,7 @@
             <td>#<?= filter_var($post->id, FILTER_VALIDATE_INT) ?></td>
             <td><a href="index.php?controller=post&task=edit&id=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>"><?= filter_var($post->title, FILTER_SANITIZE_STRING) ?></a></td>
             <td><?= filter_var($post->last_update_date, FILTER_SANITIZE_STRING) ?></td>
-            <td><?= filter_var($post->author, FILTER_VALIDATE_INT) ?> - <?= filter_var($post->getAuthorName(), FILTER_SANITIZE_STRING) ?></td>
+            <td><?= filter_var($post->author, FILTER_VALIDATE_INT) ?> - <?= filter_var($post->getAuthor(), FILTER_SANITIZE_STRING) ?></td>
             <td>
                 <?= filter_var($post->getStatusLabel(), FILTER_SANITIZE_STRING) ?>
             </td>
