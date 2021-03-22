@@ -30,7 +30,7 @@ trait Http
     $serverArray = $this->collectInput('SERVER');
     $_SESSION = array();
     session_destroy();
-    $url = (!empty($serverArray['PHP_SELF'])) ? $serverArray['PHP_SELF'] : 'index.php';
+    $url = (!empty($serverArray['HTTP_REFERER'])) ? $serverArray['HTTP_REFERER'] : 'index.php';
     $this->redirect($url);
   }
   
@@ -43,6 +43,7 @@ trait Http
   public function redirect(string $url): void
   {
       header("Location: $url");
+      exit;
   }
 
 }

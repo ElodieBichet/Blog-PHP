@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use Throwable;
+
 /**
  * UserController
  * Manage users
@@ -30,21 +32,19 @@ class UserController extends Controller
     {
         $this->checkAccess(true); // redirect to login page if not connected or not admin
         
-        $pageTitle = 'Gérer les utilisateurs';
         $condition = '1 = 1';
         $order = 'creation_date DESC';
-        $alert = '';
+        $style = 'warning';
+        $message = '';
 
         $users = $this->model->findAll($condition, $order);
         
         if(empty($users))
         {
-            $style = 'warning';
             $message = 'Aucun utilisateur trouvé.';
-            $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
         }
 
-        $this->display('admin', 'users-list', compact('pageTitle','users','alert'));
+        $this->display('admin', 'users-list', 'Gérer les utilisateurs', compact('users','message','style'));
     }
 
     /**
@@ -60,8 +60,8 @@ class UserController extends Controller
 
         $postArray = $user->collectInput('POST'); // collect global $_POST data
 
-        $pageTitle = 'Inscription';
-        $alert = '';
+        $style = 'success';
+        $message = '';
         
         if ( !empty($postArray) AND isset($postArray['submit']) )
         {
@@ -91,8 +91,24 @@ class UserController extends Controller
                     } 
                     if($user->id !== 0)
                     {
-                        $style = 'success';
                         $message = 'Votre demande d\'inscription a bien été enregistrée pour validation par un administrateur.';
+
+                        // Try to notify the site owner of the new registration
+                        try
+                        {
+                            $serverArray = $this->collectInput('SERVER');
+                            $baseUrl = 'http://'.$serverArray['HTTP_HOST'].$serverArray['PHP_SELF'];
+                            $body = "Un nouvel utilisateur vient d'être enregistré : {$baseUrl}?controller=user&task=edit&id={$user->id}";
+                            if (!$this->sendEmail('My Blog','noreply@myblog.fr','Nouvel utilisateur enregistré',$body))
+                            {
+                                throw new Throwable();
+                            }
+                        }
+                        catch (Throwable $e)
+                        {
+                            // Uncomment in dev context :
+                            echo 'Erreur : '. $e->getMessage() .'<br>Fichier : '. $e->getFile() .'<br>Ligne : '. $e->getLine();
+                        }
                     }
                 }
 
@@ -100,11 +116,7 @@ class UserController extends Controller
 
         }
 
-        if(!empty($message)) {
-            $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
-        }
-
-        $this->display('front', 'register', compact('pageTitle','alert'));
+        $this->display('front', 'register', 'Inscription', compact('message','style'));
 
     }
 
@@ -174,9 +186,7 @@ class UserController extends Controller
             }
         }
 
-        $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
-
-        $this->display($type, $template, compact('pageTitle','alert'));
+        $this->display($type, $template, $pageTitle, compact('message','style'));
     }
 
 }

@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Comment;
 use Cocur\Slugify\Slugify;
+use Throwable;
 
 /**
  * PostController
@@ -53,7 +54,7 @@ class PostController extends Controller
 
         $posts = $this->model->findAll($condition, $order);
 
-        $this->display($type, $path, compact('pageTitle','posts'));
+        $this->display($type, $path, $pageTitle, compact('posts'));
     }
   
     /**
@@ -68,11 +69,12 @@ class PostController extends Controller
         $comment = new Comment();
         $getArray = $post->collectInput('GET'); // collect global $_GET data
         $pageTitle = '';
-        $alert = '';
+        $style = 'success';
+        $message = '';
 
         if(empty($getArray['id'])) // if no ID
         {
-            $post->redirect('index.php?controller=page&task=show404');
+            $post->redirect('index.php?page=404-error');
         }
 
         if(!empty($getArray['id']))
@@ -82,7 +84,7 @@ class PostController extends Controller
 
             if (!$DBpost)
             {
-                $post->redirect('index.php?controller=page&task=show404');
+                $post->redirect('index.php?page=404-error');
             }
 
             if (!empty($DBpost)) // if post exists in database
@@ -91,21 +93,18 @@ class PostController extends Controller
 
                 if ( ($post->status != self::STATUS_APPROVED) OR (strtotime($post->publication_date) > time()) )
                 {
-                    $post->redirect('index.php?controller=page&task=show404');
+                    $post->redirect('index.php?page=404-error');
                 }
 
                 if (isset($getArray['comment']))
                 {
                     $message = 'Votre commentaire a été envoyé. Il sera publié après modération par un administrateur.';
-                    $style = 'success';
                     
                     if ($getArray['comment'] != 'submitted')
                     {
                         $message = 'Une erreur est survenue, le commentaire n\'a pas pu être envoyé.';
                         $style = 'danger';
                     }
-
-                    $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
             
                 }
 
@@ -117,7 +116,7 @@ class PostController extends Controller
             }
         }
 
-        $this->display('front', 'post', compact('pageTitle','post','comments','alert'));
+        $this->display('front', 'post', $pageTitle, compact('post','comments','message','style'));
     }
    
     /**
@@ -132,7 +131,8 @@ class PostController extends Controller
         $this->checkAccess(); // redirect to login page if not connected
 
         $pageTitle = 'Ajouter un post';
-        $alert = '';
+        $message = '';
+        $style = 'success';
         $template = 'newPost';
         $post = $this->model;
 
@@ -158,22 +158,38 @@ class PostController extends Controller
 
             if($post->id == 0) {
                 $message = 'Une erreur est survenue, le post n\'a pas pu être inséré dans la base de données.';
+                $style = 'danger';
             } 
             if($post->id !== 0) {
                 array_push($_SESSION['user_posts'], $post->id);
                 $message .= ' sous l\'identifiant #'.$post->id.'.';
-                $style = 'success';
                 $pageTitle = 'Modifier le post #'.$post->id;
                 $template = 'editPost';
+
+                if(!$this->isAdmin())
+                {
+                    // Try to notify the site owner of the new post submission
+                    try
+                    {
+                        $serverArray = $this->collectInput('SERVER');
+                        $baseUrl = 'http://'.$serverArray['HTTP_HOST'].$serverArray['PHP_SELF'];
+                        $body = "Un nouveau post vient d'être soumis par {$post->getAuthor()} : {$baseUrl}?controller=post&task=edit&id={$post->id}";
+                        if (!$this->sendEmail('My Blog','noreply@myblog.fr','Nouveau post soumis',$body))
+                        {
+                            throw new Throwable();
+                        }
+                    }
+                    catch (Throwable $e)
+                    {
+                        // Uncomment in dev context :
+                        echo 'Erreur : '. $e->getMessage() .'<br>Fichier : '. $e->getFile() .'<br>Ligne : '. $e->getLine();
+                    }
+                }
             }
 
         }
-
-        if(!empty($message)) {
-            $alert = sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style);
-        }
         
-        $this->display('admin', $template, compact('pageTitle','alert','post'));
+        $this->display('admin', $template, $pageTitle, compact('message','style','post'));
 
     }
   

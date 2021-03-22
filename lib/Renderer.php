@@ -19,20 +19,19 @@ class Renderer
      * @param  array    $variables  array with all needed variables used in templates
      * @return void
      */
-    public static function render(string $type='front', string $path = 'index', bool $isConnected = false, bool $isAdmin = false, array $variables=[]) : void
+    public static function render(string $type='front', string $path = 'index', bool $isConnected = false, bool $isAdmin = false, string $pageTitle = 'Page sans titre', array $variables=[]) : void
     {
         // variables initialization
-        $pageTitle = 'Page sans titre';
-        $alert = '';
         $sessionTab = (!empty($_SESSION)) ? $_SESSION : array();
-        
         extract($variables);
+        
+        $alert = (!empty($message)) ? sprintf('<div class="alert alert-%2$s">%1$s</div>', $message, $style) : '';
 
         if ($type == 'front')
         {
 
-            $navAdminLink = array('href' => 'index.php?register', 'label' => 'Inscription');
-            $navConnectLink = array('href' => 'index.php?login', 'label' => 'Connexion');
+            $navAdminLink = array('href' => 'index.php?page=register', 'label' => 'Inscription');
+            $navConnectLink = array('href' => 'index.php?page=login', 'label' => 'Connexion');
 
             if($isConnected) {
                 $navAdminLink = array('href' => 'index.php?admin', 'label' => 'Admin');
@@ -43,21 +42,25 @@ class Renderer
 
         // Get the admin sidebar template
         if ($type=='admin')
-        {
+        {   
+            $sidebarPath = '../templates/admin/inc/sidebar.html.php';
             ob_start();
-            require('../templates/admin/inc/sidebar.html.php');
+            require $sidebarPath;
             $pageSidebar = ob_get_clean();
         }
 
+        $headerPath = '../templates/'.$type.'/inc/header.html.php';
         ob_start();
-        require('../templates/'.$type.'/inc/header.html.php');
+        require $headerPath;
         $pageHeader = ob_get_clean();
         
+        $contentPath = '../templates/' . $type . '/' . $path . '.html.php';
         ob_start();
-        require('../templates/' . $type . '/' . $path . '.html.php');
+        require $contentPath;
         $pageContent = ob_get_clean();
     
-        require('../templates/'.$type.'/layout.html.php');
+        $layoutPath = '../templates/'.$type.'/layout.html.php';
+        require $layoutPath;
 
     }
 

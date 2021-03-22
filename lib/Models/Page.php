@@ -20,4 +20,16 @@ class Page extends Model
      * @var string
      */
     protected $type;
+    /**
+     * template : name of the template file without .html.php
+     *
+     * @var string
+     */
+    protected $template;
+    /**
+     * title : title of the page
+     *
+     * @var string
+     */
+    protected $title;
 }

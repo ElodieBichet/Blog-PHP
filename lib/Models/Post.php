@@ -8,7 +8,7 @@ class Post extends Model
 {
     use Http;
     
-     /**
+    /**
      * table : name of the database table which contains the posts
      *
      * @var string 
@@ -101,6 +101,23 @@ class Post extends Model
         ));
 
         return $return;
+    }
+
+    /**
+     * getAuthor
+     * Get public_name or any column of the post author in the database
+     * 
+     * @param  string $column Name of the column id users table in database
+     * @return mixed type depend on the column (or null if not found)
+     */
+    public function getAuthor(string $column = 'public_name')
+    {
+        $query = $this->pdo->prepare("SELECT * FROM users WHERE id = :id");
+        $query->execute([':id' => (int) $this->author]);
+        $row = $query->fetch();
+        $label = ($row) ? $row[$column] : 'utilisateur supprimé';
+        
+        return $label;
     }
 
 }

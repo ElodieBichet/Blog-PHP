@@ -38,7 +38,7 @@
         </tr>
         
     <?php endforeach; ?>
-    <?php $item = 'le commentaire';  $itemId = 0; require('inc/modal.html.php'); ?>
+    <?php $item = 'le commentaire'; $itemId = 0; require 'inc/modal.html.php'; ?>
     </form>
     
         <script>

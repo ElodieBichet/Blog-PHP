@@ -20,3 +20,7 @@
                 <input type="text" class="form-control w-25" name="time" id="time" placeholder="00:00:00" value="<?= filter_var(substr($post->publication_date, -8), FILTER_SANITIZE_STRING) ?>" pattern="^[0-2][0-9]:[0-5][0-9]:[0-5][0-9]$">
             </div>
         </div>
+
+        <?php if($isAdmin) : ?>
+        <p>Auteur : #<?= filter_var($post->author, FILTER_VALIDATE_INT) ?> <?= filter_var($post->getAuthor(), FILTER_SANITIZE_STRING) ?></p>
+        <?php endif; ?>

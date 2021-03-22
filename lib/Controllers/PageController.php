@@ -27,9 +27,9 @@ class PageController extends Controller
     {
 
         $page = $this->model;
-        $template = 'index';
+        $page->template = 'index';
         $page->type = 'front';
-        $pageTitle = 'Page d\'accueil';
+        $page->title = 'Page d\'accueil';
         $getArray = $page->collectInput('GET');
 
         // Destroy current session in case of deconnection
@@ -37,28 +37,17 @@ class PageController extends Controller
         {
             $page->logout();
         }
-
-        if (isset($getArray['login']))
-        {
-            $template = 'login';
-            $pageTitle = 'Connexion à l\'admin';
-        }
-
-        if (isset($getArray['register']))
-        {
-            $template = 'register';
-            $pageTitle = 'Inscription';
-        }
         
         if (!empty($getArray['page']))
         {
-            $template = $getArray['page'];
+            $pageName = strtolower(filter_var($getArray['page'], FILTER_SANITIZE_STRING));
+            $this->showPage($page, $pageName);
         }
         
         if (isset($getArray['admin']))
         {
             $page->type = 'admin';
-            $pageTitle = 'Tableau de bord';
+            $page->title = 'Tableau de bord';
         }
 
         // Force login page if an admin page is requested
@@ -67,31 +56,43 @@ class PageController extends Controller
             $this->checkAccess();
         }
 
-        $this->display($page->type, $template, compact('pageTitle'));
+        $this->display($page->type, $page->template, $page->title);
     }
-    
+   
     /**
-     * show404
-     * Display an error page
+     * showPage
+     * Display the requested page
      *
+     * @param  string $page The current page object
+     * @param  string $pageName The name of the requested page
      * @return void
      */
-    public function show404() : void
+    public function showPage(object $page, string $pageName) : void
     {
-        $pageTitle = 'Erreur 404';
-        $this->display('front', '404-error', compact('pageTitle'));   
-    }
-
-    /**
-     * showAccessDenied
-     * Display an error page if user has not the right access
-     *
-     * @return void
-     */
-    public function showAccessDenied() : void
-    {
-        $pageTitle = 'Accès refusé';
-        $this->display('front', 'access-denied', compact('pageTitle'));   
+        switch ($pageName)
+        {
+            case '404-error' :
+                $pageTitle = 'Erreur 404';
+                break;
+            case 'access-denied' :
+                $pageTitle = 'Accès refusé';
+                break;
+            case 'login' :
+                $pageTitle = 'Connexion à l\'admin';
+                break;
+            case 'register' :
+                $pageTitle = 'Inscription';
+                break;
+            case 'contactme' :
+                $pageTitle = 'Contactez-moi';
+                break;
+            default :
+                $pageName = '404-error';
+                $pageTitle = 'Erreur 404';
+        }
+        $page->type = 'front';
+        $page->template = $pageName;
+        $page->title = $pageTitle;
     }
     
     function dataTransform(object $item, array $formdata) : void

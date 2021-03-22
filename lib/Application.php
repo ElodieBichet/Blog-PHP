@@ -23,7 +23,7 @@ class Application
     {
         // Fix default timezone to match with DB
         date_default_timezone_set(self::TIMEZONE);
-        
+
         // Call session_start() once
         $session = Session::getInstance();
         
@@ -48,7 +48,7 @@ class Application
         // else
         if (!method_exists( $controllerName, $task )) {
             $controller = new PageController();
-            $controller->show404();
+            $controller->redirect('index.php?page=404-error');
         }
     }
 }

@@ -50,7 +50,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="index.php?register">
+            <a class="nav-link" href="index.php?page=register">
               Ajouter un utilisateur
             </a>
           </li>
@@ -62,7 +62,7 @@
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
-            <a class="nav-link" href="index.php?controller=user&task=edit&id=<?= $sessionTab['user_id'] ?>">
+            <a class="nav-link" href="index.php?controller=user&task=edit&id=<?= filter_var($sessionTab['user_id'], FILTER_VALIDATE_INT) ?>">
               Gérer mon profil
             </a>
           </li>
