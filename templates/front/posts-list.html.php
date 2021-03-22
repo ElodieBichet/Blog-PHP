@@ -14,7 +14,7 @@
                     <?= filter_var($post->intro) ?>
                 </p>
                 <p>
-                    <a href="index.php?controller=post&task=show&id=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>" class="card-link">Voir plus</a>
+                    <a href="index.php?controller=post&task=show&id=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>" class="card-link stretched-link">Voir plus</a>
                 </p>
             </div>
         </div>

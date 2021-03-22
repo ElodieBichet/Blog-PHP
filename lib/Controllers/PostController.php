@@ -133,7 +133,7 @@ class PostController extends Controller
         $pageTitle = 'Ajouter un post';
         $message = '';
         $style = 'success';
-        $template = 'newPost';
+        $template = 'new-post';
         $post = $this->model;
 
         $postArray = $post->collectInput('POST'); // collect global $_POST data
@@ -164,7 +164,7 @@ class PostController extends Controller
                 array_push($_SESSION['user_posts'], $post->id);
                 $message .= ' sous l\'identifiant #'.$post->id.'.';
                 $pageTitle = 'Modifier le post #'.$post->id;
-                $template = 'editPost';
+                $template = 'edit-post';
 
                 if(!$this->isAdmin())
                 {

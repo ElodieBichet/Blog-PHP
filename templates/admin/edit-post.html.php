@@ -3,7 +3,7 @@
 
     <form action="index.php?controller=post&task=edit&id=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>" method="POST">
 
-        <?php require 'inc/postFields.html.php'; ?>
+        <?php require 'inc/post-fields.html.php'; ?>
 
         <p>Statut du post : <?= filter_var($post->getStatusLabel(), FILTER_SANITIZE_STRING) ?> 
         <?php if( ($isAdmin) AND ($post->status > 0)) : ?>

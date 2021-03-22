@@ -103,7 +103,8 @@ abstract class Controller
         $message = '';
         $item = $this->model;
         $itemClass = new ReflectionClass($item); // to get the class name of the item
-        $template = 'edit'.$itemClass->getShortName();
+        $itemClassName = strtolower($itemClass->getShortName());
+        $template = 'edit-'.$itemClassName;
         $this->checkAccess(); // redirect to login page if not connected
         $getArray = $item->collectInput('GET'); // collect global $_GET data
         $postArray = $item->collectInput('POST'); // collect global $_POST data
@@ -145,7 +146,7 @@ abstract class Controller
         $variables = array(
             'style' => $style,
             'message' => $message,
-            strtolower($itemClass->getShortName()) => $item
+            $itemClassName => $item
         );
 
         $this->display('admin', $template, $pageTitle, $variables);
@@ -165,7 +166,8 @@ abstract class Controller
         $this->checkAccess(false, $item);
         $modelTrad = $this->modelTrad;
         $itemClass = new ReflectionClass($item); // to get the class name of the item
-        $template = 'edit'.$itemClass->getShortName();
+        $itemClassName = strtolower($itemClass->getShortName());
+        $template = 'edit-'.$itemClassName;
         $style = '';
         $message = '';
 
@@ -195,7 +197,7 @@ abstract class Controller
             $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' a bien été supprimé.';
 
             if (!$deleteSuccess) { // if delete() has failed
-                $template = 'edit'.$itemClass->getShortName();
+                $template = 'edit-'.$itemClassName;
                 $style = 'danger';
                 $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' n\'a pas pu être supprimé.';
             }

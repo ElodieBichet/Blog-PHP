@@ -15,7 +15,7 @@
                         <a class="nav-link" href="index.php?controller=post&task=showList">News</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php?page=contactme">Contact</a>
+                        <a class="nav-link" href="index.php?page=contactme">Contactez-moi</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
