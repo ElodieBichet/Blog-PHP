@@ -1,5 +1,6 @@
 /* Home page styles */
 
+
 /* Top banner */
 
 #home-banner {
@@ -13,7 +14,7 @@
 }
 
 #home-tagline {
-    filter: drop-shadow(0 0 1rem rgb(0, 0, 0, 0.7));
+  filter: drop-shadow(0 0 1rem rgb(0, 0, 0, 0.7));
 }
 
 #home-banner .photo-copyright {
@@ -23,35 +24,35 @@
 }
 
 #home-avatar {
-    width: 25%;
-    min-width: 120px;
-    max-width: 180px;
-    font-size: 1.3rem;
+  width: 25%;
+  min-width: 120px;
+  max-width: 180px;
+  font-size: 1.3rem;
 }
 
 #home-content {
-    margin-top: 16.5rem;
+  margin-top: 16.5rem;
 }
 
 @media (min-width: 768px) {
-    #home-banner {
-        max-height: 16rem;
-    }
-    #home-content {
-        margin-top: 23rem;
-    }
-    #home-avatar {
-        font-size: 1.7rem;
-    }
+  #home-banner {
+    max-height: 16rem;
+  }
+  #home-content {
+    margin-top: 23rem;
+  }
+  #home-avatar {
+    font-size: 1.7rem;
+  }
 }
 
 @media (min-width: 996px) {
-    #home-banner {
-        max-height: 22rem;
-    }
-    #home-content {
-        margin-top: 30rem;
-    }
+  #home-banner {
+    max-height: 22rem;
+  }
+  #home-content {
+    margin-top: 30rem;
+  }
 }
 
 
