@@ -1,8 +1,6 @@
 /* Home page styles */
 
-
 /* Top banner */
-
 #home-banner {
   margin-top: 56px;
   z-index: -100;
@@ -38,9 +36,11 @@
   #home-banner {
     max-height: 16rem;
   }
+
   #home-content {
     margin-top: 23rem;
   }
+
   #home-avatar {
     font-size: 1.7rem;
   }
@@ -50,14 +50,13 @@
   #home-banner {
     max-height: 22rem;
   }
+
   #home-content {
     margin-top: 30rem;
   }
 }
 
-
 /* Hide title */
-
 #page-title {
   display: none;
 }
