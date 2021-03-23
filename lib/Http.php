@@ -11,7 +11,7 @@ trait Http
    * @param  string $type
    * @return array
    */
-  public function collectInput(string $type = 'GET')
+  public function collectInput(string $type = 'GET'): ?array
   {
     $constant = 'INPUT_';
     $type = constant($constant.$type);

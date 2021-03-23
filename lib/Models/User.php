@@ -127,7 +127,7 @@ class User extends Model
      * 
      * @return mixed array (or null if not found)
      */
-    public function getUserPosts()
+    public function getUserPosts(): ?array
     {
         $query = $this->pdo->prepare("SELECT id FROM posts WHERE author = :id");
         $query->execute([':id' => (int) $this->id]);

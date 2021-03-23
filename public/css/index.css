@@ -29,7 +29,7 @@
 }
 
 #home-content {
-  margin-top: 16.5rem;
+  margin-top: 18rem;
 }
 
 @media (min-width: 768px) {
@@ -38,7 +38,7 @@
   }
 
   #home-content {
-    margin-top: 23rem;
+    margin-top: 24.5rem;
   }
 
   #home-avatar {
@@ -52,7 +52,7 @@
   }
 
   #home-content {
-    margin-top: 30rem;
+    margin-top: 31.5rem;
   }
 }
 

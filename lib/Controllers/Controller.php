@@ -53,7 +53,7 @@ abstract class Controller
      */
     public function contact(): void
     {
-        $getPost = $this->collectInput('POST', FILTER_SANITIZE_STRING);
+        $getPost = $this->collectInput('POST');
 
         if(isset($getPost['sendEmail']))
         {

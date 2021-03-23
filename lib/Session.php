@@ -18,7 +18,7 @@ class Session
      *
      * @return object   the current session or a new session
      */
-    static function getInstance()
+    static function getInstance(): object
     {
         if(!self::$instance){
             self::$instance = new Session();

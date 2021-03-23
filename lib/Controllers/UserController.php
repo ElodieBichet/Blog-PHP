@@ -144,7 +144,7 @@ class UserController extends Controller
      *
      * @return void
      */
-    public function connect()
+    public function connect(): void
     {
         $user = $this->model;
         $postArray = $user->collectInput('POST'); // collect global $_POST data
