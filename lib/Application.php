@@ -37,13 +37,13 @@ class Application
         
         $controllerName = "\App\Controllers\\" . $controllerName . "Controller";
 
-        if (method_exists ( $controllerName, $task ))
+        if (method_exists($controllerName, $task))
         {
             $controller = new $controllerName();
             $controller->$task();
         }
         // else
-        if (!method_exists( $controllerName, $task ))
+        if (!method_exists($controllerName, $task))
         {
             $controller = new PageController();
             $controller->redirect('index.php?page=404-error');

@@ -111,7 +111,7 @@ class User extends Model
      * 
      * @return string string (or null if not found)
      */
-    public function getRoleLabel() : ?string
+    public function getRoleLabel(): ?string
     {
         $query = $this->pdo->prepare("SELECT * FROM roles WHERE id = :id");
         $query->execute([':id' => (int) $this->role]);

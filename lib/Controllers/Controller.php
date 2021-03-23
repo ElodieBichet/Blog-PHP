@@ -171,7 +171,7 @@ abstract class Controller
         $style = '';
         $message = '';
 
-        if ( isset($postArray['update']) OR isset($postArray['updateAsDraft']) ) // if submit with update button
+        if (isset($postArray['update']) OR isset($postArray['updateAsDraft'])) // if submit with update button
         {
 
             $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' a bien été mis à jour.';

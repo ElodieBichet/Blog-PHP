@@ -117,7 +117,7 @@ abstract class Model
      * 
      * @return string string (or null if not found)
      */    
-    public function getStatusLabel() : ?string
+    public function getStatusLabel(): ?string
     {
         $query = $this->pdo->prepare("SELECT * FROM status WHERE id = :id");
         $query->execute([':id' => (int) $this->status]);

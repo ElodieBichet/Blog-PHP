@@ -91,7 +91,7 @@ class PostController extends Controller
             {
                 foreach ($DBpost as $k => $v) $post->$k = $v;
 
-                if ( ($post->status != self::STATUS_APPROVED) OR (strtotime($post->publication_date) > time()) )
+                if (($post->status != self::STATUS_APPROVED) OR (strtotime($post->publication_date) > time()))
                 {
                     $post->redirect('index.php?page=404-error');
                 }

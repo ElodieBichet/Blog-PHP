@@ -63,7 +63,7 @@ class UserController extends Controller
         $style = 'success';
         $message = '';
         
-        if ( !empty($postArray) AND isset($postArray['submit']) )
+        if (!empty($postArray) AND isset($postArray['submit']))
         {
             
             if (isset($postArray['email_address']))
@@ -153,7 +153,7 @@ class UserController extends Controller
         $style = 'danger';
         $message = 'Echec de la connexion : identifiant ou mot de passe incorrect !';
 
-        if ( !empty($postArray['email_address']) )
+        if (!empty($postArray['email_address']))
         {
             $DBuser = $user->find($postArray['email_address'], 'email_address');
             
@@ -161,7 +161,7 @@ class UserController extends Controller
             {
                 foreach ($DBuser as $k => $v) $user->$k = $v;
                 
-                if ( password_verify($postArray['password'], $user->password) )
+                if (password_verify($postArray['password'], $user->password))
                 {
                     switch ($user->status)
                     {
