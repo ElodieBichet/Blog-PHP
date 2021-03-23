@@ -16,10 +16,10 @@ abstract class Controller
     use Rights;
     use Mailing;
     
-    const STATUS_DRAFT = 0;
-    const STATUS_SUBMITTED = 1;
-    const STATUS_APPROVED = 2;
-    const STATUS_REJECTED = 3;
+    public const STATUS_DRAFT = 0;
+    public const STATUS_SUBMITTED = 1;
+    public const STATUS_APPROVED = 2;
+    public const STATUS_REJECTED = 3;
     
     protected $model;
     protected $modelName;
@@ -80,8 +80,9 @@ abstract class Controller
             {
                 $message = 'Une erreur est survenue, le message n\'a pas pu être envoyé.';
                 $style = 'danger';
-                // Uncomment in dev context :
-                echo 'Erreur : '. $e->getMessage() .'<br>Fichier : '. $e->getFile() .'<br>Ligne : '. $e->getLine();
+                // Uncomment in dev context:
+                $error = sprintf('Erreur : %1$s<br>Fichier : %2$s<br>Ligne : %3$d', $e->getMessage(), $e->getFile(), $e->getLine());
+                echo filter_var($error, FILTER_SANITIZE_STRING);
             }
     
             $this->display('front','contactme','Contactez-moi',compact('message','style'));

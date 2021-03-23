@@ -11,7 +11,7 @@ use App\Session;
  */
 class Application
 {
-    const TIMEZONE = 'Europe/Paris';
+    public const TIMEZONE = 'Europe/Paris';
     
     /**
      * process

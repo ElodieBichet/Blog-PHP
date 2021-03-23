@@ -116,8 +116,9 @@ class CommentController extends Controller
                 }
                 catch (Throwable $e)
                 {
-                    // Uncomment in dev context :
-                    // echo 'Erreur : '. $e->getMessage() .'<br>Fichier : '. $e->getFile() .'<br>Ligne : '. $e->getLine();
+                    // Uncomment in dev context:
+                    // $error = sprintf('Erreur : %1$s<br>Fichier : %2$s<br>Ligne : %3$d', $e->getMessage(), $e->getFile(), $e->getLine());
+                    // echo filter_var($error, FILTER_SANITIZE_STRING);
                 }
             }
 

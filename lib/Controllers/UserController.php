@@ -10,9 +10,9 @@ use Throwable;
  */
 class UserController extends Controller
 {
-    const ROLE_DEFAULT = 0;
-    const ROLE_ADMIN = 1;
-    const ROLE_AUTHOR = 2;
+    public const ROLE_DEFAULT = 0;
+    public const ROLE_ADMIN = 1;
+    public const ROLE_AUTHOR = 2;
 
     protected $modelName = \App\Models\User::class;
     protected $modelTrad = array(
@@ -106,8 +106,9 @@ class UserController extends Controller
                         }
                         catch (Throwable $e)
                         {
-                            // Uncomment in dev context :
-                            echo 'Erreur : '. $e->getMessage() .'<br>Fichier : '. $e->getFile() .'<br>Ligne : '. $e->getLine();
+                            // Uncomment in dev context:
+                            $error = sprintf('Erreur : %1$s<br>Fichier : %2$s<br>Ligne : %3$d', $e->getMessage(), $e->getFile(), $e->getLine());
+                            echo filter_var($error, FILTER_SANITIZE_STRING);
                         }
                     }
                 }
