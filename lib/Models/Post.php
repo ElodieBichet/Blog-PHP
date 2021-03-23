@@ -108,7 +108,7 @@ class Post extends Model
      * Get public_name or any column of the post author in the database
      * 
      * @param  string $column Name of the column id users table in database
-     * @return mixed type depend on the column (or null if not found)
+     * @return mixed type depends on the column (or null if not found)
      */
     public function getAuthor(string $column = 'public_name')
     {

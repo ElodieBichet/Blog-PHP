@@ -40,7 +40,7 @@ abstract class Controller
      * Data transformation before database insertion or update
      *
      * @param  object $item
-     * @param  mixed $formdata
+     * @param  array $formdata
      * @return void
      */
     abstract function dataTransform(object $item, array $formdata) : void;
@@ -51,7 +51,7 @@ abstract class Controller
      *
      * @return void
      */
-    public function contact()
+    public function contact() : void
     {
         $getPost = $this->collectInput('POST', FILTER_SANITIZE_STRING);
 
@@ -196,7 +196,8 @@ abstract class Controller
             $style = 'success';
             $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' a bien été supprimé.';
 
-            if (!$deleteSuccess) { // if delete() has failed
+            if (!$deleteSuccess) // if delete() has failed
+            { 
                 $template = 'edit-'.$itemClassName;
                 $style = 'danger';
                 $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' n\'a pas pu être supprimé.';
@@ -211,7 +212,8 @@ abstract class Controller
             $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' a bien été approuvé.';
             $item->status = self::STATUS_APPROVED;
 
-            if (!$updateSuccess) { // if setStatus() has failed
+            if (!$updateSuccess) // if setStatus() has failed
+            {
                 $style = 'danger';
                 $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' n\'a pas pu être approuvé.';
             }
@@ -225,7 +227,8 @@ abstract class Controller
             $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' a bien été rejeté.';
             $item->status = self::STATUS_REJECTED;
 
-            if (!$updateSuccess) { // if setStatus() has failed
+            if (!$updateSuccess) // if setStatus() has failed
+            {
                 $style = 'danger';
                 $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' n\'a pas pu être rejeté.';
             }

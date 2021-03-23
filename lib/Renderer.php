@@ -29,11 +29,11 @@ class Renderer
 
         if ($type == 'front')
         {
-
             $navAdminLink = array('href' => 'index.php?page=register', 'label' => 'Inscription');
             $navConnectLink = array('href' => 'index.php?page=login', 'label' => 'Connexion');
 
-            if($isConnected) {
+            if($isConnected)
+            {
                 $navAdminLink = array('href' => 'index.php?admin', 'label' => 'Admin');
                 $navConnectLink = array('href' => 'index.php?logout', 'label' => 'Déconnexion');
             }

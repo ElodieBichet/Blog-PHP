@@ -128,7 +128,8 @@ class UserController extends Controller
      * @param  array $formdata The array with values to assign
      * @return void
      */
-    public function dataTransform(object $user, array $formdata) : void {
+    public function dataTransform(object $user, array $formdata) : void
+    {
         $user->first_name = $formdata['first_name'];
         $user->last_name = $formdata['last_name'];
         // if empty, public name = first name + last name
@@ -156,7 +157,8 @@ class UserController extends Controller
         {
             $DBuser = $user->find($postArray['email_address'], 'email_address');
             
-            if ($DBuser) {
+            if ($DBuser)
+            {
                 foreach ($DBuser as $k => $v) $user->$k = $v;
                 
                 if ( password_verify($postArray['password'], $user->password) )

@@ -109,9 +109,9 @@ class User extends Model
      * getRoleLabel
      * Get role label of the item in the database
      * 
-     * @return mixed string (or null if not found)
+     * @return string string (or null if not found)
      */
-    public function getRoleLabel()
+    public function getRoleLabel() : ?string
     {
         $query = $this->pdo->prepare("SELECT * FROM roles WHERE id = :id");
         $query->execute([':id' => (int) $this->role]);
@@ -125,7 +125,7 @@ class User extends Model
      * getUserPosts
      * Get all user's posts
      * 
-     * @return mixed string (or null if not found)
+     * @return mixed array (or null if not found)
      */
     public function getUserPosts()
     {
@@ -142,7 +142,7 @@ class User extends Model
      *
      * @return void
      */
-    public function setConnection()
+    public function setConnection() : void
     {
         $currentSession = array(
             'connection' => true,

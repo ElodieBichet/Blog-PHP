@@ -138,8 +138,8 @@ class PostController extends Controller
 
         $postArray = $post->collectInput('POST'); // collect global $_POST data
         
-        if (!empty($postArray)) {
-            
+        if (!empty($postArray))
+        {
             if (isset($postArray['save']))
             {
                 $message = 'Le post a bien été enregistré en base';
@@ -156,11 +156,13 @@ class PostController extends Controller
             
             $post->id = $post->insert();
 
-            if($post->id == 0) {
+            if($post->id == 0)
+            {
                 $message = 'Une erreur est survenue, le post n\'a pas pu être inséré dans la base de données.';
                 $style = 'danger';
             } 
-            if($post->id !== 0) {
+            if($post->id !== 0)
+            {
                 array_push($_SESSION['user_posts'], $post->id);
                 $message .= ' sous l\'identifiant #'.$post->id.'.';
                 $pageTitle = 'Modifier le post #'.$post->id;
@@ -197,11 +199,12 @@ class PostController extends Controller
      * dataTransform
      * Check all the $_POST data before adding or updating a post
      *
-     * @param  mixed $post
-     * @param  mixed $formdata
+     * @param  object $post
+     * @param  array $formdata
      * @return void
      */
-    public function dataTransform(object $post, array $formdata) : void {
+    public function dataTransform(object $post, array $formdata) : void
+    {
         $post->title = $formdata['title'];
         $post->intro = $formdata['intro'];
         $post->content = $formdata['content'];

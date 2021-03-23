@@ -73,7 +73,8 @@ class CommentController extends Controller
 
         $postArray = $comment->collectInput('POST'); // collect global $_POST data
         
-        if (!empty($postArray)) {
+        if (!empty($postArray))
+        {
             
             if (isset($postArray['submit']))
             {
@@ -87,7 +88,8 @@ class CommentController extends Controller
             if($comment->id == 0) {
                 $result = 'error';
             } 
-            if($comment->id !== 0) {
+            if($comment->id !== 0)
+            {
                 $result = 'submitted';
 
                 // Try to notify the author of the post of the new comment submission
@@ -133,7 +135,8 @@ class CommentController extends Controller
      * @param  array $formdata The array with values to assign
      * @return void
      */
-    public function dataTransform(object $comment, array $formdata) : void {
+    public function dataTransform(object $comment, array $formdata) : void
+    {
         $comment->post_id = $formdata['post_id'];
         $comment->author = $formdata['author'];
         $comment->email_address = filter_var($formdata['email_address'], FILTER_SANITIZE_EMAIL);

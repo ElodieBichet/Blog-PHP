@@ -11,8 +11,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> 
     <!-- custom CSS -->
     <link href="css/common.css" rel="stylesheet">
-    <?php if(file_exists('css/'.$path.'.css')) : ?>
-    <link href="css/<?=$path?>.css" rel="stylesheet">
+    <?php if(file_exists('css/'.filter_var($path, FILTER_SANITIZE_STRING).'.css')) : ?>
+    <link href="css/<?=filter_var($path, FILTER_SANITIZE_STRING)?>.css" rel="stylesheet">
     <?php endif; ?>
 
     <title><?= filter_var($pageTitle, FILTER_SANITIZE_STRING) ?> - My Blog</title>

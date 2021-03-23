@@ -40,7 +40,7 @@ trait Http
    * @param  string $url  URL to redirect user
    * @return void
    */
-  public function redirect(string $url): void
+  public function redirect(string $url) : void
   {
       header("Location: $url");
       exit;
