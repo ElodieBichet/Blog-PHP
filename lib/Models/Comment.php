@@ -54,7 +54,7 @@ class Comment extends Model
      * 
      * @return int  id of the new comment (= 0 if insertion fails)
      */    
-    public function insert() : int
+    public function insert(): int
     {
         $req = 'INSERT INTO '.$this->table.' SET status = :status, post_id = :post_id , author = :author, email_address = :email_address, content = :content, creation_date = NOW(), last_update_date = NOW(), publication_date = NOW()';
         $query = $this->pdo->prepare($req);
@@ -75,7 +75,7 @@ class Comment extends Model
      * 
      * @return bool true if the update succeeds
      */
-    public function update() : bool
+    public function update(): bool
     {
         $query = $this->pdo->prepare('UPDATE '.$this->table.' SET author = :author, email_address = :email_address, content = :content, last_update_date = NOW() WHERE id = :id'); 
         $return = $query->execute(array(
@@ -94,7 +94,7 @@ class Comment extends Model
      *
      * @return object    object, or null if nothing found
      */
-    public function getPostAuthor() : ?object
+    public function getPostAuthor(): ?object
     {
         $query = $this->pdo->prepare("SELECT users.id, email_address, public_name FROM users INNER JOIN posts ON posts.author = users.id WHERE posts.id = :id");
         $query->execute([':id' => $this->post_id]);

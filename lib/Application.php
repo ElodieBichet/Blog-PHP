@@ -19,7 +19,7 @@ class Application
      *
      * @return void
      */
-    public static function process() : void
+    public static function process(): void
     {
         // Fix default timezone to match with DB
         date_default_timezone_set(self::TIMEZONE);

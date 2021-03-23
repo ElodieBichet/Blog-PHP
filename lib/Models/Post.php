@@ -63,7 +63,7 @@ class Post extends Model
      * 
      * @return int  id of the new post (= 0 if insertion fails)
      */
-    public function insert() : int
+    public function insert(): int
     {
         $req = 'INSERT INTO '.$this->table.' SET status = :status, author = :author, title = :title, slug = :slug, intro = :intro, content = :content, creation_date = NOW(), last_update_date = NOW(), publication_date = :publication_date';
         $query = $this->pdo->prepare($req);
@@ -86,7 +86,7 @@ class Post extends Model
      * 
      * @return bool true if the update succeeds
      */
-    public function update() : bool
+    public function update(): bool
     {
         $query = $this->pdo->prepare('UPDATE '.$this->table.' SET status = :status, author = :author, title = :title, slug = :slug, intro = :intro, content = :content, publication_date = :publication_date, last_update_date = NOW() WHERE id = :id'); 
         $return = $query->execute(array(

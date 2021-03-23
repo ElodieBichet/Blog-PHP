@@ -25,7 +25,7 @@ trait Http
    *
    * @return void
    */
-  public function logout() : void
+  public function logout(): void
   {
     $serverArray = $this->collectInput('SERVER');
     $_SESSION = array();
@@ -40,7 +40,7 @@ trait Http
    * @param  string $url  URL to redirect user
    * @return void
    */
-  public function redirect(string $url) : void
+  public function redirect(string $url): void
   {
       header("Location: $url");
       exit;

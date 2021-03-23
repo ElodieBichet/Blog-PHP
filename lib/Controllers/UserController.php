@@ -28,7 +28,7 @@ class UserController extends Controller
      *
      * @return void
      */
-    public function showList() : void
+    public function showList(): void
     {
         $this->checkAccess(true); // redirect to login page if not connected or not admin
         
@@ -53,7 +53,7 @@ class UserController extends Controller
      * 
      * @return void
      */
-    public function submit() : void
+    public function submit(): void
     {
 
         $user = $this->model;
@@ -128,7 +128,7 @@ class UserController extends Controller
      * @param  array $formdata The array with values to assign
      * @return void
      */
-    public function dataTransform(object $user, array $formdata) : void
+    public function dataTransform(object $user, array $formdata): void
     {
         $user->first_name = $formdata['first_name'];
         $user->last_name = $formdata['last_name'];

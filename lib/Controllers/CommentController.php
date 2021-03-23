@@ -24,7 +24,7 @@ class CommentController extends Controller
      *
      * @return void
      */
-    public function showList() : void
+    public function showList(): void
     {
         $this->checkAccess();
         $pageTitle = 'Gérer les commentaires';
@@ -66,7 +66,7 @@ class CommentController extends Controller
      * 
      * @return void
      */
-    public function submit() : void
+    public function submit(): void
     {
 
         $comment = $this->model;
@@ -135,7 +135,7 @@ class CommentController extends Controller
      * @param  array $formdata The array with values to assign
      * @return void
      */
-    public function dataTransform(object $comment, array $formdata) : void
+    public function dataTransform(object $comment, array $formdata): void
     {
         $comment->post_id = $formdata['post_id'];
         $comment->author = $formdata['author'];

@@ -67,7 +67,7 @@ class User extends Model
      * 
      * @return int  id of the new user (= 0 if insertion fails)
      */    
-    public function insert() : int
+    public function insert(): int
     {
         $req = 'INSERT INTO '.$this->table.' SET status = :status, role = :role, first_name = :first_name, last_name = :last_name, public_name = :public_name, email_address = :email_address, password = :password, creation_date = NOW(), last_update_date = NOW(), publication_date = NOW()';
         $query = $this->pdo->prepare($req);
@@ -90,7 +90,7 @@ class User extends Model
      * 
      * @return bool true if the update succeeds
      */
-    public function update() : bool
+    public function update(): bool
     {
         $query = $this->pdo->prepare('UPDATE '.$this->table.' SET first_name = :first_name, last_name = :last_name, public_name = :public_name, email_address = :email_address, password = :password, last_update_date = NOW() WHERE id = :id'); 
         $return = $query->execute(array(
@@ -142,7 +142,7 @@ class User extends Model
      *
      * @return void
      */
-    public function setConnection() : void
+    public function setConnection(): void
     {
         $currentSession = array(
             'connection' => true,

@@ -61,7 +61,7 @@ abstract class Model
      * @param  mixed $value
      * @return void
      */
-    public function __set($attr, $value) : void
+    public function __set($attr, $value): void
     {
         $this->$attr = $value;
     }
@@ -83,7 +83,7 @@ abstract class Model
      *
      * @return bool
      */
-    public function delete() : bool
+    public function delete(): bool
     {
         $query = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = :id");
         $result = $query->execute(['id' => $this->id]);
@@ -99,7 +99,7 @@ abstract class Model
      * @param  bool $updatePubDate
      * @return bool true if the update succeeds
      */
-    public function setStatus(int $status = 1, bool $updatePubDate = false) : bool
+    public function setStatus(int $status = 1, bool $updatePubDate = false): bool
     {
         $partQuery = ($updatePubDate) ? ', publication_date = NOW()' : '';
         $query = $this->pdo->prepare("UPDATE {$this->table} SET status = :status, last_update_date = NOW(){$partQuery} WHERE id = :id");
@@ -135,7 +135,7 @@ abstract class Model
      * @param string $name  name of the column in the table
      * @return object item  as an object (or =null if no result)
      */    
-    public function find($value, string $name='id') : ?object
+    public function find($value, string $name='id'): ?object
     {
         $query = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE {$name} = :{$name}");
         $query->execute([':'.$name => $value]);
@@ -152,7 +152,7 @@ abstract class Model
      * @param  string   $order        order of the SQL query
      * @return array    array of objects (or =null if no result)
      */
-    public function findAll(string $condition = '1 = 1', string $order = 'last_update_date DESC') : ?array
+    public function findAll(string $condition = '1 = 1', string $order = 'last_update_date DESC'): ?array
     {
         $query = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE " . $condition . " ORDER BY " . $order);
         $query->execute();

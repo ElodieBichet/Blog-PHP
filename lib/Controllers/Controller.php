@@ -43,7 +43,7 @@ abstract class Controller
      * @param  array $formdata
      * @return void
      */
-    abstract function dataTransform(object $item, array $formdata) : void;
+    abstract function dataTransform(object $item, array $formdata): void;
     
     /**
      * contact
@@ -51,7 +51,7 @@ abstract class Controller
      *
      * @return void
      */
-    public function contact() : void
+    public function contact(): void
     {
         $getPost = $this->collectInput('POST', FILTER_SANITIZE_STRING);
 
@@ -95,7 +95,7 @@ abstract class Controller
      * 
      * @return void
      */
-    public function edit() : void
+    public function edit(): void
     {
         $modelTrad = $this->modelTrad;
         $pageTitle = 'Modifier '.$modelTrad['article_the'].$modelTrad['item'];
@@ -161,7 +161,7 @@ abstract class Controller
      * @param  array    $postArray Array which contains $_POST entries
      * @return array with 3 variables values
      */
-    public function doActionForm(object $item, array $postArray) : array
+    public function doActionForm(object $item, array $postArray): array
     {
         $this->checkAccess(false, $item);
         $modelTrad = $this->modelTrad;
@@ -237,6 +237,5 @@ abstract class Controller
         return array($template, $message, $style);
 
     }
-
 
 }

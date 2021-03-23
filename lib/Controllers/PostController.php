@@ -27,7 +27,7 @@ class PostController extends Controller
      *
      * @return void
      */
-    public function showList() : void
+    public function showList(): void
     {
         
         $admin = filter_input(INPUT_GET, 'admin');
@@ -63,7 +63,7 @@ class PostController extends Controller
      *
      * @return void
      */
-    public function show() : void
+    public function show(): void
     {
         $post = $this->model;
         $comment = new Comment();
@@ -125,7 +125,7 @@ class PostController extends Controller
      *
      * @return void
      */
-    public function add() : void
+    public function add(): void
     {
 
         $this->checkAccess(); // redirect to login page if not connected
@@ -203,7 +203,7 @@ class PostController extends Controller
      * @param  array $formdata
      * @return void
      */
-    public function dataTransform(object $post, array $formdata) : void
+    public function dataTransform(object $post, array $formdata): void
     {
         $post->title = $formdata['title'];
         $post->intro = $formdata['intro'];
