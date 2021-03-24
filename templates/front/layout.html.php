@@ -30,7 +30,7 @@
 
             <main>
             
-                    <h1 id="page-title"><?= filter_var($pageTitle, FILTER_SANITIZE_STRING) ?></h1>
+                    <h1 class="my-3 pb-3" id="page-title"><?= filter_var($pageTitle, FILTER_SANITIZE_STRING) ?></h1>
 
                     <?= filter_var($alert) ?>
                     <?= filter_var($pageContent) ?>

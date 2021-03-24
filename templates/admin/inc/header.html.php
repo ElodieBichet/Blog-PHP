@@ -7,7 +7,7 @@
   <div class="w-100"></div>
   <ul class="navbar-nav px-3 d-none d-md-block">
     <li class="nav-item text-nowrap">
-      <a class="nav-link" href="index.php?logout">Déconnexion</a>
+      <a class="nav-link" href="index.php?logout"><i class="fas fa-power-off"></i> Déconnexion</a>
     </li>
   </ul>
 </header>

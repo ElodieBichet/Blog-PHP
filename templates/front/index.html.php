@@ -9,7 +9,7 @@
 <div id="home-content">
     <div id="my-links" class="row d-flex align-items-stretch">
         <p class="col-12 col-md-4 text-center">
-            <a href="#" style="color:#7952b3;border-color:#7952b3;" title="CV Elodie Bichet" class="btn fs-6 text-nowrap"><i class="fas fa-download display-4 align-middle"></i> Mon CV PDF</a>
+            <a href="#" style="color:#7952b3;border-color:#7952b3;" title="CV Elodie Bichet" class="btn fs-6 text-nowrap"><i class="fas fa-download display-4 align-middle"></i> Mon CV en PDF</a>
         </p>
         <p class="col-12 col-md-4 text-center">
             <a href="https://www.linkedin.com/in/elodie-bichet-chef-de-projet-digital/" style="color:#0a66c2;border-color:#0a66c2;" title="Retrouvez-moi sur LinkedIn" class="btn fs-6 text-nowrap"><i class="fab fa-linkedin-in display-4 align-middle"></i> Mon profil LinkedIn</a>

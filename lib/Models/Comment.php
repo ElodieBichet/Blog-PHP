@@ -103,4 +103,20 @@ class Comment extends Model
         return $item;
     }
 
+    /**
+     * getPostTitle
+     * Get title of the concerned post
+     *
+     * @return string    string or null if nothing found
+     */
+    public function getPostTitle(): ?string
+    {
+        $query = $this->pdo->prepare("SELECT id, title FROM posts WHERE posts.id = :id");
+        $query->execute([':id' => $this->post_id]);
+        $row = $query->fetch();
+        $title = $row['title'];
+        
+        return $title;
+    }
+
 }

@@ -53,15 +53,15 @@ abstract class Controller
      */
     public function contact(): void
     {
-        $getPost = $this->collectInput('POST');
+        $postArray = $this->collectInput('POST');
 
-        if(isset($getPost['sendEmail']))
+        if(isset($postArray['sendEmail']))
         {
             // Get the values of the form fields
-            $name = (isset($getPost['sender_name'])) ? filter_var($getPost['sender_name'], FILTER_SANITIZE_STRING) : 'anonyme';
-            $email = (isset($getPost['sender_email_address'])) ? filter_var($getPost['sender_email_address'], FILTER_SANITIZE_EMAIL) : 'indéterminée';
-            $subject = (isset($getPost['sender_subject'])) ? filter_var($getPost['sender_subject'], FILTER_SANITIZE_STRING) : 'contactez-moi';
-            $body = (isset($getPost['sender_message'])) ? filter_var($getPost['sender_message'], FILTER_SANITIZE_STRING) : '';
+            $name = (isset($postArray['sender_name'])) ? filter_var($postArray['sender_name'], FILTER_SANITIZE_STRING) : 'anonyme';
+            $email = (isset($postArray['sender_email_address'])) ? filter_var($postArray['sender_email_address'], FILTER_SANITIZE_EMAIL) : 'indéterminée';
+            $subject = (isset($postArray['sender_subject'])) ? filter_var($postArray['sender_subject'], FILTER_SANITIZE_STRING) : 'contactez-moi';
+            $body = (isset($postArray['sender_message'])) ? filter_var($postArray['sender_message'], FILTER_SANITIZE_STRING) : '';
             $body = 'Message de '. $name .' ('.$email.') envoyé le '.date("d/m/Y à H\hi").' : '."\n\n".$body;
 
             try

@@ -9,21 +9,21 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav w-100">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.php">Accueil</a>
+                        <a class="nav-link <?= ($path=='index') ? 'active' : '' ?>" aria-current="page" href="index.php">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php?controller=post&task=showList">News</a>
+                        <a class="nav-link <?= (stristr($path,'post')) ? 'active' : '' ?>" href="index.php?controller=post&task=showList">News</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php?page=contactme">Contactez-moi</a>
+                        <a class="nav-link <?= ($path=='contactme') ? 'active' : '' ?>" href="index.php?page=contactme">Contactez-moi</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="btn btn-primary" href="<?= filter_var($navAdminLink['href'], FILTER_SANITIZE_STRING) ?>"><?= filter_var($navAdminLink['label'], FILTER_SANITIZE_STRING) ?></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= filter_var($navConnectLink['href'], FILTER_SANITIZE_STRING) ?>"><?= filter_var($navConnectLink['label'], FILTER_SANITIZE_STRING) ?></a>
+                    <li class="nav-item text-nowrap">
+                        <a class="nav-link" href="<?= filter_var($navConnectLink['href'], FILTER_SANITIZE_STRING) ?>"><i class="fas fa-power-off"></i> <small><?= filter_var($navConnectLink['label'], FILTER_SANITIZE_STRING) ?></small></a>
                     </li>
                 </ul>
             </div>

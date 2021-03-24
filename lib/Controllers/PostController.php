@@ -195,7 +195,7 @@ class PostController extends Controller
         $this->display('admin', $template, $pageTitle, compact('message','style','post'));
 
     }
-  
+
     /**
      * dataTransform
      * Check all the $_POST data before adding or updating a post
