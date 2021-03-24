@@ -68,7 +68,8 @@ body {
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
 }
 
-.btn-warning.btn:disabled, .btn-success.btn:disabled {
+.btn-warning.btn:disabled,
+.btn-success.btn:disabled {
   opacity: 0.3;
 }
 
