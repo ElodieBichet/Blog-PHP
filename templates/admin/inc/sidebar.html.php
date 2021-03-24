@@ -3,72 +3,74 @@
 
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="index.php?admin">
-              Tableau de bord
+            <a class="nav-link fs-5" aria-current="page" href="index.php?admin">
+              <i class="fas fa-cog"></i> Tableau de bord
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="index.php">
-              Voir le site
+              <i class="fas fa-eye"></i> Voir le site
             </a>
           </li>
         </ul>
 
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted fs-6">
           Posts
         </h6>
         <ul class="nav flex-column">
           <li class="nav-item">
             <a class="nav-link" href="index.php?admin&controller=post&task=showList">
-              Gérer <?= ($isAdmin) ? 'les' : 'mes' ?> posts
+              <i class="fas fa-edit"></i> Gérer <?= ($isAdmin) ? 'les' : 'mes' ?> posts
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="index.php?admin&controller=post&task=add">Ajouter un post</a>
+            <a class="nav-link" href="index.php?admin&controller=post&task=add">
+            <i class="fas fa-file-medical"></i> Ajouter un post
+            </a>
           </li>
         </ul>
 
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted fs-6">
           Commentaires
         </h6>
         <ul class="nav flex-column">
           <li class="nav-item">
             <a class="nav-link" href="index.php?admin&controller=comment&task=showList">
-              Gérer les commentaires <?= ($isAdmin) ? '' : 'sur mes posts' ?>
+              <i class="fas fa-comment-dots"></i> Gérer les commentaires <?= ($isAdmin) ? '' : 'sur mes posts' ?>
             </a>
           </li>
         </ul>
 
         <?php if($isAdmin) : ?>
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted fs-6">
           Utilisateurs
         </h6>
         <ul class="nav flex-column">
           <li class="nav-item">
             <a class="nav-link" href="index.php?admin&controller=user&task=showList">
-              Gérer les utilisateurs
+              <i class="fas fa-users-cog"></i> Gérer les utilisateurs
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="index.php?page=register">
-              Ajouter un utilisateur
+              <i class="fas fa-user-plus"></i> Ajouter un utilisateur
             </a>
           </li>
         </ul>
         <?php endif; ?>
 
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            Mon compte
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted fs-6">
+          Mon compte
         </h6>
         <ul class="nav flex-column mb-2">
           <li class="nav-item">
             <a class="nav-link" href="index.php?controller=user&task=edit&id=<?= filter_var($sessionTab['user_id'], FILTER_VALIDATE_INT) ?>">
-              Gérer mon profil
+            <i class="fas fa-user-alt"></i> Gérer mon profil
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="index.php?logout">
-              Déconnexion
+              <i class="fas fa-unlock"></i> Déconnexion
             </a>
           </li>
         </ul>

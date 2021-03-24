@@ -1,0 +1,62 @@
+/* Home page styles */
+
+/* Top banner */
+#home-banner {
+  margin-top: 56px;
+  z-index: -100;
+  background: transparent url(img/pexels-johannes-plenio-1165981.jpg) no-repeat center center;
+  background-size: cover;
+  height: 100%;
+  max-height: 10rem;
+  filter: brightness(110%) contrast(110%);
+}
+
+#home-tagline {
+  filter: drop-shadow(0 0 1rem rgb(0, 0, 0, 0.7));
+}
+
+#home-banner .photo-copyright {
+  opacity: 0.7;
+  font-size: 0.7rem;
+  max-width: 42%;
+}
+
+#home-avatar {
+  width: 25%;
+  min-width: 120px;
+  max-width: 180px;
+  font-size: 1.3rem;
+}
+
+#home-content {
+  margin-top: 18rem;
+}
+
+@media (min-width: 768px) {
+  #home-banner {
+    max-height: 16rem;
+  }
+
+  #home-content {
+    margin-top: 24.5rem;
+  }
+
+  #home-avatar {
+    font-size: 1.7rem;
+  }
+}
+
+@media (min-width: 996px) {
+  #home-banner {
+    max-height: 22rem;
+  }
+
+  #home-content {
+    margin-top: 31.5rem;
+  }
+}
+
+/* Hide title */
+#page-title {
+  display: none;
+}

@@ -19,7 +19,7 @@ class Renderer
      * @param  array    $variables  array with all needed variables used in templates
      * @return void
      */
-    public static function render(string $type='front', string $path = 'index', bool $isConnected = false, bool $isAdmin = false, string $pageTitle = 'Page sans titre', array $variables=[]) : void
+    public static function render(string $type='front', string $path = 'index', bool $isConnected = false, bool $isAdmin = false, string $pageTitle = 'Page sans titre', array $variables=[]): void
     {
         // variables initialization
         $sessionTab = (!empty($_SESSION)) ? $_SESSION : array();
@@ -29,11 +29,11 @@ class Renderer
 
         if ($type == 'front')
         {
-
             $navAdminLink = array('href' => 'index.php?page=register', 'label' => 'Inscription');
             $navConnectLink = array('href' => 'index.php?page=login', 'label' => 'Connexion');
 
-            if($isConnected) {
+            if($isConnected)
+            {
                 $navAdminLink = array('href' => 'index.php?admin', 'label' => 'Admin');
                 $navConnectLink = array('href' => 'index.php?logout', 'label' => 'Déconnexion');
             }

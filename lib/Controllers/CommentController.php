@@ -24,7 +24,7 @@ class CommentController extends Controller
      *
      * @return void
      */
-    public function showList() : void
+    public function showList(): void
     {
         $this->checkAccess();
         $pageTitle = 'Gérer les commentaires';
@@ -66,14 +66,15 @@ class CommentController extends Controller
      * 
      * @return void
      */
-    public function submit() : void
+    public function submit(): void
     {
 
         $comment = $this->model;
 
         $postArray = $comment->collectInput('POST'); // collect global $_POST data
         
-        if (!empty($postArray)) {
+        if (!empty($postArray))
+        {
             
             if (isset($postArray['submit']))
             {
@@ -87,7 +88,8 @@ class CommentController extends Controller
             if($comment->id == 0) {
                 $result = 'error';
             } 
-            if($comment->id !== 0) {
+            if($comment->id !== 0)
+            {
                 $result = 'submitted';
 
                 // Try to notify the author of the post of the new comment submission
@@ -114,8 +116,9 @@ class CommentController extends Controller
                 }
                 catch (Throwable $e)
                 {
-                    // Uncomment in dev context :
-                    // echo 'Erreur : '. $e->getMessage() .'<br>Fichier : '. $e->getFile() .'<br>Ligne : '. $e->getLine();
+                    // Uncomment in dev context:
+                    // $error = sprintf('Erreur : %1$s<br>Fichier : %2$s<br>Ligne : %3$d', $e->getMessage(), $e->getFile(), $e->getLine());
+                    // echo filter_var($error, FILTER_SANITIZE_STRING);
                 }
             }
 
@@ -133,7 +136,8 @@ class CommentController extends Controller
      * @param  array $formdata The array with values to assign
      * @return void
      */
-    public function dataTransform(object $comment, array $formdata) : void {
+    public function dataTransform(object $comment, array $formdata): void
+    {
         $comment->post_id = $formdata['post_id'];
         $comment->author = $formdata['author'];
         $comment->email_address = filter_var($formdata['email_address'], FILTER_SANITIZE_EMAIL);

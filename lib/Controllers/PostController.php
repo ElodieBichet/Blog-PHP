@@ -27,7 +27,7 @@ class PostController extends Controller
      *
      * @return void
      */
-    public function showList() : void
+    public function showList(): void
     {
         
         $admin = filter_input(INPUT_GET, 'admin');
@@ -63,7 +63,7 @@ class PostController extends Controller
      *
      * @return void
      */
-    public function show() : void
+    public function show(): void
     {
         $post = $this->model;
         $comment = new Comment();
@@ -91,7 +91,7 @@ class PostController extends Controller
             {
                 foreach ($DBpost as $k => $v) $post->$k = $v;
 
-                if ( ($post->status != self::STATUS_APPROVED) OR (strtotime($post->publication_date) > time()) )
+                if (($post->status != self::STATUS_APPROVED) OR (strtotime($post->publication_date) > time()))
                 {
                     $post->redirect('index.php?page=404-error');
                 }
@@ -125,7 +125,7 @@ class PostController extends Controller
      *
      * @return void
      */
-    public function add() : void
+    public function add(): void
     {
 
         $this->checkAccess(); // redirect to login page if not connected
@@ -133,13 +133,13 @@ class PostController extends Controller
         $pageTitle = 'Ajouter un post';
         $message = '';
         $style = 'success';
-        $template = 'newPost';
+        $template = 'new-post';
         $post = $this->model;
 
         $postArray = $post->collectInput('POST'); // collect global $_POST data
         
-        if (!empty($postArray)) {
-            
+        if (!empty($postArray))
+        {
             if (isset($postArray['save']))
             {
                 $message = 'Le post a bien été enregistré en base';
@@ -156,15 +156,17 @@ class PostController extends Controller
             
             $post->id = $post->insert();
 
-            if($post->id == 0) {
+            if($post->id == 0)
+            {
                 $message = 'Une erreur est survenue, le post n\'a pas pu être inséré dans la base de données.';
                 $style = 'danger';
             } 
-            if($post->id !== 0) {
+            if($post->id !== 0)
+            {
                 array_push($_SESSION['user_posts'], $post->id);
                 $message .= ' sous l\'identifiant #'.$post->id.'.';
                 $pageTitle = 'Modifier le post #'.$post->id;
-                $template = 'editPost';
+                $template = 'edit-post';
 
                 if(!$this->isAdmin())
                 {
@@ -181,8 +183,9 @@ class PostController extends Controller
                     }
                     catch (Throwable $e)
                     {
-                        // Uncomment in dev context :
-                        echo 'Erreur : '. $e->getMessage() .'<br>Fichier : '. $e->getFile() .'<br>Ligne : '. $e->getLine();
+                        // Uncomment in dev context:
+                        $error = sprintf('Erreur : %1$s<br>Fichier : %2$s<br>Ligne : %3$d', $e->getMessage(), $e->getFile(), $e->getLine());
+                        echo filter_var($error, FILTER_SANITIZE_STRING);
                     }
                 }
             }
@@ -192,16 +195,17 @@ class PostController extends Controller
         $this->display('admin', $template, $pageTitle, compact('message','style','post'));
 
     }
-  
+
     /**
      * dataTransform
      * Check all the $_POST data before adding or updating a post
      *
-     * @param  mixed $post
-     * @param  mixed $formdata
+     * @param  object $post
+     * @param  array $formdata
      * @return void
      */
-    public function dataTransform(object $post, array $formdata) : void {
+    public function dataTransform(object $post, array $formdata): void
+    {
         $post->title = $formdata['title'];
         $post->intro = $formdata['intro'];
         $post->content = $formdata['content'];

@@ -10,8 +10,8 @@
                     Cette action est irréversible. Souhaitez-vous supprimer définitivement <?= filter_var($item, FILTER_SANITIZE_STRING) ?> #<span><?= filter_var($itemId, FILTER_VALIDATE_INT) ?></span> ?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" id="delete" name="delete" class="btn btn-primary" formaction="index.php?controller=post&task=edit&id=<?= filter_var($itemId, FILTER_VALIDATE_INT) ?>">Supprimer <?= filter_var($item, FILTER_SANITIZE_STRING) ?></button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times"></i> Annuler</button>
+                    <button type="submit" id="delete" name="delete" class="btn btn-danger" formaction="index.php?controller=post&task=edit&id=<?= filter_var($itemId, FILTER_VALIDATE_INT) ?>"><i class="fas fa-trash-alt"></i> Supprimer <?= filter_var($item, FILTER_SANITIZE_STRING) ?></button>
                 </div>
                 </div>
             </div>

@@ -23,7 +23,7 @@ trait Mailing
      * @param  array $recipient Array (recipient's email address => name). If empty use the configured superadmin in .env file)
      * @return bool True in case of success, False else
      */
-    public function sendEmail(string $name, string $email, string $subject, string $body, array $recipient = []) : bool
+    public function sendEmail(string $name, string $email, string $subject, string $body, array $recipient = []): bool
     {
         // Use .env files to create $_ENV superglobal var
         $dotenv = new Dotenv();

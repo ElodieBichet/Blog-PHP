@@ -19,15 +19,17 @@
 
         <p>Statut du commentaire : <?= filter_var($comment->getStatusLabel(), FILTER_SANITIZE_STRING) ?> 
         <?php if((int) $comment->status != 2) : ?>
-        <button type="submit" name="valid" class="btn btn-success btn-sm">Approuver</button>
+        <button type="submit" name="valid" class="btn btn-success btn-sm"><i class="fas fa-check"></i> Approuver</button>
         <?php endif; ?>
         <?php if((int) $comment->status <= 2) : ?>
-        <button type="submit" name="reject" class="btn btn-warning btn-sm">Rejeter</button>
+        <button type="submit" name="reject" class="btn btn-warning btn-sm"><i class="fas fa-ban"></i> Rejeter</button>
         <?php endif; ?>
         </p>
 
-        <button type="submit" name="update" class="btn btn-primary">Mettre à jour</button>
-        <button type="button" name="delete" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal">Supprimer</button>
+        <button type="submit" name="update" class="btn btn-primary"><i class="fas fa-redo-alt"></i> Mettre à jour</button>
+        <button type="button" name="delete" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fas fa-trash-alt"></i> Supprimer</button><br>
+        <br>
+        <button type="submit" name="manage_post" class="btn btn-light btn-sm" formaction="index.php?controller=post&task=show&id=<?= filter_var($comment->post_id, FILTER_VALIDATE_INT) ?>"><i class="fas fa-eye"></i> Voir le post concerné par ce commentaire</button>
 
         <?php $item = 'le commentaire'; $itemId = $comment->id; require 'inc/modal.html.php'; ?>
 
@@ -38,11 +40,6 @@
                 confirm.setAttribute('formaction', 'index.php?controller=comment&task=edit&id='+<?= filter_var($itemId, FILTER_VALIDATE_INT) ?>)
             })
         </script>
-
-
-        <p>
-            <button type="submit" name="manage_post" class="btn btn-link btn-sm" formaction="index.php?controller=post&task=show&id=<?= filter_var($comment->post_id, FILTER_VALIDATE_INT) ?>">Voir le post concerné par ce commentaire</button>
-        </p>
             
     </form>
 

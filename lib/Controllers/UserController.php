@@ -10,9 +10,9 @@ use Throwable;
  */
 class UserController extends Controller
 {
-    const ROLE_DEFAULT = 0;
-    const ROLE_ADMIN = 1;
-    const ROLE_AUTHOR = 2;
+    public const ROLE_DEFAULT = 0;
+    public const ROLE_ADMIN = 1;
+    public const ROLE_AUTHOR = 2;
 
     protected $modelName = \App\Models\User::class;
     protected $modelTrad = array(
@@ -28,7 +28,7 @@ class UserController extends Controller
      *
      * @return void
      */
-    public function showList() : void
+    public function showList(): void
     {
         $this->checkAccess(true); // redirect to login page if not connected or not admin
         
@@ -53,7 +53,7 @@ class UserController extends Controller
      * 
      * @return void
      */
-    public function submit() : void
+    public function submit(): void
     {
 
         $user = $this->model;
@@ -63,7 +63,7 @@ class UserController extends Controller
         $style = 'success';
         $message = '';
         
-        if ( !empty($postArray) AND isset($postArray['submit']) )
+        if (!empty($postArray) AND isset($postArray['submit']))
         {
             
             if (isset($postArray['email_address']))
@@ -106,8 +106,9 @@ class UserController extends Controller
                         }
                         catch (Throwable $e)
                         {
-                            // Uncomment in dev context :
-                            echo 'Erreur : '. $e->getMessage() .'<br>Fichier : '. $e->getFile() .'<br>Ligne : '. $e->getLine();
+                            // Uncomment in dev context:
+                            $error = sprintf('Erreur : %1$s<br>Fichier : %2$s<br>Ligne : %3$d', $e->getMessage(), $e->getFile(), $e->getLine());
+                            echo filter_var($error, FILTER_SANITIZE_STRING);
                         }
                     }
                 }
@@ -128,7 +129,8 @@ class UserController extends Controller
      * @param  array $formdata The array with values to assign
      * @return void
      */
-    public function dataTransform(object $user, array $formdata) : void {
+    public function dataTransform(object $user, array $formdata): void
+    {
         $user->first_name = $formdata['first_name'];
         $user->last_name = $formdata['last_name'];
         // if empty, public name = first name + last name
@@ -142,7 +144,7 @@ class UserController extends Controller
      *
      * @return void
      */
-    public function connect()
+    public function connect(): void
     {
         $user = $this->model;
         $postArray = $user->collectInput('POST'); // collect global $_POST data
@@ -152,14 +154,15 @@ class UserController extends Controller
         $style = 'danger';
         $message = 'Echec de la connexion : identifiant ou mot de passe incorrect !';
 
-        if ( !empty($postArray['email_address']) )
+        if (!empty($postArray['email_address']))
         {
             $DBuser = $user->find($postArray['email_address'], 'email_address');
             
-            if ($DBuser) {
+            if ($DBuser)
+            {
                 foreach ($DBuser as $k => $v) $user->$k = $v;
                 
-                if ( password_verify($postArray['password'], $user->password) )
+                if (password_verify($postArray['password'], $user->password))
                 {
                     switch ($user->status)
                     {

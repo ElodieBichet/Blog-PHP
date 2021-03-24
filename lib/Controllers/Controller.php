@@ -16,10 +16,10 @@ abstract class Controller
     use Rights;
     use Mailing;
     
-    const STATUS_DRAFT = 0;
-    const STATUS_SUBMITTED = 1;
-    const STATUS_APPROVED = 2;
-    const STATUS_REJECTED = 3;
+    public const STATUS_DRAFT = 0;
+    public const STATUS_SUBMITTED = 1;
+    public const STATUS_APPROVED = 2;
+    public const STATUS_REJECTED = 3;
     
     protected $model;
     protected $modelName;
@@ -40,10 +40,10 @@ abstract class Controller
      * Data transformation before database insertion or update
      *
      * @param  object $item
-     * @param  mixed $formdata
+     * @param  array $formdata
      * @return void
      */
-    abstract function dataTransform(object $item, array $formdata) : void;
+    abstract function dataTransform(object $item, array $formdata): void;
     
     /**
      * contact
@@ -51,17 +51,17 @@ abstract class Controller
      *
      * @return void
      */
-    public function contact()
+    public function contact(): void
     {
-        $getPost = $this->collectInput('POST', FILTER_SANITIZE_STRING);
+        $postArray = $this->collectInput('POST');
 
-        if(isset($getPost['sendEmail']))
+        if(isset($postArray['sendEmail']))
         {
             // Get the values of the form fields
-            $name = (isset($getPost['sender_name'])) ? filter_var($getPost['sender_name'], FILTER_SANITIZE_STRING) : 'anonyme';
-            $email = (isset($getPost['sender_email_address'])) ? filter_var($getPost['sender_email_address'], FILTER_SANITIZE_EMAIL) : 'indéterminée';
-            $subject = (isset($getPost['sender_subject'])) ? filter_var($getPost['sender_subject'], FILTER_SANITIZE_STRING) : 'contactez-moi';
-            $body = (isset($getPost['sender_message'])) ? filter_var($getPost['sender_message'], FILTER_SANITIZE_STRING) : '';
+            $name = (isset($postArray['sender_name'])) ? filter_var($postArray['sender_name'], FILTER_SANITIZE_STRING) : 'anonyme';
+            $email = (isset($postArray['sender_email_address'])) ? filter_var($postArray['sender_email_address'], FILTER_SANITIZE_EMAIL) : 'indéterminée';
+            $subject = (isset($postArray['sender_subject'])) ? filter_var($postArray['sender_subject'], FILTER_SANITIZE_STRING) : 'contactez-moi';
+            $body = (isset($postArray['sender_message'])) ? filter_var($postArray['sender_message'], FILTER_SANITIZE_STRING) : '';
             $body = 'Message de '. $name .' ('.$email.') envoyé le '.date("d/m/Y à H\hi").' : '."\n\n".$body;
 
             try
@@ -80,8 +80,9 @@ abstract class Controller
             {
                 $message = 'Une erreur est survenue, le message n\'a pas pu être envoyé.';
                 $style = 'danger';
-                // Uncomment in dev context :
-                echo 'Erreur : '. $e->getMessage() .'<br>Fichier : '. $e->getFile() .'<br>Ligne : '. $e->getLine();
+                // Uncomment in dev context:
+                $error = sprintf('Erreur : %1$s<br>Fichier : %2$s<br>Ligne : %3$d', $e->getMessage(), $e->getFile(), $e->getLine());
+                echo filter_var($error, FILTER_SANITIZE_STRING);
             }
     
             $this->display('front','contactme','Contactez-moi',compact('message','style'));
@@ -95,7 +96,7 @@ abstract class Controller
      * 
      * @return void
      */
-    public function edit() : void
+    public function edit(): void
     {
         $modelTrad = $this->modelTrad;
         $pageTitle = 'Modifier '.$modelTrad['article_the'].$modelTrad['item'];
@@ -103,7 +104,8 @@ abstract class Controller
         $message = '';
         $item = $this->model;
         $itemClass = new ReflectionClass($item); // to get the class name of the item
-        $template = 'edit'.$itemClass->getShortName();
+        $itemClassName = strtolower($itemClass->getShortName());
+        $template = 'edit-'.$itemClassName;
         $this->checkAccess(); // redirect to login page if not connected
         $getArray = $item->collectInput('GET'); // collect global $_GET data
         $postArray = $item->collectInput('POST'); // collect global $_POST data
@@ -145,7 +147,7 @@ abstract class Controller
         $variables = array(
             'style' => $style,
             'message' => $message,
-            strtolower($itemClass->getShortName()) => $item
+            $itemClassName => $item
         );
 
         $this->display('admin', $template, $pageTitle, $variables);
@@ -160,16 +162,17 @@ abstract class Controller
      * @param  array    $postArray Array which contains $_POST entries
      * @return array with 3 variables values
      */
-    public function doActionForm(object $item, array $postArray) : array
+    public function doActionForm(object $item, array $postArray): array
     {
         $this->checkAccess(false, $item);
         $modelTrad = $this->modelTrad;
         $itemClass = new ReflectionClass($item); // to get the class name of the item
-        $template = 'edit'.$itemClass->getShortName();
+        $itemClassName = strtolower($itemClass->getShortName());
+        $template = 'edit-'.$itemClassName;
         $style = '';
         $message = '';
 
-        if ( isset($postArray['update']) OR isset($postArray['updateAsDraft']) ) // if submit with update button
+        if (isset($postArray['update']) OR isset($postArray['updateAsDraft'])) // if submit with update button
         {
 
             $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' a bien été mis à jour.';
@@ -194,8 +197,9 @@ abstract class Controller
             $style = 'success';
             $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' a bien été supprimé.';
 
-            if (!$deleteSuccess) { // if delete() has failed
-                $template = 'edit'.$itemClass->getShortName();
+            if (!$deleteSuccess) // if delete() has failed
+            { 
+                $template = 'edit-'.$itemClassName;
                 $style = 'danger';
                 $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' n\'a pas pu être supprimé.';
             }
@@ -209,7 +213,8 @@ abstract class Controller
             $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' a bien été approuvé.';
             $item->status = self::STATUS_APPROVED;
 
-            if (!$updateSuccess) { // if setStatus() has failed
+            if (!$updateSuccess) // if setStatus() has failed
+            {
                 $style = 'danger';
                 $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' n\'a pas pu être approuvé.';
             }
@@ -223,7 +228,8 @@ abstract class Controller
             $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' a bien été rejeté.';
             $item->status = self::STATUS_REJECTED;
 
-            if (!$updateSuccess) { // if setStatus() has failed
+            if (!$updateSuccess) // if setStatus() has failed
+            {
                 $style = 'danger';
                 $message = ucfirst($modelTrad['article_the']).$modelTrad['item'].' #' . $item->id . ' n\'a pas pu être rejeté.';
             }
@@ -232,6 +238,5 @@ abstract class Controller
         return array($template, $message, $style);
 
     }
-
 
 }

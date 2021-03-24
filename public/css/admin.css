@@ -2,10 +2,7 @@ body {
   font-size: 0.875rem;
 }
 
-/*
-  * Sidebar
-  */
-
+/* Sidebar */
 .sidebar {
   position: fixed;
   top: 0;
@@ -40,10 +37,7 @@ body {
   text-transform: uppercase;
 }
 
-/*
-  * Navbar
-  */
-
+/* Navbar */
 .navbar-brand {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -72,4 +66,13 @@ body {
 .form-control-dark:focus {
   border-color: transparent;
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+}
+
+.btn-warning.btn:disabled,
+.btn-success.btn:disabled {
+  opacity: 0.3;
+}
+
+tr.status-1 {
+  font-weight: bold;
 }

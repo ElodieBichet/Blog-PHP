@@ -11,7 +11,7 @@ trait Http
    * @param  string $type
    * @return array
    */
-  public function collectInput(string $type = 'GET')
+  public function collectInput(string $type = 'GET'): ?array
   {
     $constant = 'INPUT_';
     $type = constant($constant.$type);
@@ -25,7 +25,7 @@ trait Http
    *
    * @return void
    */
-  public function logout() : void
+  public function logout(): void
   {
     $serverArray = $this->collectInput('SERVER');
     $_SESSION = array();

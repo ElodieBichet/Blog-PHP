@@ -11,10 +11,10 @@ trait Rights
    * Check if a user is connected and has rights to make action, and redirect to the login page or denied access page if not
    *
    * @param  bool $admin  True if an admin role is needed, False else
-   * @param  mixed $item  Optional (object or null), if the requested action concerns a specific item
+   * @param  object $item  Optional (object or null), if the requested action concerns a specific item
    * @return void
    */
-  public function checkAccess(bool $admin = false, object $item = null) : void
+  public function checkAccess(bool $admin = false, ?object $item = null): void
   {
     $isConnected = self::isConnected();
 
@@ -73,7 +73,7 @@ trait Rights
    * @param  array  $variables  array with all needed variables used in templates
    * @return void
    */
-  public function display(string $type, string $path, string $pageTitle, array $variables = [])
+  public function display(string $type, string $path, string $pageTitle, array $variables = []): void
   {
     $isConnected = self::isConnected();
     $isAdmin = self::isAdmin();
@@ -86,7 +86,7 @@ trait Rights
    *
    * @return bool
    */
-  public static function isConnected() : bool
+  public static function isConnected(): bool
   {
     $connection = (array_key_exists('connection', $_SESSION)) ? filter_var((bool) $_SESSION['connection'], FILTER_SANITIZE_STRING) : false;
 
@@ -99,7 +99,7 @@ trait Rights
    *
    * @return bool
    */
-  public static function isAdmin() : bool
+  public static function isAdmin(): bool
   {
     $role = (array_key_exists('user_role', $_SESSION)) ? filter_var($_SESSION['user_role'], FILTER_SANITIZE_STRING) : 0;
 

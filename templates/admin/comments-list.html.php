@@ -16,9 +16,9 @@
 
     <form method="post">
     <?php foreach ($comments as $comment) : ?>
-        <tr>
+        <tr class="status-<?= filter_var($comment->status, FILTER_SANITIZE_STRING) ?>">
             <td>#<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?></td>
-            <td>#<?= filter_var($comment->post_id, FILTER_VALIDATE_INT) ?></td>
+            <td><?= filter_var($comment->getPostTitle(), FILTER_SANITIZE_STRING) ?></td>
             <td><?= filter_var($comment->author, FILTER_SANITIZE_STRING) ?></td>
             <td><?= filter_var($comment->content, FILTER_SANITIZE_STRING) ?></td>
             <td><?= filter_var($comment->creation_date, FILTER_SANITIZE_STRING) ?></td>
@@ -26,14 +26,14 @@
                 <?= filter_var($comment->getStatusLabel(), FILTER_SANITIZE_STRING) ?>
             </td>
             <td>
-                <button <?php if((int) $comment->status == 2) : ?>disabled<?php endif; ?> type="submit" name="valid" class="btn btn-success btn-sm" formaction="index.php?controller=comment&task=edit&id=<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>">Approuver</button>
-                <button <?php if((int) $comment->status == 3) : ?>disabled<?php endif; ?> type="submit" name="reject" class="btn btn-warning btn-sm" formaction="index.php?controller=comment&task=edit&id=<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>">Rejeter</button>
+                <button <?php if((int) $comment->status == 2) : ?>disabled<?php endif; ?> type="submit" name="valid" class="btn btn-success btn-sm" formaction="index.php?controller=comment&task=edit&id=<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>"><i class="fas fa-check"></i></button>
+                <button <?php if((int) $comment->status == 3) : ?>disabled<?php endif; ?> type="submit" name="reject" class="btn btn-warning btn-sm" formaction="index.php?controller=comment&task=edit&id=<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>"><i class="fas fa-ban"></i></button>
             </td>
             <td>
-                <button type="submit" name="change" class="btn btn-primary" formaction="index.php?controller=comment&task=edit&id=<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>">Modif.</button>
+                <button type="submit" name="change" class="btn btn-primary" formaction="index.php?controller=comment&task=edit&id=<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>"><i class="fas fa-pen"></i></button>
             </td>
             <td>
-                <button type="button" name="delete" class="btn btn-danger" data-bs-commentid="<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>" data-bs-toggle="modal" data-bs-target="#myModal">Suppr.</button>
+                <button type="button" name="delete" class="btn btn-danger" data-bs-commentid="<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>" data-bs-toggle="modal" data-bs-target="#myModal"><i class="fas fa-trash-alt"></i></button>
             </td>
         </tr>
         

@@ -23,7 +23,7 @@ class PageController extends Controller
      *
      * @return void
      */
-    public function show() : void
+    public function show(): void
     {
 
         $page = $this->model;
@@ -67,7 +67,7 @@ class PageController extends Controller
      * @param  string $pageName The name of the requested page
      * @return void
      */
-    public function showPage(object $page, string $pageName) : void
+    public function showPage(object $page, string $pageName): void
     {
         switch ($pageName)
         {
@@ -95,7 +95,7 @@ class PageController extends Controller
         $page->title = $pageTitle;
     }
     
-    function dataTransform(object $item, array $formdata) : void
+    function dataTransform(object $item, array $formdata): void
     {
         // do nothing for the moment as pages are not managed like other items
     }
