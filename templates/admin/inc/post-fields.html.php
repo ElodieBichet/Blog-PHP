@@ -1,3 +1,4 @@
+        <!-- Fields for post form (add or update) -->
         <div class="form-floating mb-3">
             <input type="text" class="form-control" name="title" id="title" placeholder="Titre du post" value="<?= filter_var($post->title, FILTER_SANITIZE_STRING) ?>" required>
             <label for="title">Titre du post</label>

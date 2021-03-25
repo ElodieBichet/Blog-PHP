@@ -1,3 +1,4 @@
+<!-- Contact form -->
 <form action="index.php?task=contact" method="POST">
     <div class="row">
         <div class="col-lg-4 col-md-6">
@@ -27,3 +28,4 @@
     <button type="submit" name="sendEmail" class="btn btn-primary">Envoyer</button>
 
 </form>
+<!-- /Contact form -->

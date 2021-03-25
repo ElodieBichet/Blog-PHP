@@ -1,3 +1,4 @@
+<!-- Admin users list -->
 <table class="table table-striped table-responsive">
     <thead class="table-light">
         <tr>
@@ -41,6 +42,7 @@
     <?php $item = 'l\'utilisateur';  $itemId = 0; require 'inc/modal.html.php'; ?>
     </form>
     
+        <!-- Customize modal content according to the clicked line -->
         <script>
             var myModal = document.getElementById('myModal')
             myModal.addEventListener('show.bs.modal', function (event) {
@@ -59,3 +61,4 @@
     </tbody>
 
 </table>
+<!-- /Admin users list -->

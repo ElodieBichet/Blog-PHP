@@ -1,4 +1,4 @@
-/* Home page styles */
+/* Public home page styles */
 
 /* Top banner */
 #home-banner {
@@ -56,7 +56,7 @@
   }
 }
 
-/* Hide title */
+/* Hide title in home page */
 #page-title {
   display: none;
 }

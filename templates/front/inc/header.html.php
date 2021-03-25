@@ -1,3 +1,4 @@
+<!-- Public top navbar -->
 <header class="pt-3">
     <nav class="navbar navbar-expand-md fixed-top navbar-light bg-light">
 
@@ -30,3 +31,4 @@
         </div>
     </nav>
 </header>
+<!-- /Public top navbar -->

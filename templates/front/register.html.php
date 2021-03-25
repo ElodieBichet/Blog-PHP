@@ -1,3 +1,4 @@
+<!-- Register form page -->
 <p>Complétez le formulaire ci-dessous pour soumettre votre profil.</p>
 
 <form method="POST" action="index.php?controller=user&task=submit">
@@ -34,3 +35,4 @@
     </div>
     <button type="submit" name="submit" class="btn btn-primary">Soumettre</button>
 </form>
+<!-- /Register form page -->

@@ -133,9 +133,9 @@ abstract class Model
      * 
      * @param mixed $value  searched value in the database
      * @param string $name  name of the column in the table
-     * @return object item  as an object (or =null if no result)
+     * @return mixed item as an object if found
      */    
-    public function find($value, string $name='id'): ?object
+    public function find($value, string $name='id')
     {
         $query = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE {$name} = :{$name}");
         $query->execute([':'.$name => $value]);

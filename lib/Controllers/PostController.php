@@ -168,7 +168,7 @@ class PostController extends Controller
                 $pageTitle = 'Modifier le post #'.$post->id;
                 $template = 'edit-post';
 
-                if(!$this->isAdmin())
+                if((!$this->isAdmin()) AND ($GLOBALS['notify_new_post'] == 1)) // if current user is not admin and new post notification is enabled
                 {
                     // Try to notify the site owner of the new post submission
                     try

@@ -93,22 +93,25 @@ class UserController extends Controller
                     {
                         $message = 'Votre demande d\'inscription a bien été enregistrée pour validation par un administrateur.';
 
-                        // Try to notify the site owner of the new registration
-                        try
+                        if($GLOBALS['notify_new_user'] == 1) // if new user notification is enabled
                         {
-                            $serverArray = $this->collectInput('SERVER');
-                            $baseUrl = 'http://'.$serverArray['HTTP_HOST'].$serverArray['PHP_SELF'];
-                            $body = "Un nouvel utilisateur vient d'être enregistré : {$baseUrl}?controller=user&task=edit&id={$user->id}";
-                            if (!$this->sendEmail('My Blog','noreply@myblog.fr','Nouvel utilisateur enregistré',$body))
+                            // Try to notify the site owner of the new registration
+                            try
                             {
-                                throw new Throwable();
+                                $serverArray = $this->collectInput('SERVER');
+                                $baseUrl = 'http://'.$serverArray['HTTP_HOST'].$serverArray['PHP_SELF'];
+                                $body = "Un nouvel utilisateur vient d'être enregistré : {$baseUrl}?controller=user&task=edit&id={$user->id}";
+                                if (!$this->sendEmail('My Blog','noreply@myblog.fr','Nouvel utilisateur enregistré',$body))
+                                {
+                                    throw new Throwable();
+                                }
                             }
-                        }
-                        catch (Throwable $e)
-                        {
-                            // Uncomment in dev context:
-                            $error = sprintf('Erreur : %1$s<br>Fichier : %2$s<br>Ligne : %3$d', $e->getMessage(), $e->getFile(), $e->getLine());
-                            echo filter_var($error, FILTER_SANITIZE_STRING);
+                            catch (Throwable $e)
+                            {
+                                // Uncomment in dev context:
+                                $error = sprintf('Erreur : %1$s<br>Fichier : %2$s<br>Ligne : %3$d', $e->getMessage(), $e->getFile(), $e->getLine());
+                                echo filter_var($error, FILTER_SANITIZE_STRING);
+                            }
                         }
                     }
                 }

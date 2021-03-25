@@ -1,3 +1,4 @@
+<!-- Login form page -->
 <p>Saisissez votre adresse email et votre mot de passe ci-dessous pour vous connecter à l'admin.</p>
 
 <form action="index.php?controller=user&task=connect" method="POST">
@@ -13,3 +14,4 @@
     <button type="submit" name="connect" class="btn btn-primary">Connexion</button>
 
 </form>
+<!-- /Login form page -->

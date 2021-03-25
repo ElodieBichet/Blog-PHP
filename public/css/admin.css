@@ -1,8 +1,9 @@
+/* Admin pages styles */
 body {
   font-size: 0.875rem;
 }
 
-/* Sidebar */
+/* Admin sidebar */
 .sidebar {
   position: fixed;
   top: 0;
@@ -37,7 +38,7 @@ body {
   text-transform: uppercase;
 }
 
-/* Navbar */
+/* Admin navbar */
 .navbar-brand {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -68,11 +69,13 @@ body {
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
 }
 
+/* Approve and reject buttons */
 .btn-warning.btn:disabled,
 .btn-success.btn:disabled {
   opacity: 0.3;
 }
 
+/* Lines in posts/comments/users list table where status is submitted */
 tr.status-1 {
   font-weight: bold;
 }

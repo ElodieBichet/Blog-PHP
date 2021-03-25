@@ -92,9 +92,9 @@ class Comment extends Model
      * getPostAuthor
      * Get Id, email address and public name of the concerned post's author
      *
-     * @return object    object, or null if nothing found
+     * @return mixed    object if found
      */
-    public function getPostAuthor(): ?object
+    public function getPostAuthor()
     {
         $query = $this->pdo->prepare("SELECT users.id, email_address, public_name FROM users INNER JOIN posts ON posts.author = users.id WHERE posts.id = :id");
         $query->execute([':id' => $this->post_id]);

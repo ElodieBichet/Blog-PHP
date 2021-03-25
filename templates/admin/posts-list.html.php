@@ -4,6 +4,7 @@
     </form>
 </p>
 
+<!-- Admin posts list -->
 <table class="table table-striped table-responsive">
     <thead class="table-light">
         <tr>
@@ -47,7 +48,8 @@
     <?php endforeach; ?>
     <?php $item = 'le post'; $itemId = 0; require 'inc/modal.html.php'; ?>
     </form>
-    
+                    
+        <!-- Customize modal content according to the clicked line -->
         <script>
             var myModal = document.getElementById('myModal')
             myModal.addEventListener('show.bs.modal', function (event) {
@@ -66,3 +68,4 @@
     </tbody>
 
 </table>
+<!-- /Admin posts list -->

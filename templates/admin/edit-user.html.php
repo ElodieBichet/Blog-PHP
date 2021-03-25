@@ -1,6 +1,7 @@
 
 <div>
 
+    <!-- User edit form -->
     <form action="index.php?controller=user&task=edit&id=<?= filter_var($user->id, FILTER_VALIDATE_INT) ?>" method="POST">
 
         <div class="row">
@@ -50,6 +51,7 @@
 
         <?php $item = 'l\'utilisateur'; $itemId = $user->id; require 'inc/modal.html.php'; ?>
 
+        <!-- Customize modal content for user -->  
         <script>
             var myModal = document.getElementById('myModal')
             myModal.addEventListener('show.bs.modal', function (event) {
@@ -59,6 +61,6 @@
         </script>
             
     </form>
-
+    <!-- /User edit form -->
 
 </div>
