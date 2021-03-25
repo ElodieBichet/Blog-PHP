@@ -8,7 +8,7 @@ Work carried out as part of the training course "Application Developer - PHP / S
 3.  [Usage](#usage)
 
 ---
-## Prerequisite and technologies
+## PREREQUISITE AND TECHNOLOGIES
 
 ### __Server__
 You need a web server with PHP7 and MySQL DBMS.  
