@@ -7,8 +7,9 @@ Work carried out as part of the training course "Application Developer - PHP / S
 2.  [Installation](#installation)
 3.  [Usage](#usage)
 
+---
 ## Prerequisite and technologies
-***
+
 ### __Server__
 You need a web server with PHP7 and MySQL DBMS.  
 Versions used in this project:
@@ -32,8 +33,9 @@ CSS/JS libraries, included via CDN links:
 
 *NB: If you want to customize Bootstrap, install it in your project instead of using CDN links ([more info](https://getbootstrap.com/)).*
 
+---
 ## INSTALLATION
-***
+
 ### __Download__
 Download zip files or clone the project repository with github ([see GitHub documentation](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository)).
 
@@ -90,8 +92,9 @@ $ composer install
 ```
 Dependencies should be installed in your project (check _vendor_ directory).
 
+---
 ## USAGE
-***
+
 ### __Visit your new site__
 Open ___public/index.php___ file in your favorite browser. This is your home page!
 
