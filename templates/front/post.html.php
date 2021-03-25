@@ -1,3 +1,4 @@
+<!-- One post page content -->
 <div id="post-<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>">
     <div>
         <p class="mb-2 text-muted">Dernière mise à jour : <?= filter_var(date('\l\e d/m/Y à H:i', strtotime($post->last_update_date)), FILTER_SANITIZE_STRING) ?><br>Par <?= filter_var($post->getAuthor(), FILTER_SANITIZE_STRING) ?></p>
@@ -10,7 +11,7 @@
     </div>
 
     <div>
-        <!-- Comments form -->
+        <!-- Comment form -->
         <h2 class="my-3">Déposez un commentaire.</h2>
         <form method="POST" action="index.php?controller=comment&task=submit">
             <input type="hidden" name="post_id" value="<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>">
@@ -34,6 +35,7 @@
             </div>
             <button type="submit" name="submit" class="btn btn-primary">Soumettre</button>
         </form>
+        <!-- /Comment form -->
 
         <!-- Comments list -->
         <h2 class="d-inline-block align-middle my-3">Commentaires</h2> <span class="badge bg-secondary rounded-pill align-middle"><?= filter_var($post->nb_comments, FILTER_VALIDATE_INT) ?></span>
@@ -56,8 +58,10 @@
         <?php else : ?>
         <p>Pas encore de commentaire pour ce post.</p>
         <?php endif; ?>
+        <!-- /Comments list -->
         
     </div>
 
 </div>
+<!-- /One post page content -->
     

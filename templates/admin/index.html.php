@@ -1,4 +1,5 @@
 
+<!-- Admin home page content (dashboard) -->
 <div class="text-center">
 
     <p class="display-4">Bienvenue <?= filter_var($sessionTab['user_name'], FILTER_SANITIZE_STRING) ?> !</p>

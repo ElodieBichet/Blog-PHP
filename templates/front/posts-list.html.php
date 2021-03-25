@@ -1,4 +1,5 @@
 
+<!-- Posts list page content -->
 <p>Découvrez les dernières news.</p>
 
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
@@ -21,3 +22,4 @@
     </div>
     <?php endforeach; ?>
 </div>
+<!-- /Posts list page content -->

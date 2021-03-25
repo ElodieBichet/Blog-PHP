@@ -1,6 +1,7 @@
 
 <div>
 
+    <!-- Comment edit form -->
     <form action="index.php?controller=comment&task=edit&id=<?= filter_var($comment->id, FILTER_VALIDATE_INT) ?>" method="POST">
 
         <input type="hidden" name="post_id" value="<?= filter_var($comment->post_id, FILTER_VALIDATE_INT) ?>">
@@ -33,6 +34,7 @@
 
         <?php $item = 'le commentaire'; $itemId = $comment->id; require 'inc/modal.html.php'; ?>
 
+        <!-- Customize modal content for comment -->            
         <script>
             var myModal = document.getElementById('myModal')
             myModal.addEventListener('show.bs.modal', function (event) {
@@ -42,6 +44,6 @@
         </script>
             
     </form>
-
+    <!-- /Comment edit form -->
 
 </div>

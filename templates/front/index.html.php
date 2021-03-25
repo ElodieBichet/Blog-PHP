@@ -1,3 +1,5 @@
+<!-- Public home page content (dashboard) -->
+<!-- Home top banner -->
 <div id="home-banner" class="position-absolute top-0 start-0 w-100">
     <p id="home-tagline" class="display-6 text-white text-center py-1 py-md-4 py-lg-5 px-1"><?= filter_var($GLOBALS['my_tagline'], FILTER_SANITIZE_STRING) ?></p>
     <p class="photo-copyright position-absolute end-0 bottom-0 text-light bg-dark bg-gradient m-0 px-1 py-1 text-end">&copy Photo de <a class="link-light" href="https://www.pexels.com/fr-fr/@jplenio" target="_blank">Johannes Plenio</a></p>
@@ -6,6 +8,7 @@
         <span class="position-absolute top-100 start-50 translate-middle text-secondary rounded mt-1 w-100"><?= filter_var($GLOBALS['my_name'], FILTER_SANITIZE_STRING) ?></span>
     </p>
 </div>
+<!-- /Home top banner -->
 <div id="home-content">
     <div id="my-links" class="row d-flex align-items-stretch">
         <p class="col-12 col-md-4 text-center">

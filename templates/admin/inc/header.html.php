@@ -1,4 +1,4 @@
-
+<!-- Admin top navbar -->
 <header class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
   <a class="navbar-brand col-md-3 col-lg-2 m-0 px-3" href="#">My Blog - Admin</a>
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,3 +11,4 @@
     </li>
   </ul>
 </header>
+<!-- /Admin top navbar -->

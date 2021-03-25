@@ -1,4 +1,7 @@
 <?php
+/**
+ * CONFIGURATION VARIABLES
+ */
 
 /**
  * HOME PAGE

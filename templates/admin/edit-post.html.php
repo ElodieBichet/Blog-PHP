@@ -1,6 +1,7 @@
 
 <div>
 
+    <!-- Post edit form -->
     <form action="index.php?controller=post&task=edit&id=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>" method="POST">
 
         <?php require 'inc/post-fields.html.php'; ?>
@@ -25,6 +26,6 @@
         <?php $item = 'le post'; $itemId = $post->id; require 'inc/modal.html.php'; ?>
             
     </form>
-
+    <!-- /Post edit form -->
 
 </div>
