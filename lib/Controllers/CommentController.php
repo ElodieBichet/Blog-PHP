@@ -92,33 +92,36 @@ class CommentController extends Controller
             {
                 $result = 'submitted';
 
-                // Try to notify the author of the post of the new comment submission
-                try
+                if($GLOBALS['notify_new_comment'] == 1) // if new comment notification is enabled
                 {
-                    $serverArray = $this->collectInput('SERVER');
-                    $baseUrl = 'http://'.$serverArray['HTTP_HOST'].$serverArray['PHP_SELF'];
-                    $body = "Un nouveau commentaire vient d'être soumis sur le post #{$comment->post_id} :\n"
-                        ."- modifier ce commentaire -> {$baseUrl}?controller=comment&task=edit&id={$comment->id} \n"
-                        ."- gérer tous les commentaires de ce post -> {$baseUrl}?controller=comment&task=showList&postid={$comment->post_id}";
-                    $recipient = array();
-                    $author = $comment->getPostAuthor();
-
-                    if ($author)
+                    // Try to notify the author of the post of the new comment submission
+                    try
                     {
-                        $user_name = $author->public_name;
-                        $user_email = $author->email_address;
-                        $recipient = array($user_email => $user_name);
+                        $serverArray = $this->collectInput('SERVER');
+                        $baseUrl = 'http://'.$serverArray['HTTP_HOST'].$serverArray['PHP_SELF'];
+                        $body = "Un nouveau commentaire vient d'être soumis sur le post #{$comment->post_id} :\n"
+                            ."- modifier ce commentaire -> {$baseUrl}?controller=comment&task=edit&id={$comment->id} \n"
+                            ."- gérer tous les commentaires de ce post -> {$baseUrl}?controller=comment&task=showList&postid={$comment->post_id}";
+                        $recipient = array();
+                        $author = $comment->getPostAuthor();
+    
+                        if ($author)
+                        {
+                            $user_name = $author->public_name;
+                            $user_email = $author->email_address;
+                            $recipient = array($user_email => $user_name);
+                        }
+                        if (!$this->sendEmail('My Blog','noreply@myblog.fr','Nouveau commentaire déposé',$body,$recipient))
+                        {
+                            throw new Throwable();
+                        }
                     }
-                    if (!$this->sendEmail('My Blog','noreply@myblog.fr','Nouveau commentaire déposé',$body,$recipient))
+                    catch (Throwable $e)
                     {
-                        throw new Throwable();
+                        // Uncomment in dev context:
+                        // $error = sprintf('Erreur : %1$s<br>Fichier : %2$s<br>Ligne : %3$d', $e->getMessage(), $e->getFile(), $e->getLine());
+                        // echo filter_var($error, FILTER_SANITIZE_STRING);
                     }
-                }
-                catch (Throwable $e)
-                {
-                    // Uncomment in dev context:
-                    // $error = sprintf('Erreur : %1$s<br>Fichier : %2$s<br>Ligne : %3$d', $e->getMessage(), $e->getFile(), $e->getLine());
-                    // echo filter_var($error, FILTER_SANITIZE_STRING);
                 }
             }
 
