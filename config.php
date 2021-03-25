@@ -1,9 +1,7 @@
 <?php
 /**
  * CONFIGURATION VARIABLES
- */
-
-/**
+ *
  * HOME PAGE
  * Update variables below to customize your Home page
  */ 

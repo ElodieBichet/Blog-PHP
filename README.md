@@ -3,9 +3,9 @@ Professional PHP blog, without CMS neither framework.
 Work carried out as part of the training course "Application Developer - PHP / Symfony" on OpenClassrooms.
 
 ## Table of Contents
-1. [Prerequisite and technologies](#prerequisite-and-technologies)
-2. [Installation](#installation)
-3. [Usage](#usage)
+1.  [Prerequisite and technologies](#prerequisite-and-technologies)
+2.  [Installation](#installation)
+3.  [Usage](#usage)
 
 ## PREREQUISITE AND TECHNOLOGIES
 ***
@@ -37,8 +37,8 @@ Download zip files or clone project via github.
 3.  Rename the file ".env"
 
 ### Create the database
-1. Create a new MySQL Database in your DBMS
-2. Import *my_blog.sql* file
+1.  Create a new MySQL Database in your DBMS
+2.  Import *my_blog.sql* file
 
 Note that 'roles' and 'status' tables contains French labels by default. You can update them to translate in any language.
 status table:
@@ -76,22 +76,22 @@ $ composer require "swiftmailer/swiftmailer:^6.2"
 Open *public/index.php* file in your favorite browser. This is your home page!
 
 ### Create your admin profile
-1. Register you as a new user via registration form (*public/index.php?page=register*)
-2. Update your user profile in the database to set status to 2 (=approved) and role to 1 (=admin):
+1.  Register you as a new user via registration form (*public/index.php?page=register*)
+2.  Update your user profile in the database to set status to 2 (=approved) and role to 1 (=admin):
 (if your user ID is not 1, replace with the right user ID)
 ```sql
 UPDATE `users` SET `status` = '2', `role` = '1' WHERE `users`.`id` = 1
 ```
-3. Connect to the admin (*public/index.php?page=login*) to check that you are administrator.
-4. Start managing your site!
+3.  Connect to the admin (*public/index.php?page=login*) to check that you are administrator.
+4.  Start managing your site!
 
 ### Customize home page contents
 To change the contents below, you have to update manually the *config.php* file, and upload your images and other files in *public* directory:
-- Personal photo and name
-- Tagline
-- PDF resume filename
-- LinkedIn link
-- GitHub link
+* Personal photo and name
+* Tagline
+* PDF resume filename
+* LinkedIn link
+* GitHub link
 
 ### Customize notifications
 In the *config.php* file, you can enable (set to 1) or disable (set to 0) email notifications. By default, all notifications are enabled.
