@@ -139,7 +139,7 @@ class CommentController extends Controller
      * @param  array $formdata The array with values to assign
      * @return void
      */
-    public function dataTransform(object $comment, array $formdata): void
+    protected function dataTransform(object $comment, array $formdata): void
     {
         $comment->post_id = $formdata['post_id'];
         $comment->author = $formdata['author'];
