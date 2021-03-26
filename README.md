@@ -90,11 +90,11 @@ Note that _roles_ and _status_ tables contains French labels by default. You can
   
 ---  
 ### __Install Composer__
-1.  Install __Composer__ by following [the official instructions].(https://getcomposer.org/download/).
-2.  Go to the project directory in your cmd:
+1.  Go to the project directory in your cmd:
 ```
 $ cd some\directory
 ```
+2.  Install __Composer__ by following [the official instructions].(https://getcomposer.org/download/).
 3.  Install dependencies with the following command:
 ```
 $ composer install
