@@ -43,7 +43,8 @@ CSS/JS libraries, included via CDN links:
 * Bootstrap ^5 bêta 2
 * Font-awesome ^5.15.1  
 
-*NB: If you want to customize Bootstrap, install it in your project instead of using CDN links ([more info](https://getbootstrap.com/)).*
+_NB: If you want to customize Bootstrap, install it in your project instead of using CDN links ([more info](https://getbootstrap.com/))._
+
 ---
 ## INSTALLATION
 
