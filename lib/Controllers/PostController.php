@@ -204,7 +204,7 @@ class PostController extends Controller
      * @param  array $formdata
      * @return void
      */
-    public function dataTransform(object $post, array $formdata): void
+    protected function dataTransform(object $post, array $formdata): void
     {
         $post->title = $formdata['title'];
         $post->intro = $formdata['intro'];

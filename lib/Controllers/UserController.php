@@ -132,7 +132,7 @@ class UserController extends Controller
      * @param  array $formdata The array with values to assign
      * @return void
      */
-    public function dataTransform(object $user, array $formdata): void
+    protected function dataTransform(object $user, array $formdata): void
     {
         $user->first_name = $formdata['first_name'];
         $user->last_name = $formdata['last_name'];

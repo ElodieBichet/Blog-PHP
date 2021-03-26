@@ -57,7 +57,7 @@ class User extends Model
     /**
      * role : determines rights in the admin
      *
-     * @var string
+     * @var int
      */    
     protected $role;
     
