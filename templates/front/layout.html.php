@@ -19,7 +19,7 @@
     <link href="css/<?=filter_var($path, FILTER_SANITIZE_STRING)?>.css" rel="stylesheet">
     <?php endif; ?>
 
-    <title><?= filter_var($pageTitle, FILTER_SANITIZE_STRING) ?> - My Blog</title>
+    <title><?= filter_var($pageTitle, FILTER_SANITIZE_STRING) ?> - <?= filter_var(SITE_NAME, FILTER_SANITIZE_STRING) ?></title>
 
 </head>
 <body class="container pt-5">

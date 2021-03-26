@@ -93,7 +93,7 @@ class UserController extends Controller
                     {
                         $message = 'Votre demande d\'inscription a bien été enregistrée pour validation par un administrateur.';
 
-                        if($GLOBALS['notify_new_user'] == 1) // if new user notification is enabled
+                        if(NOTIFY['new_user'] == 1) // if new user notification is enabled
                         {
                             // Try to notify the site owner of the new registration
                             try
@@ -101,7 +101,7 @@ class UserController extends Controller
                                 $serverArray = $this->collectInput('SERVER');
                                 $baseUrl = 'http://'.$serverArray['HTTP_HOST'].$serverArray['PHP_SELF'];
                                 $body = "Un nouvel utilisateur vient d'être enregistré : {$baseUrl}?controller=user&task=edit&id={$user->id}";
-                                if (!$this->sendEmail('My Blog','noreply@myblog.fr','Nouvel utilisateur enregistré',$body))
+                                if (!$this->sendEmail(SITE_NAME,'noreply@myblog.fr','Nouvel utilisateur enregistré',$body))
                                 {
                                     throw new Throwable();
                                 }

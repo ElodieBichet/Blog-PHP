@@ -92,7 +92,7 @@ class CommentController extends Controller
             {
                 $result = 'submitted';
 
-                if($GLOBALS['notify_new_comment'] == 1) // if new comment notification is enabled
+                if(NOTIFY['new_comment'] == 1) // if new comment notification is enabled
                 {
                     // Try to notify the author of the post of the new comment submission
                     try
@@ -111,7 +111,7 @@ class CommentController extends Controller
                             $user_email = $author->email_address;
                             $recipient = array($user_email => $user_name);
                         }
-                        if (!$this->sendEmail('My Blog','noreply@myblog.fr','Nouveau commentaire déposé',$body,$recipient))
+                        if (!$this->sendEmail(SITE_NAME,'noreply@myblog.fr','Nouveau commentaire déposé',$body,$recipient))
                         {
                             throw new Throwable();
                         }

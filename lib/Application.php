@@ -10,9 +10,7 @@ use App\Session;
  * Allow site processing
  */
 class Application
-{
-    public const TIMEZONE = 'Europe/Paris';
-    
+{   
     /**
      * process
      * Launch the website
@@ -21,8 +19,8 @@ class Application
      */
     public static function process(): void
     {
-        // Fix default timezone to match with DB
-        date_default_timezone_set(self::TIMEZONE);
+        // Fix default timezone (defined in config.php)
+        date_default_timezone_set(TIMEZONE);
 
         // Call session_start() once
         $session = Session::getInstance();
