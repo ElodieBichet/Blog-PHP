@@ -43,7 +43,7 @@ abstract class Controller
      * @param  array $formdata
      * @return void
      */
-    abstract function dataTransform(object $item, array $formdata): void;
+    protected abstract function dataTransform(object $item, array $formdata): void;
     
     /**
      * contact
@@ -162,7 +162,7 @@ abstract class Controller
      * @param  array    $postArray Array which contains $_POST entries
      * @return array with 3 variables values
      */
-    public function doActionForm(object $item, array $postArray): array
+    protected function doActionForm(object $item, array $postArray): array
     {
         $this->checkAccess(false, $item);
         $modelTrad = $this->modelTrad;

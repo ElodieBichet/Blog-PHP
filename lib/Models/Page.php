@@ -32,4 +32,16 @@ class Page extends Model
      * @var string
      */
     protected $title;
+
+    public function insert(): int
+    {
+        // do nothing for the moment as pages are not managed in database like other items
+        return 0;
+    }
+
+    public function update(): bool
+    {
+        // do nothing for the moment as pages are not managed in database like other items
+        return false;
+    }
 }

@@ -76,7 +76,23 @@ abstract class Model
     {
         return $this->$attr;
     }
-   
+       
+    /**
+     * insert
+     * Insert new item in the database
+     *
+     * @return int  id of the inserted item in the database
+     */
+    public abstract function insert(): int;
+
+    /**
+     * update
+     * Update the item in the databse
+     *
+     * @return bool true in case of success, false else
+     */
+    public abstract function update(): bool;
+
     /**
      * delete
      * Delete the item in the database

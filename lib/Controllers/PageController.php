@@ -95,9 +95,8 @@ class PageController extends Controller
         $page->title = $pageTitle;
     }
     
-    function dataTransform(object $item, array $formdata): void
+    protected function dataTransform(object $item, array $formdata): void
     {
-        // do nothing for the moment as pages are not managed like other items
+        // do nothing for the moment as pages are not managed in database like other items
     }
-
 }
