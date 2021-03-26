@@ -3,9 +3,18 @@ Professional PHP blog, without CMS neither PHP framework.
 Work carried out as part of the training course "Application Developer - PHP / Symfony" on OpenClassrooms.
 
 ## Table of Contents
-1.  [Prerequisite and technologies](#prerequisite-and-technologies)
-2.  [Installation](#installation)
-3.  [Usage](#usage)
+1.  __[Prerequisite and technologies](#prerequisite-and-technologies)__
+  * [Server](#server)
+  * [Languages and libraries](#languages-and-libraries)
+2.  __[Installation](#installation)__
+  * [Download](#download)
+  * [Configure environment variables](#configure-environment-variables)
+  * [Create the database](#create-the-database)
+  * [Install Composer](#install-composer)
+3.  __[Usage](#usage)__
+  * [Visit your new site](#visit-your-new-site)
+  * [Create your admin profile](#create-your-admin-profile)
+  * [Customize site data](#customize-site-data)
 
 ---
 ## PREREQUISITE AND TECHNOLOGIES
@@ -108,30 +117,48 @@ UPDATE `users` SET `status` = '2', `role` = '1' WHERE `users`.`id` = 1
 3.  Connect to the admin (___public/index.php?page=login___) to check that you are administrator.
 4.  Start managing your site!
 
-### __Customize home page contents__
-To change the contents below, you have to update manually the *config.php* file, and upload your images and other files in *public* directory:
-* Personal photo and name
+### __Customize site data__
+To custumize the site with your own data and preferences, please open ___config.php___ file, at the root of the project, and update values of the defined constants (list below).
+
+Feel free to add any constant in this file to use it in templates and classes, but __DO NOT__ use this file to add sensitive data, as passwords or other confidential data. Sensitive data are in the __.env__ file.
+
+#### __Site name__
+To change the __name of your site__ (default: 'My Blog'), change the value of SITE_NAME constant:
+```php
+define('SITE_NAME', 'My Blog'); // site name
+```
+#### __Timezone__
+To change the __timezone__ of your site and make it match with your database timezone (default: 'Europe/Paris'), change the value of TIMEZONE constant. ([See the list of supported timezones](https://www.php.net/manual/fr/timezones.php)).
+```php
+define('TIMEZONE', 'Europe/Paris'); // default timezone for date and time functions: use the same timezone as in the database
+```
+#### __Home page contents__
+To change the contents below, update the ___config.php___ file, and upload your images and other files in *public* directory:
+* Personal firstname and lastname
+* Photo, avatar or logo image
 * Tagline
 * PDF resume filename
 * LinkedIn link
 * GitHub link
 ```php
-$my_avatar_filename = 'your-avatar.jpg'; // upload the file in public/files/ directory
-$my_name = 'Your name';
-$my_tagline = 'Your tagline';
-$my_cv_filename = 'your-resume.pdf'; // upload the file in public/files/ directory 
-$my_linkedin_link = 'https://www.linkedin.com/in/your-linkedin-url/';
-$my_github_link = 'https://github.com/your-github-url';
+define('MY_DATA', array(
+  'avatar_filename'  =>  'your-avatar.jpg', // upload the file in public/files/ directory
+  'name'             =>  'Your Name',
+  'tagline'          =>  'Your tagline',
+));
+define('MY_LINKS', array(
+  'cv_filename'     =>  'your_cv_filename.pdf', // upload the file in public/files/ directory
+  'linkedin'        =>  'https://www.linkedin.com/in/your-linkedin-url/',
+  'github'          =>  'https://github.com/your-github-account'
+));
 ```
 
-### __Customize notifications__
+#### __Email notifications__
 In the ___config.php___ file, you can enable (set to 1) or disable (set to 0) email notifications. By default, all notifications are enabled.
 ```php
-/**
- * EMAIL NOTIFICATIONS
- * Update variables below to disable or enable email notifications
- */
-$notify_new_comment = 1; // set to 1 if you want to notify authors by email when a new comment is submitted on his post, set to 0 else
-$notify_new_post = 1; // set to 1 if you want to be notified when a new post is submitted, set to 0 else
-$notify_new_user = 1; // set to 1 if you want to be notified when a new user is submitted, set to 0 else
+define('NOTIFY', array(
+  'new_comment'   => 1, // set to 1 if you want to notify authors by email when a new comment is submitted on his post, set to 0 else
+  'new_post'      => 1, // set to 1 if you want to be notified when a new post is submitted, set to 0 else
+  'new_user'      => 1  // set to 1 if you want to be notified when a new user is submitted, set to 0 else
+));
 ```
