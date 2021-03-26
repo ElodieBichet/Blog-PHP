@@ -1,4 +1,7 @@
 # Blog-PHP
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/de3665cfdf48447280177e126fc7628f)](https://app.codacy.com/gh/ElodieBichet/Blog-PHP?utm_source=github.com&utm_medium=referral&utm_content=ElodieBichet/Blog-PHP&utm_campaign=Badge_Grade_Settings)
+
 Professional PHP blog, without CMS neither PHP framework.  
 Work carried out as part of the training course "Application Developer - PHP / Symfony" on OpenClassrooms.
 
