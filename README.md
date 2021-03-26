@@ -1,4 +1,7 @@
 # Blog-PHP
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/de3665cfdf48447280177e126fc7628f)](https://app.codacy.com/gh/ElodieBichet/Blog-PHP?utm_source=github.com&utm_medium=referral&utm_content=ElodieBichet/Blog-PHP&utm_campaign=Badge_Grade_Settings)
+
 Professional PHP blog, without CMS neither PHP framework.  
 Work carried out as part of the training course "Application Developer - PHP / Symfony" on OpenClassrooms.
 
@@ -41,7 +44,6 @@ CSS/JS libraries, included via CDN links:
 * Font-awesome ^5.15.1  
 
 *NB: If you want to customize Bootstrap, install it in your project instead of using CDN links ([more info](https://getbootstrap.com/)).*
-
 ---
 ## INSTALLATION
 
@@ -90,11 +92,11 @@ Note that _roles_ and _status_ tables contains French labels by default. You can
   
 ---  
 ### __Install Composer__
-1.  Install __Composer__ by following [the official instructions].(https://getcomposer.org/download/).
-2.  Go to the project directory in your cmd:
+1.  Go to the project directory in your cmd:
 ```
 $ cd some\directory
 ```
+2.  Install __Composer__ by following [the official instructions].(https://getcomposer.org/download/).
 3.  Install dependencies with the following command:
 ```
 $ composer install
