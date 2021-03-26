@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-md fixed-top navbar-light bg-light">
 
         <div class="container-fluid">
-            <a class="navbar-brand" href="index.php">My Blog</a>
+            <a class="navbar-brand" href="index.php"><?= filter_var(SITE_NAME, FILTER_SANITIZE_STRING) ?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>

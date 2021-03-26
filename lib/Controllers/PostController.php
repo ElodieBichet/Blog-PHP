@@ -168,7 +168,7 @@ class PostController extends Controller
                 $pageTitle = 'Modifier le post #'.$post->id;
                 $template = 'edit-post';
 
-                if((!$this->isAdmin()) AND ($GLOBALS['notify_new_post'] == 1)) // if current user is not admin and new post notification is enabled
+                if((!$this->isAdmin()) AND (NOTIFY['new_post'] == 1)) // if current user is not admin and new post notification is enabled
                 {
                     // Try to notify the site owner of the new post submission
                     try
@@ -176,7 +176,7 @@ class PostController extends Controller
                         $serverArray = $this->collectInput('SERVER');
                         $baseUrl = 'http://'.$serverArray['HTTP_HOST'].$serverArray['PHP_SELF'];
                         $body = "Un nouveau post vient d'être soumis par {$post->getAuthor()} : {$baseUrl}?controller=post&task=edit&id={$post->id}";
-                        if (!$this->sendEmail('My Blog','noreply@myblog.fr','Nouveau post soumis',$body))
+                        if (!$this->sendEmail(SITE_NAME,'noreply@myblog.fr','Nouveau post soumis',$body))
                         {
                             throw new Throwable();
                         }

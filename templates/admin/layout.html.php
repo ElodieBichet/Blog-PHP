@@ -17,7 +17,7 @@
     <link href="css/common.css" rel="stylesheet">
     <link href="css/admin.css" rel="stylesheet">
 
-    <title>[Admin] <?= filter_var($pageTitle, FILTER_SANITIZE_STRING) ?> - My Blog</title>
+    <title>[Admin] <?= filter_var($pageTitle, FILTER_SANITIZE_STRING) ?> - <?= filter_var(SITE_NAME, FILTER_SANITIZE_STRING) ?></title>
 
 </head>
 <body class="container-fluid p-0 pt-5">
