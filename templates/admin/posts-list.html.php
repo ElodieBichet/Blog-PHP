@@ -31,7 +31,7 @@
             <td><a href="index.php?controller=post&task=edit&id=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>"><?= filter_var($post->title, FILTER_SANITIZE_STRING) ?></a></td>
             <td><?= filter_var($post->last_update_date, FILTER_SANITIZE_STRING) ?></td>
             <td><?= filter_var($post->author, FILTER_VALIDATE_INT) ?> - <?= filter_var($post->getAuthor(), FILTER_SANITIZE_STRING) ?></td>
-            <td><a class="btn" href="index.php?admin&controller=comment&task=showList&postid=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>"><i class="fas fa-comment-dots"></i></a></td>
+            <td><?= filter_var($post->nb_comments, FILTER_VALIDATE_INT); ?><a class="btn" href="index.php?admin&controller=comment&task=showList&postid=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>"><i class="fas fa-comment-dots"></i></a></td>
             <td><?= filter_var($post->getStatusLabel(), FILTER_SANITIZE_STRING) ?></td>
             <?php if($isAdmin) : ?>
             <td>

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Http;
+use PDO;
+use App\Models\Comment;
 
 class Post extends Model
 {
@@ -118,6 +120,26 @@ class Post extends Model
         $label = ($row) ? $row[$column] : 'utilisateur supprimé';
         
         return $label;
+    }
+    
+    /**
+     * getComments
+     * Get comments (or number of comments) of the current post 
+     *
+     * @param  bool $approved   if true, get only approved comments
+     * @param  bool $num        if true, get number of comments instead of comments as objects
+     * @return mixed    
+     */
+    public function getComments(bool $approved = true, bool $num = false)
+    {    
+        $condition = "post_id = :id";
+        if ($approved) $condition .= " AND status = 2";
+        $query = $this->pdo->prepare("SELECT * FROM comments WHERE ".$condition);
+        $query->execute([':id' => $this->id]);
+        if (!$num) $result = $query->fetchAll(PDO::FETCH_CLASS, get_class(new Comment()));
+        if ($num) $result = $query->rowCount();
+        
+        return $result;
     }
 
 }
