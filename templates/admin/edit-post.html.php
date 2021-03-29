@@ -16,8 +16,8 @@
         <?php endif; ?>
         <?php endif; ?>
         </p>
-
-        <button type="submit" name="manage_comments" class="btn btn-light btn-sm" formaction="index.php?admin&controller=comment&task=showList&postid=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>"><i class="fas fa-comment-dots"></i> Gérer les commentaires de ce post</button><br>
+        
+        <button type="submit" name="manage_comments" class="btn btn-light btn-sm" formaction="index.php?admin&controller=comment&task=showList&postid=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>"><i class="fas fa-comment-dots"></i> Gérer les commentaires de ce post (<?= filter_var($post->getComments(false, true)) ?>)</button><br>
         <br>
         <button type="submit" name="update" class="btn btn-primary"><i class="fas fa-redo-alt"></i> Mettre à jour</button>
         <button type="submit" name="updateAsDraft" class="btn btn-secondary"><i class="fas fa-redo-alt"></i> Mettre à jour comme brouillon</button>

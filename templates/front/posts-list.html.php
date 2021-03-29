@@ -6,7 +6,7 @@
     <?php foreach ($posts as $post) : ?>
     <div class="col" id="post-<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>">
         <div class="card h-100">
-            <div class="card-header">
+            <div class="card-header" style="background-color: rgb(<?= random_int(195, 245) ?>,<?= random_int(195, 245) ?>,<?= random_int(195, 245) ?>);">
                 <h2 class="card-title"><?= filter_var($post->title, FILTER_SANITIZE_STRING) ?></h2>
             </div>
             <div class="card-body">
@@ -17,6 +17,7 @@
                 <p>
                     <a href="index.php?controller=post&task=show&id=<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>" class="card-link stretched-link">Voir plus</a>
                 </p>
+                <p class="text-end position-absolute bottom-0 end-0 px-2"><?= filter_var($post->nb_comments, FILTER_VALIDATE_INT); ?> <i class="fas fa-comment-dots"></i></p>
             </div>
         </div>
     </div>

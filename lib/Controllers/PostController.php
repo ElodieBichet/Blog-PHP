@@ -41,6 +41,7 @@ class PostController extends Controller
                 $pageTitle = 'News';
                 $condition = 'status = '.self::STATUS_APPROVED.' AND publication_date <= NOW()'; // only approved and published posts
                 $order = 'publication_date DESC';
+                $filter_com = true; // count only approved comments in getComments function
                 break;
             case 'admin':
                 $this->checkAccess(); // redirect to login page if not connected
@@ -49,10 +50,16 @@ class PostController extends Controller
                 // If user is not admin, he can only see his own posts
                 if(!($this->isAdmin())) $condition = 'author = '.$_SESSION['user_id'];
                 $order = 'last_update_date DESC';
+                $filter_com = false; // count all comments (= approved or not) in getComments function
                 break;
         }
 
         $posts = $this->model->findAll($condition, $order);
+
+        foreach ($posts as $post)
+        { 
+            $post->nb_comments = $post->getComments($filter_com, true); // get the number of comments on the post (only approved ones in public list)
+        }
 
         $this->display($type, $path, $pageTitle, compact('posts'));
     }
@@ -66,7 +73,6 @@ class PostController extends Controller
     public function show(): void
     {
         $post = $this->model;
-        $comment = new Comment();
         $getArray = $post->collectInput('GET'); // collect global $_GET data
         $pageTitle = '';
         $style = 'success';
@@ -108,8 +114,7 @@ class PostController extends Controller
             
                 }
 
-                $condition = 'post_id = '.$post->id.' AND status = '.self::STATUS_APPROVED; // All approved comments for the current post
-                $comments = $comment->findAll($condition, 'creation_date DESC');
+                $comments = $post->getComments(true, false);
                 $post->nb_comments = count($comments);
 
                 $pageTitle = $post->title;

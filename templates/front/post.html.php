@@ -12,7 +12,7 @@
 
     <div>
         <!-- Comment form -->
-        <h2 class="my-3">Déposez un commentaire.</h2>
+        <h2 class="h3 my-3">Déposez un commentaire.</h2>
         <form method="POST" action="index.php?controller=comment&task=submit">
             <input type="hidden" name="post_id" value="<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>">
             <div class="row">
@@ -38,7 +38,7 @@
         <!-- /Comment form -->
 
         <!-- Comments list -->
-        <h2 class="d-inline-block align-middle my-3">Commentaires</h2> <span class="badge bg-secondary rounded-pill align-middle"><?= filter_var($post->nb_comments, FILTER_VALIDATE_INT) ?></span>
+        <h2 class="h3 d-inline-block align-middle my-3">Commentaires</h2> <span class="badge bg-secondary rounded-pill align-middle"><?= filter_var($post->nb_comments, FILTER_VALIDATE_INT) ?></span>
         <?php if ($post->nb_comments > 0) : ?>
         <ul class="list-unstyled">
             <?php foreach ($comments as $comment) : ?>
