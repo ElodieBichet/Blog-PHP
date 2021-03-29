@@ -4,9 +4,12 @@
   font-size: 1.6rem;
   padding: 0;
 }
-#navbarNav .nav-link:hover, #sidebarMenu .nav-link:hover {
+
+#navbarNav .nav-link:hover,
+#sidebarMenu .nav-link:hover {
   color: #496cac;
 }
+
 #navbarNav .nav-link.active {
   font-weight: bold;
   color: #496cac;
