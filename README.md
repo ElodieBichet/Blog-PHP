@@ -111,6 +111,28 @@ Dependencies should be installed in your project (check _vendor_ directory).
 ### __Visit your new site__
 Open ___public/index.php___ file in your favorite browser. This is your home page!
 
+#### __Public URLs list you can open in your browser:__
+URLs are
+| Context | Page | URL from '_/public/index.php_' | Allowed users |
+|:--------------:|:-------------|:--------------|--------------:|
+| front | Accueil | - | All |
+| front | News | ?controller=post&task=showList | All |
+| front | Post #ID | ?controller=post&task=show&id=ID | All |
+| front | Contactez-moi | ?page=contactme | All |
+| front | Inscription | ?page=register | All |
+| front | Connexion | ?page=login | All |
+| front | Erreur 404 | ?page=404-error | All |
+| front | Accès refusé | ?page=access-denied | All |
+| admin | Tableau de bord | ?admin | Authors, Admin |
+| admin | Gérer les posts | ?admin&controller=post&task=showList | Posts author, Admin | 
+| admin | Ajouter un post | ?admin&controller=post&task=add | Authors, Admin |
+| admin | Modifier le post #ID | ?controller=post&task=edit&id=ID | Post author, Admin |
+| admin | Gérer les commentaires | ?admin&controller=comment&task=showList | Posts author, Admin |
+| admin | Gérer les commentaires du post #ID | ?admin&controller=comment&task=showList&postid=ID | Post author, Admin |
+| admin | Modifier le commentaire #ID | ?controller=comment&task=edit&id=ID | Post author, Admin |
+| admin | Gérer les utilisateurs | ?admin&controller=user&task=showList | Admin |
+| admin | Modifier l'utilisateur #ID<br>Gérer mon profil | ?controller=user&task=edit&id=ID | Author #ID, Admin |
+   
 ### __Create your admin profile__
 1.  Register you as a new user via registration form (___public/index.php?page=register___)
 2.  Update your user profile in the database to set status to 2 (=approved) and role to 1 (=admin):
