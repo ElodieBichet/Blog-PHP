@@ -165,3 +165,7 @@ define('NOTIFY', array(
   'new_user'      => 1  // set to 1 if you want to be notified when a new user is submitted, set to 0 else
 ));
 ```
+### __Customize templates__
+All view files are in ___templates___ directory. The tree below show you the matching between pages and views.  
+ 
+ ![Templates tree](diagrams/templates-tree.png) 
