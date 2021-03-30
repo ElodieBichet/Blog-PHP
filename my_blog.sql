@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 19 mars 2021 à 17:16
+-- Généré le : mar. 30 mars 2021 à 13:49
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.3.21
 
@@ -39,9 +39,9 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `last_update_date` datetime NOT NULL,
   `publication_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `comments_ibfk_1` (`post_id`),
-  KEY `status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+  KEY `status` (`status`),
+  KEY `post_id` (`post_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   PRIMARY KEY (`id`),
   KEY `status` (`status`),
   KEY `author` (`author`)
-) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`),
   KEY `role` (`role`),
   KEY `status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 --
 -- Contraintes pour les tables déchargées

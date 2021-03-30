@@ -91,6 +91,9 @@ Note that _roles_ and _status_ tables contains French labels by default. You can
 | 0 | default | ROLE_DEFAULT |
 | 1 | admin | ROLE_ADMIN |
 | 2 | auteur | ROLE_AUTHOR |
+
+#### ___DB schema___
+ ![Templates tree](diagrams/DB_model.png) 
   
 ---  
 ### __Install Composer__
