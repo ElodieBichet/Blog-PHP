@@ -18,6 +18,7 @@ Work carried out as part of the training course "Application Developer - PHP / S
   * [Visit your new site](#visit-your-new-site)
   * [Create your admin profile](#create-your-admin-profile)
   * [Customize site data](#customize-site-data)
+  * [Customize templates](#customize-templates)
 
 ---
 ## PREREQUISITE AND TECHNOLOGIES
@@ -167,5 +168,7 @@ define('NOTIFY', array(
 ```
 ### __Customize templates__
 All view files are in ___templates___ directory. The tree below show you the matching between pages and views.  
- 
+
  ![Templates tree](diagrams/templates-tree.png) 
+
+All included files (css, js, images, pdf, ...) must be included in ___public___ directory.
