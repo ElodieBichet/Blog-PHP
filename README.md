@@ -112,7 +112,7 @@ Dependencies should be installed in your project (check _vendor_ directory).
 Open ___public/index.php___ file in your favorite browser. This is your home page!
 
 #### __Public URLs list you can open in your browser:__
-URLs are
+Authors have to be connected and approved to access to their back-office pages.
 | Context | Page | URL from '_/public/index.php_' | Allowed users |
 |:--------------:|:-------------|:--------------|--------------:|
 | front | Accueil | - | All |
@@ -189,7 +189,7 @@ define('NOTIFY', array(
 ));
 ```
 ### __Customize templates__
-All view files are in ___templates___ directory. The tree below show you the matching between pages and views.  
+All view files are in ___templates___ directory. The tree below show you the matching between pages and view templates.  
 
  ![Templates tree](diagrams/templates-tree.png) 
 
