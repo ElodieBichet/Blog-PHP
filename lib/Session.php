@@ -10,7 +10,7 @@ class Session
 {
     use Http;
      
-    static $instance;
+    private static $instance;
     
     /**
      * getInstance

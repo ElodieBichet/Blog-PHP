@@ -63,59 +63,54 @@ class UserController extends Controller
         $style = 'success';
         $message = '';
         
-        if (!empty($postArray) AND isset($postArray['submit']))
+        if (!empty($postArray) AND isset($postArray['submit']) AND isset($postArray['email_address']))
         {
+            $user_exist = $user->find($postArray['email_address'], 'email_address'); // search if a user with this email address already exists
             
-            if (isset($postArray['email_address']))
+            if($user_exist)
             {
-                $user_exist = $user->find($postArray['email_address'], 'email_address');
-                
-                if($user_exist)
+                $style = 'warning';
+                $message = 'Cette adresse email existe déjà dans la base des utilisateurs. Connectez-vous à votre compte ou choisissez une autre adresse email.';
+            }
+            
+            if(!$user_exist)
+            {
+                $user->status = self::STATUS_SUBMITTED;
+                $user->role = self::ROLE_AUTHOR;
+                $this->dataTransform($user, $postArray);
+
+                $user->id = $user->insert();
+
+                if($user->id == 0)
                 {
-                    $style = 'warning';
-                    $message = 'Cette adresse email existe déjà dans la base des utilisateurs. Connectez-vous à votre compte ou choisissez une autre adresse email.';
-                }
-                
-                if(!$user_exist)
+                    $style = 'danger';
+                    $message = 'Une erreur est survenue pendant l\'enregistrement.';
+                } 
+                if($user->id !== 0)
                 {
-                    $user->status = self::STATUS_SUBMITTED;
-                    $user->role = self::ROLE_AUTHOR;
-                    $this->dataTransform($user, $postArray);
+                    $message = 'Votre demande d\'inscription a bien été enregistrée pour validation par un administrateur.';
 
-                    $user->id = $user->insert();
-
-                    if($user->id == 0)
+                    if(NOTIFY['new_user'] == 1) // if new user notification is enabled
                     {
-                        $style = 'danger';
-                        $message = 'Une erreur est survenue pendant l\'enregistrement.';
-                    } 
-                    if($user->id !== 0)
-                    {
-                        $message = 'Votre demande d\'inscription a bien été enregistrée pour validation par un administrateur.';
-
-                        if(NOTIFY['new_user'] == 1) // if new user notification is enabled
+                        // Try to notify the site owner of the new registration
+                        try
                         {
-                            // Try to notify the site owner of the new registration
-                            try
+                            $serverArray = $this->collectInput('SERVER');
+                            $baseUrl = 'http://'.$serverArray['HTTP_HOST'].$serverArray['PHP_SELF'];
+                            $body = "Un nouvel utilisateur vient d'être enregistré : {$baseUrl}?controller=user&task=edit&id={$user->id}";
+                            if (!$this->sendEmail(SITE_NAME,'noreply@myblog.fr','Nouvel utilisateur enregistré',$body))
                             {
-                                $serverArray = $this->collectInput('SERVER');
-                                $baseUrl = 'http://'.$serverArray['HTTP_HOST'].$serverArray['PHP_SELF'];
-                                $body = "Un nouvel utilisateur vient d'être enregistré : {$baseUrl}?controller=user&task=edit&id={$user->id}";
-                                if (!$this->sendEmail(SITE_NAME,'noreply@myblog.fr','Nouvel utilisateur enregistré',$body))
-                                {
-                                    throw new Throwable();
-                                }
+                                throw new Throwable();
                             }
-                            catch (Throwable $e)
-                            {
-                                // Uncomment in dev context:
-                                $error = sprintf('Erreur : %1$s<br>Fichier : %2$s<br>Ligne : %3$d', $e->getMessage(), $e->getFile(), $e->getLine());
-                                echo filter_var($error, FILTER_SANITIZE_STRING);
-                            }
+                        }
+                        catch (Throwable $e)
+                        {
+                            // Uncomment in dev context:
+                            $error = sprintf('Erreur : %1$s<br>Fichier : %2$s<br>Ligne : %3$d', $e->getMessage(), $e->getFile(), $e->getLine());
+                            echo filter_var($error, FILTER_SANITIZE_STRING);
                         }
                     }
                 }
-
             }
 
         }

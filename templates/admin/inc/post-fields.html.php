@@ -22,6 +22,6 @@
             </div>
         </div>
 
-        <?php if($isAdmin && $path=='edit-post') : ?>
+        <?php if($isAdmin AND $path=='edit-post') : ?>
         <p>Auteur : #<?= filter_var($post->author, FILTER_VALIDATE_INT) ?> <?= filter_var($post->getAuthor(), FILTER_SANITIZE_STRING) ?></p>
         <?php endif; ?>

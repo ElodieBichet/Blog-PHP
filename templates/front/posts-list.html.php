@@ -6,7 +6,7 @@
     <?php foreach ($posts as $post) : ?>
     <div class="col" id="post-<?= filter_var($post->id, FILTER_VALIDATE_INT) ?>">
         <div class="card h-100">
-            <div class="card-header" style="background-color: rgb(<?= random_int(195, 245) ?>,<?= random_int(195, 245) ?>,<?= random_int(195, 245) ?>);">
+            <div class="card-header" style="background-color: rgb(<?= filter_var(random_int(195, 245), FILTER_VALIDATE_INT) ?>,<?= filter_var(random_int(195, 245), FILTER_VALIDATE_INT) ?>,<?= filter_var(random_int(195, 245), FILTER_VALIDATE_INT) ?>);">
                 <h2 class="card-title"><?= filter_var($post->title, FILTER_SANITIZE_STRING) ?></h2>
             </div>
             <div class="card-body">
