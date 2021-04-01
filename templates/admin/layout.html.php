@@ -33,10 +33,8 @@
             
                     <h1 class="my-3 pb-3"><?= filter_var($pageTitle, FILTER_SANITIZE_STRING) ?></h1>
                     
-                    <?php if (isset($_REQUEST)) : ?>
-                        <?php if (count(array_intersect(['delete','reject','valid'],array_keys($_REQUEST))) >= 1 AND !empty($_REQUEST['controller'])) : // if user just delete, reject or valid an item ?>
-                            <a class="btn btn-light btn-sm mb-2 mt-0 border" href="index.php?admin&controller=<?= filter_var($_REQUEST['controller'], FILTER_SANITIZE_STRING) ?>&task=showList"><i class="fas fa-arrow-left"></i> Retour à la liste <i class="fas fa-list"></i></a>
-                        <?php endif; ?>
+                    <?php if (count(array_intersect(['delete','reject','valid'],array_keys($_REQUEST))) >= 1 AND !empty($_REQUEST['controller'])) : // if user just delete, reject or valid an item ?>
+                        <a class="btn btn-light btn-sm mb-2 mt-0 border" href="index.php?admin&controller=<?= filter_var($_REQUEST['controller'], FILTER_SANITIZE_STRING) ?>&task=showList"><i class="fas fa-arrow-left"></i> Retour à la liste <i class="fas fa-list"></i></a>
                     <?php endif; ?>
                     <?= filter_var($alert) ?>
                     <?= filter_var($pageContent) ?>
