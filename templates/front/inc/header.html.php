@@ -1,5 +1,5 @@
 <!-- Public top navbar -->
-<header class="pt-3">
+<header class="pt-3 vw-100">
     <nav class="navbar navbar-expand-md fixed-top navbar-light bg-light">
 
         <div class="container-fluid">

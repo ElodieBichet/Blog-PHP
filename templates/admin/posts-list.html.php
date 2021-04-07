@@ -15,7 +15,7 @@
             <td>Comm.</td>
             <td>Statut</td>
             <?php if($isAdmin) : ?>
-            <td>Validation</td>
+            <td class="validation">Validation</td>
             <?php endif; ?>
             <td>Modif.</td>
             <td>Suppr.</td>

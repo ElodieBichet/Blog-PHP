@@ -79,3 +79,8 @@ body {
 tr.status-1 {
   font-weight: bold;
 }
+
+/* Validation column in posts/comments/users list table */
+td.validation {
+  min-width: 6.1em;
+}

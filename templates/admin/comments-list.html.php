@@ -8,7 +8,7 @@
             <td>Commentaire</td>
             <td>Soumis le</td>
             <td>Statut</td>
-            <td>Validation</td>
+            <td class="validation">Validation</td>
             <td>Modif.</td>
             <td>Suppr.</td>
         </tr>
